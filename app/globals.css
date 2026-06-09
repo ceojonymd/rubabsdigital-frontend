@@ -94,3 +94,8 @@ p {
 [data-glow="true"] {
   box-shadow: 0 0 0 1px rgba(124, 111, 255, 0.06), 0 18px 60px rgba(124, 111, 255, 0.12);
 }
+
+/* responsive safeguard */
+html, body { max-width: 100%; overflow-x: hidden; }
+body { min-width: 320px; }
+textarea, input, select, button { font: inherit; }
