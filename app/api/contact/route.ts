@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     const resendResult = await resend.emails.send({
       from: `Rubab's Digital <${fromEmail}>`,
       to: [toEmail],
-      replyTo: email,
+      reply_to: email,
       subject: `[WEBSITE LEAD] ${service} — ${name}`,
       text: `
 New Consultation Request
