@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     const resendResult = await resend.emails.send({
       from: `Rubab's Digital <${fromEmail}>`,
       to: [toEmail],
-      reply_to: email,
+      reply_To: email,
       subject: `[WEBSITE LEAD] ${service} — ${name}`,
       text: `
 New Consultation Request
@@ -93,7 +93,7 @@ Submitted at: ${submittedAt} (Bangladesh Time)
       console.error("Resend error:", resendResult.error)
       return NextResponse.json(
         { error: resendResult.error.message, resend: resendResult },
-        { status: resendResult.error.statusCode || 500 }
+        { status: 500 }
       )
     }
 
