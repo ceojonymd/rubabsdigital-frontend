@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'Rubab\'s Digital — Web & Automation Studio',
-  description: 'Premium websites, AI workflows, and practical automation systems for clinics, consultants, law firms, real estate agents, and local service businesses.',
+  title: 'Rubab\'s Digital — AI-Powered Agency',
+  description: 'We help businesses become millionaires with AI automation, custom agents, and smart website design.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300..700&display=swap" rel="stylesheet" />
       </head>
-      <body className="site-body">
+      <body>
         <Navbar />
         <main style={{ paddingTop: '80px' }}>{children}</main>
         <Footer />

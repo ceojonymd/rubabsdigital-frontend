@@ -13,7 +13,7 @@ export default function Page() {
   ]
   const steps = [
     { title: "Use Case Scoping", desc: "We define exactly what your agent will do, what data it needs, and how success is measured." },
-    { title: "Data Preparation", desc: "We collect, clean and structure your business documents, FAQs, and knowledge base for training." },
+    { title: "Data Preparation", desc: "We collect, clean and structure law firms, consultants, agencies, and expert service businesses documents, FAQs, and knowledge base for training." },
     { title: "Agent Development", desc: "We build, fine-tune, and test your custom agent until it performs above your requirements." },
     { title: "Deploy & Iterate", desc: "Launch on your chosen channels, monitor real conversations, and improve continuously." }
   ]
@@ -34,7 +34,7 @@ export default function Page() {
             border: "1px solid #00e5a040",
             fontSize: "0.8rem", fontWeight: 600, color: "#00e5a0",
             marginBottom: "1.5rem"
-          }}>🤖 Custom AI Agents
+          }}>🤖 Custom AI Assistants
           </div>
           <h1 style={{
             fontFamily: "var(--font-display)",
@@ -44,11 +44,12 @@ export default function Page() {
           }}>Your Business Deserves
 an AI That Actually
 Knows It.</h1>
+          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>Built for clinics, consultants, law firms, real estate agents, and local service brands.</p>
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.4vw, 1.2rem)",
             color: "var(--color-text-muted)", maxWidth: "600px",
             lineHeight: 1.75, marginBottom: "2.5rem"
-          }}>We build purpose-built AI agents trained on your business data — answering customer questions, qualifying leads, and handling support 24/7 with the accuracy of your best employee.</p>
+          }}>We build purpose-built trained AI assistants trained on law firms, consultants, agencies, and expert service businesses data — answering customer questions, qualifying leads, and handling support 24/7 with the accuracy of your best employee.</p>
           <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>

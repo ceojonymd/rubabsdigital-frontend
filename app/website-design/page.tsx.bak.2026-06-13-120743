@@ -12,7 +12,7 @@ export default function Page() {
     { icon: "🔒", title: "Secure & Maintained", desc: "SSL, regular updates, uptime monitoring, and a dedicated support line included." }
   ]
   const steps = [
-    { title: "Strategy & Discovery", desc: "We learn dentists, salons, consultants, law firms, and real estate agents, audience, and goals to create a design brief that actually converts." },
+    { title: "Strategy & Discovery", desc: "We learn your business, audience, and goals to create a design brief that actually converts." },
     { title: "Design Mockups", desc: "Full Figma mockups delivered for your review and feedback before a single line of code." },
     { title: "Development", desc: "Built with Next.js for speed and SEO — with CMS integration if you need to edit content." },
     { title: "Launch & Handover", desc: "Full deployment, domain setup, training, and 30 days of post-launch support." }
@@ -34,7 +34,7 @@ export default function Page() {
             border: "1px solid #ffc85740",
             fontSize: "0.8rem", fontWeight: 600, color: "#ffc857",
             marginBottom: "1.5rem"
-          }}>🌐 Service Business Website Design
+          }}>🌐 Website Design
           </div>
           <h1 style={{
             fontFamily: "var(--font-display)",
@@ -44,7 +44,6 @@ export default function Page() {
           }}>Websites That Turn
 Visitors Into
 Paying Customers.</h1>
-          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>Built for clinics, consultants, law firms, real estate agents, and local service brands.</p>
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.4vw, 1.2rem)",
             color: "var(--color-text-muted)", maxWidth: "600px",

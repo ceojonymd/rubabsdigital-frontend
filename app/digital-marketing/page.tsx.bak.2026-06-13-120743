@@ -1,21 +1,21 @@
 import ConsultancyButton from "@/components/ConsultancyButton"
 import DemoSection from "@/components/DemoSection"
-import { BusinessWebsiteDemo, LandingPageDemo, PortfolioDemo } from "@/components/demos/WebsiteDemos"
+import { CampaignDashboardDemo, FunnelDemo, SocialContentDemo } from "@/components/demos/MarketingDemos"
 
 export default function Page() {
   const features = [
-    { icon: "🎨", title: "Custom UI/UX Design", desc: "Every pixel crafted for your brand — no templates, no generic layouts, just distinctive design." },
-    { icon: "⚡", title: "Performance Optimized", desc: "99+ Lighthouse scores, sub-2s load times, and Core Web Vitals that Google rewards." },
-    { icon: "📱", title: "Fully Responsive", desc: "Flawless on every device — mobile, tablet, desktop — without compromise." },
-    { icon: "🔍", title: "SEO Foundation", desc: "Built-in technical SEO, structured data, and meta optimization from day one." },
-    { icon: "🛒", title: "Conversion Focused", desc: "Strategic CTA placement, trust signals, and user flows designed to convert visitors to leads." },
-    { icon: "🔒", title: "Secure & Maintained", desc: "SSL, regular updates, uptime monitoring, and a dedicated support line included." }
+    { icon: "🔍", title: "SEO & Content Strategy", desc: "Rank for keywords your buyers actually search. Long-term organic traffic that compounds." },
+    { icon: "📢", title: "Paid Ad Campaigns", desc: "Facebook, Google, and Instagram ads managed for maximum ROAS with A/B tested creatives." },
+    { icon: "✍️", title: "Content Marketing", desc: "Blogs, case studies, and social content that positions you as the authority in your niche." },
+    { icon: "📬", title: "Email Marketing", desc: "Automated sequences and broadcast campaigns that turn your list into a revenue machine." },
+    { icon: "📊", title: "Analytics & Reporting", desc: "Weekly reports with real KPIs — traffic, leads, conversions, and revenue attribution." },
+    { icon: "🌱", title: "Social Media Growth", desc: "Consistent presence, community management, and growth strategies across your channels." }
   ]
   const steps = [
-    { title: "Strategy & Discovery", desc: "We learn dentists, salons, consultants, law firms, and real estate agents, audience, and goals to create a design brief that actually converts." },
-    { title: "Design Mockups", desc: "Full Figma mockups delivered for your review and feedback before a single line of code." },
-    { title: "Development", desc: "Built with Next.js for speed and SEO — with CMS integration if you need to edit content." },
-    { title: "Launch & Handover", desc: "Full deployment, domain setup, training, and 30 days of post-launch support." }
+    { title: "Audit & Strategy", desc: "We analyze your current digital presence and identify the fastest path to qualified leads." },
+    { title: "Channel Selection", desc: "We recommend and focus on the 1-2 channels where your ideal customers actually spend time." },
+    { title: "Campaign Execution", desc: "Content creation, ad management, and SEO execution handled by our team end-to-end." },
+    { title: "Optimize & Scale", desc: "Monthly reviews, performance optimization, and budget scaling based on what works." }
   ]
   return (
     <div>
@@ -23,38 +23,37 @@ export default function Page() {
         <div style={{
           position: "absolute", top: "-30%", left: "50%", transform: "translateX(-50%)",
           width: "900px", height: "500px",
-          background: "radial-gradient(ellipse, #ffc85722 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, #ff6b9d22 0%, transparent 70%)",
           pointerEvents: "none"
         }} />
         <div style={{ maxWidth: "960px", margin: "0 auto", position: "relative", zIndex: 1 }}>
           <div style={{
             display: "inline-flex", alignItems: "center", gap: "0.5rem",
             padding: "0.35rem 1rem", borderRadius: "999px",
-            background: "color-mix(in srgb, #ffc857 15%, transparent)",
-            border: "1px solid #ffc85740",
-            fontSize: "0.8rem", fontWeight: 600, color: "#ffc857",
+            background: "color-mix(in srgb, #ff6b9d 15%, transparent)",
+            border: "1px solid #ff6b9d40",
+            fontSize: "0.8rem", fontWeight: 600, color: "#ff6b9d",
             marginBottom: "1.5rem"
-          }}>🌐 Service Business Website Design
+          }}>📈 Digital Marketing
           </div>
           <h1 style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(2.4rem, 1rem + 4vw, 5rem)",
             fontWeight: 400, lineHeight: 1.1, marginBottom: "1.5rem",
             letterSpacing: "-0.02em", whiteSpace: "pre-line"
-          }}>Websites That Turn
-Visitors Into
-Paying Customers.</h1>
-          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>Built for clinics, consultants, law firms, real estate agents, and local service brands.</p>
+          }}>Be Found. Be Chosen.
+Be the Brand
+Everyone Talks About.</h1>
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.4vw, 1.2rem)",
             color: "var(--color-text-muted)", maxWidth: "600px",
             lineHeight: 1.75, marginBottom: "2.5rem"
-          }}>We design and build high-converting, blazing-fast websites that make your brand unforgettable — and your sales predictable. From landing pages to full business platforms.</p>
+          }}>Data-driven SEO, content strategy, and paid campaigns that bring qualified buyers to your business consistently — not just traffic, but people ready to spend.</p>
           <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
-              <span style={{ color: "#ffc857", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>3x</span>
-              average conversion rate improvement
+              <span style={{ color: "#ff6b9d", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>10x</span>
+              ROI achieved by our top clients
             </div>
           </div>
         </div>
@@ -71,7 +70,7 @@ Paying Customers.</h1>
                 border: "1px solid var(--color-border)", borderRadius: "var(--radius-xl)"
               }}>
                 <div style={{ fontSize: "1.75rem", marginBottom: "0.75rem" }}>{f.icon}</div>
-                <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.15rem", marginBottom: "0.5rem", color: "#ffc857" }}>{f.title}</h3>
+                <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.15rem", marginBottom: "0.5rem", color: "#ff6b9d" }}>{f.title}</h3>
                 <p style={{ color: "var(--color-text-muted)", fontSize: "0.875rem", lineHeight: 1.7 }}>{f.desc}</p>
               </div>
             ))}
@@ -92,11 +91,11 @@ Paying Customers.</h1>
               }}>
                 <div style={{
                   width: "40px", height: "40px", flexShrink: 0,
-                  background: "color-mix(in srgb, #ffc857 15%, transparent)",
-                  border: "1px solid #ffc85740",
+                  background: "color-mix(in srgb, #ff6b9d 15%, transparent)",
+                  border: "1px solid #ff6b9d40",
                   borderRadius: "var(--radius-md)",
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontWeight: 700, color: "#ffc857", fontSize: "0.875rem"
+                  fontWeight: 700, color: "#ff6b9d", fontSize: "0.875rem"
                 }}>0{i + 1}</div>
                 <div>
                   <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.15rem", marginBottom: "0.4rem" }}>{s.title}</h3>
@@ -112,8 +111,8 @@ Paying Customers.</h1>
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
           <div style={{
             padding: "4rem 2rem", borderRadius: "var(--radius-xl)",
-            background: "color-mix(in srgb, #ffc857 10%, var(--color-surface-offset))",
-            border: "1px solid #ffc85730", textAlign: "center"
+            background: "color-mix(in srgb, #ff6b9d 10%, var(--color-surface-offset))",
+            border: "1px solid #ff6b9d30", textAlign: "center"
           }}>
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "1rem" }}>Ready to Get Started?</h2>
             <p style={{ color: "var(--color-text-muted)", maxWidth: "480px", margin: "0 auto 2rem", lineHeight: 1.7 }}>
@@ -125,40 +124,40 @@ Paying Customers.</h1>
       </section>
     
       <DemoSection
-        accentColor="#7c6fff"
+        accentColor="#00e5a0"
         cards={[
           {
-            id: "business-site",
-            title: "Business Website",
-            niche: "Corporate Web Design",
-            challenge: "The old site looked outdated and low-trust.",
-            solution: "We redesigned the website with modern UI and better conversion flow.",
-            result: "Stronger brand trust and more inquiries.",
-            tags: ["UI", "UX", "Conversion"],
-            color: "#7c6fff",
-            demoComponent: <BusinessWebsiteDemo />
-          },
-          {
-            id: "landing-page",
-            title: "Landing Page",
-            niche: "Lead Generation",
-            challenge: "Traffic came in but leads did not convert.",
-            solution: "Focused layout with strong CTA hierarchy.",
-            result: "Better conversion intent and cleaner UX.",
-            tags: ["Landing", "CTA", "Design"],
+            id: "campaign-dashboard",
+            title: "Campaign Dashboard",
+            niche: "Performance Marketing",
+            challenge: "Clients lacked clear reporting visibility.",
+            solution: "Unified campaign dashboard for key metrics.",
+            result: "Easier performance tracking and better decisions.",
+            tags: ["Ads", "Analytics", "Dashboard"],
             color: "#00e5a0",
-            demoComponent: <LandingPageDemo />
+            demoComponent: <CampaignDashboardDemo />
           },
           {
-            id: "portfolio-site",
-            title: "Portfolio Experience",
-            niche: "Creative Brand",
-            challenge: "The brand lacked premium visual presence.",
-            solution: "Built a polished visual showcase experience.",
-            result: "Higher perceived value and better presentation.",
-            tags: ["Portfolio", "Brand", "Visual"],
+            id: "lead-funnel",
+            title: "Lead Funnel",
+            niche: "Funnel Optimization",
+            challenge: "Traffic was leaking across the customer journey.",
+            solution: "Mapped and optimized the lead funnel visually.",
+            result: "Improved lead quality and conversion flow.",
+            tags: ["Funnel", "Leads", "CRO"],
+            color: "#7c6fff",
+            demoComponent: <FunnelDemo />
+          },
+          {
+            id: "content-planner",
+            title: "Social Content Planner",
+            niche: "Content Marketing",
+            challenge: "Content posting was inconsistent and reactive.",
+            solution: "Structured content planning with campaign alignment.",
+            result: "More consistency and stronger social presence.",
+            tags: ["Social", "Content", "Planning"],
             color: "#ffc857",
-            demoComponent: <PortfolioDemo />
+            demoComponent: <SocialContentDemo />
           }
         ]}
       />

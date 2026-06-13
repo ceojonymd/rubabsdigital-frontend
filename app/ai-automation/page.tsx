@@ -34,7 +34,7 @@ export default function Page() {
             border: "1px solid #7c6fff40",
             fontSize: "0.8rem", fontWeight: 600, color: "#7c6fff",
             marginBottom: "1.5rem"
-          }}>⚡ AI Automation
+          }}>⚡ AI Workflow Automation
           </div>
           <h1 style={{
             fontFamily: "var(--font-display)",
@@ -43,6 +43,7 @@ export default function Page() {
             letterSpacing: "-0.02em", whiteSpace: "pre-line"
           }}>Let Machines Do the Work.
 You Collect the Profit.</h1>
+          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>Built for clinics, consultants, law firms, real estate agents, and local service brands.</p>
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.4vw, 1.2rem)",
             color: "var(--color-text-muted)", maxWidth: "600px",
@@ -128,7 +129,7 @@ You Collect the Profit.</h1>
           {
             id: "autoflow",
             title: "AutoFlow Pipeline",
-            niche: "AI Automation",
+            niche: "AI Workflow Automation",
             challenge: "Leads were being collected manually and follow-ups were delayed.",
             solution: "We automated lead capture, validation, notification, and reporting.",
             result: "Faster response time and zero manual lead handling.",

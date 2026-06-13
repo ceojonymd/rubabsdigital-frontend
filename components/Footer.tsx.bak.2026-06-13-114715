@@ -14,7 +14,7 @@ export default function Footer() {
             Rubab&apos;s Digital
           </div>
           <p style={{ color: "var(--color-text-muted)", fontSize: "0.875rem", lineHeight: 1.75, maxWidth: "280px" }}>
-            We build premium websites, AI workflows, and practical automation systems for modern service businesses.
+            AI-powered digital agency helping businesses scale with automation, custom agents, web design, and growth marketing.
           </p>
           <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.25rem" }}>
             {[

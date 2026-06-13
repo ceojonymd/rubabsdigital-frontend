@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'Rubab\'s Digital — Web & Automation Studio',
-  description: 'Premium websites, AI workflows, and practical automation systems for clinics, consultants, law firms, real estate agents, and local service businesses.',
+  title: 'Rubab\'s Digital — AI-Powered Agency',
+  description: 'We help businesses become millionaires with AI automation, custom agents, and smart website design.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

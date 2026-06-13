@@ -1,38 +1,33 @@
 import Link from "next/link"
 import ConsultancyButton from "@/components/ConsultancyButton"
 
-export const metadata = {
-  title: "Rubab's Digital — Web & Automation Studio",
-  description: "Premium websites, AI workflows, and practical automation systems for clinics, consultants, law firms, real estate agents, and local service businesses.",
-}
-
 export default function HomePage() {
   const services = [
     {
       icon: "⚡",
       title: "AI Automation",
-      desc: "For clinics, consultants, and local service brands — capture enquiries, auto-reply fast, and push qualified leads into a clean workflow.",
+      desc: "Eliminate repetitive tasks. Let intelligent n8n workflows run your business 24/7 while you focus on growth.",
       href: "/ai-automation",
       color: "#7c6fff"
     },
     {
       icon: "🤖",
       title: "Custom AI Agents",
-      desc: "For law firms, agencies, and expert businesses — deploy trained AI assistants that answer FAQs, qualify leads, and support client conversations.",
+      desc: "Purpose-built AI agents trained on your business data — answering, selling, and serving your customers.",
       href: "/custom-ai-agents",
       color: "#00e5a0"
     },
     {
       icon: "🌐",
       title: "Website Design",
-      desc: "For dentists, real estate agents, salons, and consultants — launch premium single-page websites built to earn trust and drive enquiries.",
+      desc: "High-converting, blazing-fast websites that turn visitors into paying customers automatically.",
       href: "/website-design",
       color: "#ffc857"
     },
     {
       icon: "📈",
       title: "Digital Marketing",
-      desc: "For local growth-focused businesses — run practical SEO, content, and campaign systems that bring better-fit leads instead of vanity traffic.",
+      desc: "Data-driven SEO, content, and ad campaigns that bring qualified leads straight to your door.",
       href: "/digital-marketing",
       color: "#ff6b9d"
     }
@@ -47,6 +42,7 @@ export default function HomePage() {
 
   return (
     <div>
+      {/* HERO */}
       <section style={{ padding: "6rem 1.5rem 5rem", textAlign: "center", position: "relative", overflow: "hidden" }}>
         <div style={{
           position: "absolute", top: "-20%", left: "50%", transform: "translateX(-50%)",
@@ -65,7 +61,6 @@ export default function HomePage() {
           }}>
             ✦ AI-Powered Web & Automation Studio
           </div>
-
           <h1 style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(2.8rem, 1rem + 5.5vw, 6rem)",
@@ -75,7 +70,6 @@ export default function HomePage() {
             Websites, AI Workflows, and<br />
             <span style={{ color: "var(--color-primary)", fontStyle: "italic" }}>Digital Systems for Modern Businesses</span>
           </h1>
-
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.5vw, 1.25rem)",
             color: "var(--color-text-muted)", maxWidth: "640px",
@@ -83,21 +77,19 @@ export default function HomePage() {
           }}>
             We help clinics, consultants, law firms, real estate agents, and local brands launch premium websites, automate repetitive work, and grow with practical digital systems.
           </p>
-
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <Link href="/about" style={{
               display: "inline-flex", alignItems: "center", gap: "0.5rem",
               padding: "0.9rem 2rem", fontSize: "1rem", fontWeight: 600,
               border: "1px solid var(--color-border)", borderRadius: "var(--radius-lg)",
-              color: "var(--color-text-muted)", textDecoration: "none"
-            }}>
-              See Our Services
-            </Link>
+              color: "var(--color-text-muted)", transition: "all 180ms"
+            }}>See Our Services</Link>
           </div>
         </div>
       </section>
 
+      {/* STATS */}
       <section style={{ padding: "2rem 1.5rem" }}>
         <div style={{
           maxWidth: "960px", margin: "0 auto",
@@ -106,7 +98,7 @@ export default function HomePage() {
           border: "1px solid var(--color-divider)", borderRadius: "var(--radius-xl)",
           overflow: "hidden"
         }}>
-          {stats.map((s) => (
+          {stats.map(s => (
             <div key={s.label} style={{ padding: "2rem", background: "var(--color-surface)", textAlign: "center" }}>
               <div style={{ fontFamily: "var(--font-display)", fontSize: "2.5rem", color: "var(--color-primary)", marginBottom: "0.25rem" }}>{s.value}</div>
               <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>{s.label}</div>
@@ -115,6 +107,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* PROOF STRIP */}
       <section style={{ padding: "1rem 1.5rem 4rem" }}>
         <div style={{
           maxWidth: "1160px",
@@ -167,14 +160,102 @@ export default function HomePage() {
               border: "1px solid rgba(255,255,255,0.07)",
               background: "#101521"
             }}>
-              <img
-                src="/proof/n8n-lead-flow.svg"
-                alt="n8n workflow visual showing website lead capture, AI qualification, CRM sync, and team alerts"
-                width="1200"
-                height="760"
-                loading="lazy"
-                style={{ width: "100%", display: "block" }}
-              />
+              <div style={{
+                display: "flex", alignItems: "center", gap: "0.45rem",
+                padding: "0.8rem 1rem",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                background: "rgba(255,255,255,0.02)"
+              }}>
+                <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ff6b6b", display: "inline-block" }} />
+                <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ffd166", display: "inline-block" }} />
+                <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#4ade80", display: "inline-block" }} />
+                <div style={{ marginLeft: "0.6rem", color: "var(--color-text-muted)", fontSize: "0.82rem" }}>
+                  rubabsdigital.com / growth-stack
+                </div>
+              </div>
+
+              <div style={{ padding: "1rem" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: "0.9rem" }}>
+                  <div style={{
+                    borderRadius: "16px",
+                    padding: "1rem",
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.06)"
+                  }}>
+                    <div style={{ fontSize: "0.78rem", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      Lead Flow
+                    </div>
+                    <div style={{ fontSize: "1.35rem", fontWeight: 800, marginTop: "0.45rem" }}>34 New Leads</div>
+                    <div style={{ marginTop: "0.55rem", color: "#86efac", fontSize: "0.9rem", fontWeight: 700 }}>+18% this week</div>
+                    <div style={{
+                      marginTop: "1rem",
+                      height: "8px",
+                      borderRadius: "999px",
+                      background: "rgba(255,255,255,0.06)",
+                      overflow: "hidden"
+                    }}>
+                      <div style={{
+                        width: "72%",
+                        height: "100%",
+                        background: "linear-gradient(90deg, var(--color-primary), #7dd3fc)"
+                      }} />
+                    </div>
+                    <div style={{ marginTop: "1rem", color: "var(--color-text-muted)", fontSize: "0.9rem", lineHeight: 1.6 }}>
+                      Landing page, consultation form, and follow-up sequence working together to convert visitors into enquiries.
+                    </div>
+                  </div>
+
+                  <div style={{
+                    borderRadius: "16px",
+                    padding: "1rem",
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.06)"
+                  }}>
+                    <div style={{ fontSize: "0.78rem", color: "var(--color-text-muted)", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      Automation Status
+                    </div>
+                    <div style={{ marginTop: "0.8rem", display: "grid", gap: "0.6rem" }}>
+                      {[
+                        ["Form capture", "Online"],
+                        ["WhatsApp reply", "Running"],
+                        ["CRM sync", "Live"],
+                      ].map(([name, status], i) => (
+                        <div key={i} style={{
+                          display: "flex", justifyContent: "space-between", alignItems: "center",
+                          padding: "0.65rem 0.75rem", borderRadius: "12px",
+                          background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)"
+                        }}>
+                          <span style={{ fontSize: "0.92rem" }}>{name}</span>
+                          <span style={{ fontSize: "0.78rem", color: "#86efac", fontWeight: 700 }}>{status}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, 1fr)",
+                  gap: "0.8rem",
+                  marginTop: "0.9rem"
+                }}>
+                  {[
+                    ["Fast launch", "5–7 day delivery"],
+                    ["Better trust", "Premium brand presentation"],
+                    ["Always-on", "Automation works 24/7"]
+                  ].map(([title, desc], i) => (
+                    <div key={i} style={{
+                      padding: "0.9rem",
+                      borderRadius: "14px",
+                      background: "rgba(255,255,255,0.03)",
+                      border: "1px solid rgba(255,255,255,0.06)"
+                    }}>
+                      <div style={{ fontWeight: 700 }}>{title}</div>
+                      <div style={{ marginTop: "0.35rem", fontSize: "0.88rem", color: "var(--color-text-muted)", lineHeight: 1.5 }}>{desc}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -209,70 +290,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section style={{ padding: "0 1.5rem 5rem" }}>
-        <div style={{ maxWidth: "1160px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <div style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              padding: "0.35rem 0.9rem",
-              borderRadius: "999px",
-              background: "var(--color-primary-highlight)",
-              border: "1px solid rgba(124,111,255,0.18)",
-              color: "var(--color-primary)",
-              fontSize: "0.78rem",
-              fontWeight: 700,
-              marginBottom: "1rem"
-            }}>
-              ✦ Visual Proof
-            </div>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem, 1.2rem + 2vw, 3rem)", marginBottom: "0.9rem" }}>
-              See the Systems Behind the Leads
-            </h2>
-            <p style={{ color: "var(--color-text-muted)", maxWidth: "760px", margin: "0 auto", lineHeight: 1.7 }}>
-              Realistic workflow visuals and niche demo screens showing how websites, automations, and follow-up systems work together for service businesses.
-            </p>
-          </div>
-
-          <div style={{ display: "grid", gap: "1.5rem" }}>
-            <div style={{
-              background: "var(--color-surface)",
-              border: "1px solid var(--color-border)",
-              borderRadius: "24px",
-              padding: "1rem"
-            }}>
-              <img
-                src="/proof/website-demo-board.svg"
-                alt="website demo screens for dental clinic, law firm, and real estate businesses"
-                width="1200"
-                height="760"
-                loading="lazy"
-                style={{ width: "100%", borderRadius: "18px", border: "1px solid rgba(255,255,255,0.06)" }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* SERVICES */}
       <section style={{ padding: "5rem 1.5rem" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem, 1.2rem + 2vw, 3rem)", marginBottom: "1rem" }}>
-              Four Services. One Growth System.
+              Four Services. One Mission.
             </h2>
             <p style={{ color: "var(--color-text-muted)", maxWidth: "560px", margin: "0 auto" }}>
-              Focused services for service businesses that need stronger websites, smarter systems, and better-qualified leads.
+              Everything your business needs to automate, grow, and dominate — under one roof.
             </p>
           </div>
-
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
-            {services.map((s) => (
+            {services.map(s => (
               <Link key={s.href} href={s.href} style={{
                 display: "block", padding: "2rem",
                 background: "var(--color-surface)",
                 border: "1px solid var(--color-border)",
                 borderRadius: "var(--radius-xl)",
+                transition: "border-color 180ms, box-shadow 180ms",
                 textDecoration: "none"
               }}>
                 <div style={{
@@ -291,6 +327,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* CTA BANNER */}
       <section style={{ padding: "4rem 1.5rem" }}>
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
           <div style={{
@@ -299,6 +336,12 @@ export default function HomePage() {
             border: "1px solid rgba(124,111,255,0.2)",
             textAlign: "center", position: "relative", overflow: "hidden"
           }}>
+            <div style={{
+              position: "absolute", top: "-50%", right: "-10%",
+              width: "400px", height: "400px",
+              background: "radial-gradient(ellipse, rgba(0,229,160,0.12) 0%, transparent 70%)",
+              pointerEvents: "none"
+            }} />
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "1rem" }}>
               Need a Website That Actually Brings Leads?
             </h2>
@@ -307,7 +350,7 @@ export default function HomePage() {
             </p>
             <ConsultancyButton label="Start Free Consultation →" size="lg" />
             <div style={{ display: "flex", gap: "2rem", justifyContent: "center", marginTop: "1.5rem", flexWrap: "wrap" }}>
-              {["✓ Free consultation", "✓ No long contracts", "✓ Built for real businesses"].map((t) => (
+              {["✓ Free consultation", "✓ No long contracts", "✓ Built for real businesses"].map(t => (
                 <span key={t} style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>{t}</span>
               ))}
             </div>

@@ -13,7 +13,7 @@ export default function Page() {
   ]
   const steps = [
     { title: "Audit & Strategy", desc: "We analyze your current digital presence and identify the fastest path to qualified leads." },
-    { title: "Channel Selection", desc: "We recommend and focus on the 1-2 channels where your ideal customers actually spend time." },
+    { title: "Channel Selection", desc: "We recommend and focus on the 1-2 channels where your ideal qualified enquiries actually spend time." },
     { title: "Campaign Execution", desc: "Content creation, ad management, and SEO execution handled by our team end-to-end." },
     { title: "Optimize & Scale", desc: "Monthly reviews, performance optimization, and budget scaling based on what works." }
   ]
@@ -34,7 +34,7 @@ export default function Page() {
             border: "1px solid #ff6b9d40",
             fontSize: "0.8rem", fontWeight: 600, color: "#ff6b9d",
             marginBottom: "1.5rem"
-          }}>📈 Digital Marketing
+          }}>📈 Lead-Focused Digital Marketing
           </div>
           <h1 style={{
             fontFamily: "var(--font-display)",
@@ -44,6 +44,7 @@ export default function Page() {
           }}>Be Found. Be Chosen.
 Be the Brand
 Everyone Talks About.</h1>
+          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>Built for clinics, consultants, law firms, real estate agents, and local service brands.</p>
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.4vw, 1.2rem)",
             color: "var(--color-text-muted)", maxWidth: "600px",

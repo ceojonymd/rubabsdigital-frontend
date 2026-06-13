@@ -1,0 +1,72 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="28" fill="#0E1421"/>
+  <rect x="36" y="36" width="1128" height="688" rx="24" fill="#111827" stroke="#243045"/>
+  <rect x="72" y="72" width="250" height="616" rx="20" fill="#0F172A" stroke="#25324A"/>
+  <text x="102" y="118" fill="#E5E7EB" font-size="28" font-family="Arial" font-weight="700">n8n Workflow</text>
+  <text x="102" y="148" fill="#94A3B8" font-size="16" font-family="Arial">Lead capture → qualification → CRM → alerts</text>
+
+  <rect x="102" y="192" width="190" height="86" rx="18" fill="#1D4ED8" fill-opacity="0.18" stroke="#60A5FA"/>
+  <text x="126" y="228" fill="#DBEAFE" font-size="20" font-family="Arial" font-weight="700">Website Form</text>
+  <text x="126" y="252" fill="#BFDBFE" font-size="14" font-family="Arial">New inquiry received</text>
+
+  <rect x="102" y="320" width="190" height="86" rx="18" fill="#0F766E" fill-opacity="0.18" stroke="#2DD4BF"/>
+  <text x="126" y="356" fill="#CCFBF1" font-size="20" font-family="Arial" font-weight="700">AI Qualifier</text>
+  <text x="126" y="380" fill="#99F6E4" font-size="14" font-family="Arial">Scores budget & urgency</text>
+
+  <rect x="102" y="448" width="190" height="86" rx="18" fill="#7C3AED" fill-opacity="0.18" stroke="#A78BFA"/>
+  <text x="126" y="484" fill="#EDE9FE" font-size="20" font-family="Arial" font-weight="700">CRM Update</text>
+  <text x="126" y="508" fill="#DDD6FE" font-size="14" font-family="Arial">Pushes lead to pipeline</text>
+
+  <rect x="102" y="576" width="190" height="86" rx="18" fill="#B45309" fill-opacity="0.18" stroke="#F59E0B"/>
+  <text x="126" y="612" fill="#FEF3C7" font-size="20" font-family="Arial" font-weight="700">Team Alert</text>
+  <text x="126" y="636" fill="#FDE68A" font-size="14" font-family="Arial">WhatsApp + email instantly</text>
+
+  <path d="M292 235C346 235 352 235 404 235" stroke="#64748B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M292 363C346 363 352 363 404 363" stroke="#64748B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M292 491C346 491 352 491 404 491" stroke="#64748B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M292 619C346 619 352 619 404 619" stroke="#64748B" stroke-width="4" stroke-linecap="round"/>
+
+  <rect x="430" y="96" width="684" height="278" rx="22" fill="#0B1220" stroke="#243045"/>
+  <text x="462" y="136" fill="#E5E7EB" font-size="24" font-family="Arial" font-weight="700">Live Automation Monitor</text>
+  <text x="462" y="166" fill="#94A3B8" font-size="15" font-family="Arial">Real-time routing for clinics, consultants, law firms, and local service brands</text>
+
+  <rect x="462" y="202" width="180" height="120" rx="18" fill="#0F172A" stroke="#243045"/>
+  <text x="488" y="238" fill="#93C5FD" font-size="16" font-family="Arial">Leads Today</text>
+  <text x="488" y="282" fill="#F8FAFC" font-size="36" font-family="Arial" font-weight="700">34</text>
+  <text x="488" y="304" fill="#86EFAC" font-size="14" font-family="Arial">+18% this week</text>
+
+  <rect x="670" y="202" width="180" height="120" rx="18" fill="#0F172A" stroke="#243045"/>
+  <text x="696" y="238" fill="#5EEAD4" font-size="16" font-family="Arial">Replies Sent</text>
+  <text x="696" y="282" fill="#F8FAFC" font-size="36" font-family="Arial" font-weight="700">27</text>
+  <text x="696" y="304" fill="#86EFAC" font-size="14" font-family="Arial">Avg. 2 min delay</text>
+
+  <rect x="878" y="202" width="204" height="120" rx="18" fill="#0F172A" stroke="#243045"/>
+  <text x="904" y="238" fill="#C4B5FD" font-size="16" font-family="Arial">Qualified Leads</text>
+  <text x="904" y="282" fill="#F8FAFC" font-size="36" font-family="Arial" font-weight="700">19</text>
+  <text x="904" y="304" fill="#86EFAC" font-size="14" font-family="Arial">Auto-synced to CRM</text>
+
+  <rect x="430" y="402" width="684" height="286" rx="22" fill="#0B1220" stroke="#243045"/>
+  <text x="462" y="442" fill="#E5E7EB" font-size="24" font-family="Arial" font-weight="700">Service Business Demo Stack</text>
+  <text x="462" y="472" fill="#94A3B8" font-size="15" font-family="Arial">Homepage → contact form → workflow → booked consultation</text>
+
+  <rect x="462" y="504" width="192" height="138" rx="18" fill="#111827" stroke="#243045"/>
+  <text x="484" y="536" fill="#F8FAFC" font-size="18" font-family="Arial" font-weight="700">Dental Clinic</text>
+  <text x="484" y="564" fill="#94A3B8" font-size="14" font-family="Arial">New patient landing page</text>
+  <rect x="484" y="588" width="118" height="12" rx="6" fill="#1D4ED8"/>
+  <rect x="484" y="610" width="146" height="12" rx="6" fill="#334155"/>
+  <rect x="484" y="632" width="92" height="12" rx="6" fill="#334155"/>
+
+  <rect x="676" y="504" width="192" height="138" rx="18" fill="#111827" stroke="#243045"/>
+  <text x="698" y="536" fill="#F8FAFC" font-size="18" font-family="Arial" font-weight="700">Law Firm</text>
+  <text x="698" y="564" fill="#94A3B8" font-size="14" font-family="Arial">Consultation booking funnel</text>
+  <rect x="698" y="588" width="132" height="12" rx="6" fill="#7C3AED"/>
+  <rect x="698" y="610" width="148" height="12" rx="6" fill="#334155"/>
+  <rect x="698" y="632" width="108" height="12" rx="6" fill="#334155"/>
+
+  <rect x="890" y="504" width="192" height="138" rx="18" fill="#111827" stroke="#243045"/>
+  <text x="912" y="536" fill="#F8FAFC" font-size="18" font-family="Arial" font-weight="700">Real Estate</text>
+  <text x="912" y="564" fill="#94A3B8" font-size="14" font-family="Arial">Lead qualification workflow</text>
+  <rect x="912" y="588" width="124" height="12" rx="6" fill="#0F766E"/>
+  <rect x="912" y="610" width="152" height="12" rx="6" fill="#334155"/>
+  <rect x="912" y="632" width="96" height="12" rx="6" fill="#334155"/>
+</svg>

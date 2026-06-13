@@ -1,0 +1,39 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="28" fill="#0E1421"/>
+  <rect x="36" y="36" width="1128" height="688" rx="24" fill="#111827" stroke="#243045"/>
+  <text x="76" y="96" fill="#E5E7EB" font-size="28" font-family="Arial" font-weight="700">Niche Demo Screens</text>
+  <text x="76" y="126" fill="#94A3B8" font-size="16" font-family="Arial">Single-page website concepts for real service businesses</text>
+
+  <rect x="76" y="168" width="324" height="500" rx="22" fill="#0B1220" stroke="#243045"/>
+  <rect x="100" y="196" width="276" height="154" rx="16" fill="#1D4ED8" fill-opacity="0.16" stroke="#60A5FA"/>
+  <text x="122" y="228" fill="#F8FAFC" font-size="22" font-family="Arial" font-weight="700">Dental Clinic</text>
+  <text x="122" y="256" fill="#BFDBFE" font-size="15" font-family="Arial">Trust-first booking page</text>
+  <rect x="122" y="286" width="122" height="12" rx="6" fill="#60A5FA"/>
+  <rect x="122" y="310" width="184" height="12" rx="6" fill="#334155"/>
+  <rect x="100" y="380" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="100" y="430" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="100" y="480" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="100" y="548" width="138" height="36" rx="18" fill="#1D4ED8"/>
+
+  <rect x="438" y="168" width="324" height="500" rx="22" fill="#0B1220" stroke="#243045"/>
+  <rect x="462" y="196" width="276" height="154" rx="16" fill="#7C3AED" fill-opacity="0.16" stroke="#A78BFA"/>
+  <text x="484" y="228" fill="#F8FAFC" font-size="22" font-family="Arial" font-weight="700">Law Firm</text>
+  <text x="484" y="256" fill="#DDD6FE" font-size="15" font-family="Arial">Consultation funnel</text>
+  <rect x="484" y="286" width="128" height="12" rx="6" fill="#A78BFA"/>
+  <rect x="484" y="310" width="176" height="12" rx="6" fill="#334155"/>
+  <rect x="462" y="380" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="462" y="430" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="462" y="480" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="462" y="548" width="138" height="36" rx="18" fill="#7C3AED"/>
+
+  <rect x="800" y="168" width="324" height="500" rx="22" fill="#0B1220" stroke="#243045"/>
+  <rect x="824" y="196" width="276" height="154" rx="16" fill="#0F766E" fill-opacity="0.16" stroke="#2DD4BF"/>
+  <text x="846" y="228" fill="#F8FAFC" font-size="22" font-family="Arial" font-weight="700">Real Estate</text>
+  <text x="846" y="256" fill="#99F6E4" font-size="15" font-family="Arial">Lead capture + follow-up</text>
+  <rect x="846" y="286" width="140" height="12" rx="6" fill="#2DD4BF"/>
+  <rect x="846" y="310" width="182" height="12" rx="6" fill="#334155"/>
+  <rect x="824" y="380" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="824" y="430" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="824" y="480" width="276" height="34" rx="10" fill="#111827" stroke="#243045"/>
+  <rect x="824" y="548" width="138" height="36" rx="18" fill="#0F766E"/>
+</svg>
