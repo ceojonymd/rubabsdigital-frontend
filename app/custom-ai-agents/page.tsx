@@ -1,22 +1,29 @@
 import ConsultancyButton from "@/components/ConsultancyButton"
 import DemoSection from "@/components/DemoSection"
-import { SupportAgentDemo, SalesAgentDemo, KnowledgeAgentDemo } from "@/components/demos/AgentDemos"
+import { CRMAutomationDemo, ReportBotDemo } from "@/components/demos/AIDemos"
+
+export const metadata = {
+  title: "Rubab's Digital — Web & Automation Studio",
+  description: "Custom AI assistants for clinics, consultants, law firms, agencies, and service businesses that need better lead qualification, support, and follow-up.",
+}
 
 export default function Page() {
   const features = [
-    { icon: "💬", title: "Customer Support Agent", desc: "Handles FAQs, complaints, and inquiries with human-level accuracy — never sleeps, never complains." },
-    { icon: "🎯", title: "Lead Qualification Bot", desc: "Engages website visitors, qualifies prospects, and books meetings directly into your calendar." },
-    { icon: "📚", title: "Knowledge Base Agent", desc: "Trained on your docs, PDFs, and SOPs — answers internal team questions instantly." },
-    { icon: "🛒", title: "Sales Assistant Agent", desc: "Recommends products, handles objections, and closes small deals autonomously." },
-    { icon: "🔍", title: "Research Agent", desc: "Monitors competitors, scrapes data, and delivers daily intelligence reports to your inbox." },
-    { icon: "🔧", title: "Custom Integrations", desc: "Deploy your agent on WhatsApp, Telegram, website chat, or internal Slack channels." }
+    { icon: "🤖", title: "Trained AI Assistants", desc: "Custom AI assistants trained on your business, offers, FAQs, tone, and lead flow — so responses feel useful, not generic." },
+    { icon: "💬", title: "Lead Qualification Chat", desc: "Automatically ask the right pre-sales questions, filter weak enquiries, and capture stronger leads before your team steps in." },
+    { icon: "📅", title: "Booking & Intake Flows", desc: "Guide visitors toward appointments, consultation requests, or intake forms without making them wait for a human reply." },
+    { icon: "📚", title: "Knowledge-Based Answers", desc: "Answer service questions, pricing basics, process FAQs, and availability using business-specific knowledge instead of vague chatbot copy." },
+    { icon: "🔗", title: "CRM & Workflow Handoffs", desc: "Push qualified leads into your CRM, trigger alerts, and hand off conversations to your team when real sales attention is needed." },
+    { icon: "🌍", title: "24/7 Front Desk Support", desc: "Stay responsive after hours, on weekends, or during peak enquiry times without hiring extra staff just to answer repetitive questions." }
   ]
+
   const steps = [
-    { title: "Use Case Scoping", desc: "We define exactly what your agent will do, what data it needs, and how success is measured." },
-    { title: "Data Preparation", desc: "We collect, clean and structure law firms, consultants, agencies, and expert service businesses documents, FAQs, and knowledge base for training." },
-    { title: "Agent Development", desc: "We build, fine-tune, and test your custom agent until it performs above your requirements." },
-    { title: "Deploy & Iterate", desc: "Launch on your chosen channels, monitor real conversations, and improve continuously." }
+    { title: "Business Intake", desc: "We study your offer, lead flow, objections, and customer questions so the assistant sounds useful and commercially aware." },
+    { title: "AI Prompt & Logic Design", desc: "We design the response structure, qualification logic, escalation rules, and booking flow around your business goals." },
+    { title: "Training & Integration", desc: "We connect your AI assistant with forms, calendars, CRMs, and internal workflows so it can do more than just chat." },
+    { title: "Launch & Refinement", desc: "After launch, we review conversations, improve response quality, and refine the logic based on how real prospects behave." }
   ]
+
   return (
     <div>
       <section style={{ padding: "6rem 1.5rem 5rem", position: "relative", overflow: "hidden" }}>
@@ -34,27 +41,34 @@ export default function Page() {
             border: "1px solid #00e5a040",
             fontSize: "0.8rem", fontWeight: 600, color: "#00e5a0",
             marginBottom: "1.5rem"
-          }}>🤖 Custom AI Assistants
+          }}>🤖 Custom AI Agents
           </div>
+
           <h1 style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(2.4rem, 1rem + 4vw, 5rem)",
             fontWeight: 400, lineHeight: 1.1, marginBottom: "1.5rem",
             letterSpacing: "-0.02em", whiteSpace: "pre-line"
-          }}>Your Business Deserves
-an AI That Actually
-Knows It.</h1>
-          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>Built for clinics, consultants, law firms, real estate agents, and local service brands.</p>
+          }}>Train an AI Assistant
+That Actually Helps You Sell.</h1>
+
+          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>
+            Built for clinics, consultants, law firms, agencies, and local service businesses that need faster replies and better-qualified leads.
+          </p>
+
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.4vw, 1.2rem)",
-            color: "var(--color-text-muted)", maxWidth: "600px",
+            color: "var(--color-text-muted)", maxWidth: "620px",
             lineHeight: 1.75, marginBottom: "2.5rem"
-          }}>We build purpose-built trained AI assistants trained on law firms, consultants, agencies, and expert service businesses data — answering customer questions, qualifying leads, and handling support 24/7 with the accuracy of your best employee.</p>
+          }}>
+            We create custom AI assistants that answer questions, qualify prospects, guide bookings, and support your sales process without sounding like a generic chatbot.
+          </p>
+
           <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
               <span style={{ color: "#00e5a0", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>24/7</span>
-              your AI agent works without breaks
+              lead capture and response coverage
             </div>
           </div>
         </div>
@@ -63,7 +77,9 @@ Knows It.</h1>
       <section style={{ padding: "4rem 1.5rem", background: "var(--color-surface)" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "0.75rem" }}>What You Get</h2>
-          <p style={{ color: "var(--color-text-muted)", marginBottom: "3rem", maxWidth: "520px" }}>Every feature designed to deliver measurable business results.</p>
+          <p style={{ color: "var(--color-text-muted)", marginBottom: "3rem", maxWidth: "560px" }}>
+            AI assistants designed to answer, qualify, route, and support real business conversations.
+          </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem" }}>
             {features.map((f: {icon: string, title: string, desc: string}) => (
               <div key={f.title} style={{
@@ -82,7 +98,7 @@ Knows It.</h1>
       <section style={{ padding: "5rem 1.5rem" }}>
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "0.75rem" }}>How It Works</h2>
-          <p style={{ color: "var(--color-text-muted)", marginBottom: "3rem" }}>Simple steps from first call to final results.</p>
+          <p style={{ color: "var(--color-text-muted)", marginBottom: "3rem" }}>Simple steps from business understanding to live deployment.</p>
           <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             {steps.map((s: {title: string, desc: string}, i: number) => (
               <div key={i} style={{
@@ -115,54 +131,42 @@ Knows It.</h1>
             background: "color-mix(in srgb, #00e5a0 10%, var(--color-surface-offset))",
             border: "1px solid #00e5a030", textAlign: "center"
           }}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "1rem" }}>Ready to Get Started?</h2>
-            <p style={{ color: "var(--color-text-muted)", maxWidth: "480px", margin: "0 auto 2rem", lineHeight: 1.7 }}>
-              Book a free consultation today. No commitment, no contracts — just results.
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "1rem" }}>Ready to Launch Your AI Assistant?</h2>
+            <p style={{ color: "var(--color-text-muted)", maxWidth: "520px", margin: "0 auto 2rem", lineHeight: 1.7 }}>
+              Book a free consultation and we’ll map out the right AI assistant flow for your business, offer, and customer journey.
             </p>
             <ConsultancyButton label="Book Free Consultation →" size="lg" />
           </div>
         </div>
       </section>
-    
+
       <DemoSection
         accentColor="#00e5a0"
         cards={[
           {
-            id: "support-agent",
-            title: "Support Agent",
-            niche: "AI Support",
-            challenge: "Customers needed instant answers at any hour.",
-            solution: "Custom support bot with escalation flow.",
-            result: "Faster support and reduced manual workload.",
-            tags: ["Support", "Chatbot", "AI"],
+            id: "faq-agent",
+            title: "FAQ Sales Assistant",
+            niche: "Custom AI Agent",
+            challenge: "Visitors had questions but no one replied quickly enough to keep them engaged.",
+            solution: "We built a business-trained assistant that answered FAQs, explained services, and pushed qualified visitors toward booking.",
+            result: "Faster lead qualification and fewer missed conversations.",
+            tags: ["AI Agent", "FAQ", "Booking"],
             color: "#00e5a0",
-            demoComponent: <SupportAgentDemo />
+            demoComponent: <CRMAutomationDemo />
           },
           {
-            id: "sales-agent",
-            title: "Sales Qualification Agent",
+            id: "intake-agent",
+            title: "Client Intake Agent",
             niche: "Lead Qualification",
-            challenge: "Teams were wasting time on low-intent leads.",
-            solution: "AI pre-qualifies visitors before handoff.",
-            result: "Higher quality sales conversations.",
-            tags: ["Sales", "Qualification", "Automation"],
+            challenge: "Too many weak enquiries were consuming time before the team could reach serious prospects.",
+            solution: "The assistant asked targeted intake questions and routed qualified leads into the next step automatically.",
+            result: "Better conversations and cleaner lead pipelines.",
+            tags: ["Intake", "CRM", "Lead Flow"],
             color: "#7c6fff",
-            demoComponent: <SalesAgentDemo />
-          },
-          {
-            id: "knowledge-agent",
-            title: "Knowledge Agent",
-            niche: "Internal Search",
-            challenge: "Docs and answers were scattered.",
-            solution: "One searchable AI knowledge layer.",
-            result: "Quick answers from one place.",
-            tags: ["Docs", "Search", "AI"],
-            color: "#ffc857",
-            demoComponent: <KnowledgeAgentDemo />
+            demoComponent: <ReportBotDemo />
           }
         ]}
       />
-
-</div>
+    </div>
   )
 }

@@ -1,22 +1,34 @@
 import ConsultancyButton from "@/components/ConsultancyButton"
-import DemoSection from "@/components/DemoSection"
-import { BusinessWebsiteDemo, LandingPageDemo, PortfolioDemo } from "@/components/demos/WebsiteDemos"
+
+export const metadata = {
+  title: "Rubab's Digital — Web & Automation Studio",
+  description: "Premium service-business websites for clinics, consultants, law firms, real estate agents, salons, and local brands built to earn trust and drive enquiries.",
+}
 
 export default function Page() {
   const features = [
-    { icon: "🎨", title: "Custom UI/UX Design", desc: "Every pixel crafted for your brand — no templates, no generic layouts, just distinctive design." },
-    { icon: "⚡", title: "Performance Optimized", desc: "99+ Lighthouse scores, sub-2s load times, and Core Web Vitals that Google rewards." },
-    { icon: "📱", title: "Fully Responsive", desc: "Flawless on every device — mobile, tablet, desktop — without compromise." },
-    { icon: "🔍", title: "SEO Foundation", desc: "Built-in technical SEO, structured data, and meta optimization from day one." },
-    { icon: "🛒", title: "Conversion Focused", desc: "Strategic CTA placement, trust signals, and user flows designed to convert visitors to leads." },
-    { icon: "🔒", title: "Secure & Maintained", desc: "SSL, regular updates, uptime monitoring, and a dedicated support line included." }
+    { icon: "🎯", title: "Conversion-First Layouts", desc: "Every page is structured around trust, offer clarity, proof, and enquiry flow — not just decoration." },
+    { icon: "📱", title: "Mobile-Ready Experience", desc: "Your site is designed to work smoothly on phones first, where most local service traffic actually lands." },
+    { icon: "⚡", title: "Fast, Premium Build", desc: "Modern visual quality with clean performance so the site feels sharp, credible, and easy to use." },
+    { icon: "🧩", title: "Service-Specific Sections", desc: "We tailor layouts for dentists, consultants, law firms, salons, real estate agents, and other service businesses." },
+    { icon: "📝", title: "Lead Capture Built In", desc: "Contact forms, consultation prompts, service CTAs, and booking paths are placed where they actually help conversions." },
+    { icon: "🔗", title: "Automation Ready", desc: "Your website can connect directly with lead routing, follow-up, CRM, and AI workflows from day one." }
   ]
+
   const steps = [
-    { title: "Strategy & Discovery", desc: "We learn dentists, salons, consultants, law firms, and real estate agents, audience, and goals to create a design brief that actually converts." },
-    { title: "Design Mockups", desc: "Full Figma mockups delivered for your review and feedback before a single line of code." },
-    { title: "Development", desc: "Built with Next.js for speed and SEO — with CMS integration if you need to edit content." },
-    { title: "Launch & Handover", desc: "Full deployment, domain setup, training, and 30 days of post-launch support." }
+    { title: "Offer & Niche Review", desc: "We first clarify your niche, customer type, service offer, and what your website must make people do." },
+    { title: "Structure & Copy Direction", desc: "We map the page flow around trust, objections, proof, FAQs, and enquiry actions so the content sells clearly." },
+    { title: "Design & Build", desc: "We turn that structure into a premium, responsive website with strong hierarchy, visual polish, and faster UX." },
+    { title: "Launch & Improve", desc: "Once live, your site is ready for ads, SEO, automation, and ongoing improvement based on how visitors behave." }
   ]
+
+  const niches = [
+    { title: "Dental Clinics", desc: "Trust-first websites that support appointment booking and service clarity." },
+    { title: "Law Firms", desc: "High-credibility landing pages designed around consultation enquiries." },
+    { title: "Real Estate", desc: "Property or lead-focused layouts that make visitors take the next step." },
+    { title: "Consultants", desc: "Clear positioning pages that turn expertise into booked calls." },
+  ]
+
   return (
     <div>
       <section style={{ padding: "6rem 1.5rem 5rem", position: "relative", overflow: "hidden" }}>
@@ -34,27 +46,34 @@ export default function Page() {
             border: "1px solid #ffc85740",
             fontSize: "0.8rem", fontWeight: 600, color: "#ffc857",
             marginBottom: "1.5rem"
-          }}>🌐 Service Business Website Design
+          }}>🌐 Website Design
           </div>
+
           <h1 style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(2.4rem, 1rem + 4vw, 5rem)",
             fontWeight: 400, lineHeight: 1.1, marginBottom: "1.5rem",
             letterSpacing: "-0.02em", whiteSpace: "pre-line"
-          }}>Websites That Turn
-Visitors Into
-Paying Customers.</h1>
-          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>Built for clinics, consultants, law firms, real estate agents, and local service brands.</p>
+          }}>Premium Websites
+Built to Earn Trust and Bring Enquiries.</h1>
+
+          <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>
+            Built for dentists, law firms, consultants, salons, real estate agents, and local service brands that need better first impressions and stronger lead flow.
+          </p>
+
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.4vw, 1.2rem)",
-            color: "var(--color-text-muted)", maxWidth: "600px",
+            color: "var(--color-text-muted)", maxWidth: "620px",
             lineHeight: 1.75, marginBottom: "2.5rem"
-          }}>We design and build high-converting, blazing-fast websites that make your brand unforgettable — and your sales predictable. From landing pages to full business platforms.</p>
+          }}>
+            We design service-business websites that look premium, communicate clearly, and guide visitors toward enquiries, bookings, and real business conversations.
+          </p>
+
           <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
-              <span style={{ color: "#ffc857", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>3x</span>
-              average conversion rate improvement
+              <span style={{ color: "#ffc857", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>1-page</span>
+              premium builds for real service businesses
             </div>
           </div>
         </div>
@@ -63,7 +82,9 @@ Paying Customers.</h1>
       <section style={{ padding: "4rem 1.5rem", background: "var(--color-surface)" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "0.75rem" }}>What You Get</h2>
-          <p style={{ color: "var(--color-text-muted)", marginBottom: "3rem", maxWidth: "520px" }}>Every feature designed to deliver measurable business results.</p>
+          <p style={{ color: "var(--color-text-muted)", marginBottom: "3rem", maxWidth: "560px" }}>
+            A website system designed for trust, positioning, and lead conversion — not just pretty visuals.
+          </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem" }}>
             {features.map((f: {icon: string, title: string, desc: string}) => (
               <div key={f.title} style={{
@@ -79,10 +100,100 @@ Paying Customers.</h1>
         </div>
       </section>
 
+      <section style={{ padding: "1rem 1.5rem 4rem" }}>
+        <div style={{
+          maxWidth: "1160px",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1.15fr 0.85fr",
+          gap: "1.5rem",
+          alignItems: "stretch"
+        }}>
+          <div style={{
+            background: "linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025))",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: "24px",
+            padding: "1.35rem",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.18)"
+          }}>
+            <div style={{
+              display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem",
+              gap: "1rem", flexWrap: "wrap"
+            }}>
+              <div>
+                <div style={{
+                  fontSize: "0.78rem",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "var(--color-text-muted)"
+                }}>
+                  Website proof
+                </div>
+                <div style={{ fontSize: "1.15rem", fontWeight: 800, marginTop: "0.35rem" }}>
+                  Niche Demo Screens
+                </div>
+              </div>
+              <div style={{
+                padding: "0.42rem 0.75rem",
+                borderRadius: "999px",
+                background: "rgba(255,200,87,0.12)",
+                border: "1px solid rgba(255,200,87,0.24)",
+                color: "#ffc857",
+                fontSize: "0.82rem",
+                fontWeight: 700
+              }}>
+                Conversion Focused
+              </div>
+            </div>
+
+            <div style={{
+              borderRadius: "18px",
+              overflow: "hidden",
+              border: "1px solid rgba(255,255,255,0.07)",
+              background: "#101521"
+            }}>
+              <img
+                src="/proof/website-showcase-board.svg"
+                alt="Website demo screens for dental clinic, law firm, and real estate businesses"
+                width="1200"
+                height="760"
+                loading="lazy"
+                style={{ width: "100%", display: "block" }}
+              />
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gap: "1rem" }}>
+            {niches.map((n, idx) => (
+              <div key={idx} style={{
+                background: "rgba(255,255,255,0.035)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: "20px",
+                padding: "1.2rem 1.15rem"
+              }}>
+                <div style={{
+                  width: "42px", height: "42px", borderRadius: "14px",
+                  display: "grid", placeItems: "center",
+                  background: "rgba(255,200,87,0.12)",
+                  border: "1px solid rgba(255,200,87,0.22)",
+                  color: "#ffc857",
+                  fontWeight: 800,
+                  marginBottom: "0.9rem"
+                }}>
+                  {idx + 1}
+                </div>
+                <div style={{ fontSize: "1.05rem", fontWeight: 800 }}>{n.title}</div>
+                <div style={{ marginTop: "0.45rem", color: "var(--color-text-muted)", lineHeight: 1.65 }}>{n.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section style={{ padding: "5rem 1.5rem" }}>
         <div style={{ maxWidth: "960px", margin: "0 auto" }}>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "0.75rem" }}>How It Works</h2>
-          <p style={{ color: "var(--color-text-muted)", marginBottom: "3rem" }}>Simple steps from first call to final results.</p>
+          <p style={{ color: "var(--color-text-muted)", marginBottom: "3rem" }}>Simple steps from page strategy to live launch.</p>
           <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             {steps.map((s: {title: string, desc: string}, i: number) => (
               <div key={i} style={{
@@ -115,54 +226,14 @@ Paying Customers.</h1>
             background: "color-mix(in srgb, #ffc857 10%, var(--color-surface-offset))",
             border: "1px solid #ffc85730", textAlign: "center"
           }}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "1rem" }}>Ready to Get Started?</h2>
-            <p style={{ color: "var(--color-text-muted)", maxWidth: "480px", margin: "0 auto 2rem", lineHeight: 1.7 }}>
-              Book a free consultation today. No commitment, no contracts — just results.
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)", marginBottom: "1rem" }}>Need a Website That Feels Premium and Converts?</h2>
+            <p style={{ color: "var(--color-text-muted)", maxWidth: "520px", margin: "0 auto 2rem", lineHeight: 1.7 }}>
+              Book a free consultation and we’ll map out the right page structure, proof, messaging, and conversion flow for your business.
             </p>
             <ConsultancyButton label="Book Free Consultation →" size="lg" />
           </div>
         </div>
       </section>
-    
-      <DemoSection
-        accentColor="#7c6fff"
-        cards={[
-          {
-            id: "business-site",
-            title: "Business Website",
-            niche: "Corporate Web Design",
-            challenge: "The old site looked outdated and low-trust.",
-            solution: "We redesigned the website with modern UI and better conversion flow.",
-            result: "Stronger brand trust and more inquiries.",
-            tags: ["UI", "UX", "Conversion"],
-            color: "#7c6fff",
-            demoComponent: <BusinessWebsiteDemo />
-          },
-          {
-            id: "landing-page",
-            title: "Landing Page",
-            niche: "Lead Generation",
-            challenge: "Traffic came in but leads did not convert.",
-            solution: "Focused layout with strong CTA hierarchy.",
-            result: "Better conversion intent and cleaner UX.",
-            tags: ["Landing", "CTA", "Design"],
-            color: "#00e5a0",
-            demoComponent: <LandingPageDemo />
-          },
-          {
-            id: "portfolio-site",
-            title: "Portfolio Experience",
-            niche: "Creative Brand",
-            challenge: "The brand lacked premium visual presence.",
-            solution: "Built a polished visual showcase experience.",
-            result: "Higher perceived value and better presentation.",
-            tags: ["Portfolio", "Brand", "Visual"],
-            color: "#ffc857",
-            demoComponent: <PortfolioDemo />
-          }
-        ]}
-      />
-
-</div>
+    </div>
   )
 }

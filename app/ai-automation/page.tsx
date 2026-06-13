@@ -42,7 +42,7 @@ export default function Page() {
             fontWeight: 400, lineHeight: 1.1, marginBottom: "1.5rem",
             letterSpacing: "-0.02em", whiteSpace: "pre-line"
           }}>Let Machines Do the Work.
-You Collect the Profit.</h1>
+Your only job to Collect the Profit.</h1>
           <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", margin: "1rem auto 0", lineHeight: 1.7 }}>Built for clinics, consultants, law firms, real estate agents, and local service brands.</p>
           <p style={{
             fontSize: "clamp(1rem, 0.9rem + 0.4vw, 1.2rem)",
