@@ -2,3 +2,8 @@
 node_modules
 .next
 output
+
+# local backup files
+*.bak
+*.bak.*
+*.bak-demo
