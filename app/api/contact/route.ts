@@ -10,6 +10,10 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#039;");
 }
 
+function asSender(email: string) {
+  return `Rubab's Digital <${email}>`;
+}
+
 export async function POST(req: Request) {
   try {
     const { name, email, phone, service, message } = await req.json();
@@ -30,6 +34,7 @@ export async function POST(req: Request) {
       process.env.CONTACT_ACK_FROM_EMAIL || contactFromEmail;
 
     if (!resendApiKey) {
+      console.error("RESEND_API_KEY is missing.");
       return NextResponse.json(
         { error: "RESEND_API_KEY is missing." },
         { status: 500 }
@@ -51,8 +56,8 @@ export async function POST(req: Request) {
     const safeSubmittedAt = escapeHtml(submittedAt);
 
     const adminEmail = await resend.emails.send({
-      from: `Rubab's Digital <${contactFromEmail}>`,
-      to: contactToEmail,
+      from: asSender(contactFromEmail),
+      to: [contactToEmail],
       reply_to: email,
       subject: `Website Lead • ${service} • ${name}`,
       html: `
@@ -90,8 +95,8 @@ export async function POST(req: Request) {
     }
 
     const ackEmail = await resend.emails.send({
-      from: `Rubab's Digital <${contactAckFromEmail}>`,
-      to: email,
+      from: asSender(contactAckFromEmail),
+      to: [email],
       reply_to: contactToEmail,
       subject: "We received your consultation request",
       html: `
