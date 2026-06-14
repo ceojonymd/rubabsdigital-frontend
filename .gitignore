@@ -7,3 +7,6 @@ output
 *.bak
 *.bak.*
 *.bak-demo
+
+*.bak.*
+*.fix-mobile.*
