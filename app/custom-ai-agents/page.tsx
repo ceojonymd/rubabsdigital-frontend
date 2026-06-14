@@ -64,7 +64,7 @@ That Actually Helps You Sell.</h1>
             We create custom AI assistants that answer questions, qualify prospects, guide bookings, and support your sales process without sounding like a generic chatbot.
           </p>
 
-          <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "flex-start" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
               <span style={{ color: "#00e5a0", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>24/7</span>

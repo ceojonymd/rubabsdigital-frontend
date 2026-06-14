@@ -69,7 +69,7 @@ Built to Bring Leads, Not Just Clicks.</h1>
             We build digital marketing systems around traffic, landing pages, remarketing, and follow-up — so your campaigns support real business growth instead of vanity metrics.
           </p>
 
-          <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "flex-start" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
               <span style={{ color: "#f472b6", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>Lead-first</span>
@@ -117,7 +117,7 @@ Built to Bring Leads, Not Just Clicks.</h1>
             boxShadow: "0 20px 60px rgba(0,0,0,0.18)"
           }}>
             <div style={{
-              display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem",
+              display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "1rem",
               gap: "1rem", flexWrap: "wrap"
             }}>
               <div>

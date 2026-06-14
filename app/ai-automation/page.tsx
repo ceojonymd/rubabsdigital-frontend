@@ -49,7 +49,7 @@ Your only job to Collect the Profit.</h1>
             color: "var(--color-text-muted)", maxWidth: "600px",
             lineHeight: 1.75, marginBottom: "2.5rem"
           }}>We build intelligent n8n automation workflows that eliminate repetitive tasks, reduce human error, and run your operations around the clock — so you focus on growth.</p>
-          <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "flex-start" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
               <span style={{ color: "#7c6fff", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>300+</span>

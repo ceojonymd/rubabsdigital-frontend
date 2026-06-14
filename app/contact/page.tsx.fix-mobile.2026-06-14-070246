@@ -54,7 +54,7 @@ export default function ContactPage() {
         }} />
         <div style={{ maxWidth: "960px", margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center" }}>
           <div style={{
-            display: "inline-flex", alignItems: "stretch", gap: "0.5rem",
+            display: "inline-flex", alignItems: "center", gap: "0.5rem",
             padding: "0.35rem 1rem", borderRadius: "999px",
             background: "var(--color-accent-dim)", border: "1px solid rgba(0,229,160,0.25)",
             fontSize: "0.8rem", fontWeight: 600, color: "var(--color-accent)", marginBottom: "1.5rem"
@@ -70,7 +70,7 @@ export default function ContactPage() {
       </section>
 
       <section style={{ padding: "3rem 1.5rem 6rem" }}>
-        <div style={{ maxWidth: "960px", margin: "0 auto", display: "grid", gridTemplateColumns: typeof window !== "undefined" && window.innerWidth < 900 ? "1fr" : "1fr 1.5fr", gap: "4rem" }}>
+        <div style={{ maxWidth: "960px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: "4rem" }}>
 
           {/* LEFT INFO */}
           <div>
@@ -84,7 +84,7 @@ export default function ContactPage() {
                 <div style={{
                   width: "42px", height: "42px", borderRadius: "var(--radius-md)", flexShrink: 0,
                   background: "var(--color-accent-dim)", border: "1px solid rgba(0,229,160,0.2)",
-                  display: "flex", alignItems: "stretch", justifyContent: "center", fontSize: "1.1rem"
+                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem"
                 }}>{item.icon}</div>
                 <div>
                   <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.25rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>{item.title}</div>
@@ -105,7 +105,7 @@ export default function ContactPage() {
                   { label: "Twitter", href: "https://twitter.com/rubabsdigital", icon: "🐦" },
                 ].map(s => (
                   <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{
-                    width: "40px", height: "40px", display: "flex", alignItems: "stretch", justifyContent: "center",
+                    width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center",
                     background: "var(--color-surface-offset)", border: "1px solid var(--color-border)",
                     borderRadius: "var(--radius-md)", fontSize: "1.1rem", transition: "all 180ms"
                   }}>{s.icon}</a>
@@ -170,7 +170,7 @@ export default function ContactPage() {
                   background: status === "loading" ? "var(--color-border)" : "var(--color-accent)",
                   color: "#0a1a12", borderRadius: "var(--radius-lg)", border: "none",
                   cursor: status === "loading" ? "not-allowed" : "pointer",
-                  transition: "all 180ms", display: "flex", alignItems: "stretch", justifyContent: "center", gap: "0.5rem"
+                  transition: "all 180ms", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem"
                 }}>
                   {status === "loading" ? "Sending..." : "Send Free Consultation Request →"}
                 </button>

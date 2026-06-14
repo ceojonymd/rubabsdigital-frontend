@@ -82,7 +82,7 @@ export default function HomePage() {
         }} />
         <div style={{ maxWidth: "1120px", margin: "0 auto", position: "relative", zIndex: 1 }}>
           <div style={{
-            display: "inline-flex", alignItems: "stretch", gap: "0.5rem",
+            display: "inline-flex", alignItems: "center", gap: "0.5rem",
             padding: "0.35rem 1rem", borderRadius: "999px",
             background: "color-mix(in srgb, #7c6fff 15%, transparent)",
             border: "1px solid #7c6fff40",
@@ -131,7 +131,7 @@ Built for Modern Service Businesses.
               href="/website-design"
               style={{
                 display: "inline-flex",
-                alignItems: "stretch",
+                alignItems: "center",
                 justifyContent: "center",
                 minHeight: "52px",
                 padding: "0 1.1rem",
@@ -223,7 +223,7 @@ Built for Modern Service Businesses.
           maxWidth: "1180px",
           margin: "0 auto",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+          gridTemplateColumns: "1.15fr 0.85fr",
           gap: "1.5rem",
           alignItems: "stretch"
         }}>
@@ -235,7 +235,7 @@ Built for Modern Service Businesses.
             boxShadow: "0 20px 60px rgba(0,0,0,0.18)"
           }}>
             <div style={{
-              display: "flex", justifyContent: "flex-start", alignItems: "stretch", marginBottom: "1rem",
+              display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "1rem",
               gap: "1rem", flexWrap: "wrap"
             }}>
               <div>
@@ -404,7 +404,7 @@ Built for Modern Service Businesses.
               href="/about"
               style={{
                 display: "inline-flex",
-                alignItems: "stretch",
+                alignItems: "center",
                 justifyContent: "center",
                 minHeight: "52px",
                 padding: "0 1.1rem",

@@ -69,7 +69,7 @@ Built to Earn Trust and Bring Enquiries.</h1>
             We design service-business websites that look premium, communicate clearly, and guide visitors toward enquiries, bookings, and real business conversations.
           </p>
 
-          <div style={{ display: "flex", gap: "2rem", alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem", alignItems: "flex-start" }}>
             <ConsultancyButton label="Get Free Consultation →" size="lg" />
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
               <span style={{ color: "#ffc857", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>1-page</span>
@@ -117,7 +117,7 @@ Built to Earn Trust and Bring Enquiries.</h1>
             boxShadow: "0 20px 60px rgba(0,0,0,0.18)"
           }}>
             <div style={{
-              display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem",
+              display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "1rem",
               gap: "1rem", flexWrap: "wrap"
             }}>
               <div>

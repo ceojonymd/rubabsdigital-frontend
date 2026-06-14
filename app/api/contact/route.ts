@@ -1,111 +1,162 @@
-import { NextRequest, NextResponse } from "next/server"
-import { Resend } from "resend"
-import { google } from "googleapis"
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
-async function appendToSheet(data: Record<string, string>) {
-  const clientEmail = process.env.GOOGLE_CLIENT_EMAIL
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY
-  const spreadsheetId = process.env.GOOGLE_SHEET_ID
-
-  if (!clientEmail || !privateKey || !spreadsheetId) return
-
-  const auth = new google.auth.GoogleAuth({
-    credentials: {
-      client_email: clientEmail,
-      private_key: privateKey.replace(/\\n/g, "\n"),
-    },
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-  })
-
-  const sheets = google.sheets({ version: "v4", auth })
-
-  const row = [
-    new Date().toLocaleString("en-BD", { timeZone: "Asia/Dhaka" }),
-    data.name,
-    data.email,
-    data.phone || "—",
-    data.service,
-    data.message,
-  ]
-
-  await sheets.spreadsheets.values.append({
-    spreadsheetId,
-    range: "Sheet1!A:F",
-    valueInputOption: "USER_ENTERED",
-    requestBody: { values: [row] },
-  })
+function escapeHtml(value: string) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const body = await req.json()
-    const { name, email, phone, service, message } = body
+    const { name, email, phone, service, message } = await req.json();
 
     if (!name || !email || !service || !message) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+      return NextResponse.json(
+        { error: "Missing required fields." },
+        { status: 400 }
+      );
     }
 
-    const resendApiKey = process.env.RESEND_API_KEY
-    const toEmail = process.env.CONTACT_TO_EMAIL || "rdceojony@gmail.com"
-    const fromEmail = process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev"
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const contactToEmail =
+      process.env.CONTACT_TO_EMAIL || "rdceojony@gmail.com";
+    const contactFromEmail =
+      process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
+    const contactAckFromEmail =
+      process.env.CONTACT_ACK_FROM_EMAIL || contactFromEmail;
 
     if (!resendApiKey) {
-      return NextResponse.json({ error: "RESEND_API_KEY is missing" }, { status: 500 })
+      return NextResponse.json(
+        { error: "RESEND_API_KEY is missing." },
+        { status: 500 }
+      );
     }
 
-    const resend = new Resend(resendApiKey)
-    const submittedAt = new Date().toLocaleString("en-BD", { timeZone: "Asia/Dhaka" })
+    const resend = new Resend(resendApiKey);
+    const submittedAt = new Date().toLocaleString("en-BD", {
+      timeZone: "Asia/Dhaka",
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
 
-    const resendResult = await resend.emails.send({
-      from: `Rubab's Digital <${fromEmail}>`,
-      to: [toEmail],
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safePhone = escapeHtml(phone || "Not provided");
+    const safeService = escapeHtml(service);
+    const safeMessage = escapeHtml(message).replace(/\n/g, "<br />");
+    const safeSubmittedAt = escapeHtml(submittedAt);
+
+    const adminEmail = await resend.emails.send({
+      from: `Rubab's Digital <${contactFromEmail}>`,
+      to: contactToEmail,
       reply_to: email,
-      subject: `[WEBSITE LEAD] ${service} — ${name}`,
-      text: `
-New Consultation Request
-
-Name: ${name}
-Email: ${email}
-Phone: ${phone || "Not provided"}
-Service: ${service}
-Message: ${message}
-
-Submitted at: ${submittedAt} (Bangladesh Time)
-      `.trim(),
+      subject: `Website Lead • ${service} • ${name}`,
       html: `
-        <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#111113;color:#f0eff4;padding:2rem;border-radius:12px;">
-          <h2 style="color:#7c6fff;margin-bottom:1.5rem;">New Consultation Request</h2>
-          <table style="width:100%;border-collapse:collapse;">
-            <tr><td style="padding:0.75rem 0;border-bottom:1px solid #2a2a35;color:#8e8da0;width:140px;">Name</td><td style="padding:0.75rem 0;border-bottom:1px solid #2a2a35;"><strong>${name}</strong></td></tr>
-            <tr><td style="padding:0.75rem 0;border-bottom:1px solid #2a2a35;color:#8e8da0;">Email</td><td style="padding:0.75rem 0;border-bottom:1px solid #2a2a35;"><a href="mailto:${email}" style="color:#7c6fff;">${email}</a></td></tr>
-            <tr><td style="padding:0.75rem 0;border-bottom:1px solid #2a2a35;color:#8e8da0;">Phone</td><td style="padding:0.75rem 0;border-bottom:1px solid #2a2a35;">${phone || "Not provided"}</td></tr>
-            <tr><td style="padding:0.75rem 0;border-bottom:1px solid #2a2a35;color:#8e8da0;">Service</td><td style="padding:0.75rem 0;border-bottom:1px solid #2a2a35;"><span style="background:#1e1c35;color:#7c6fff;padding:0.2rem 0.75rem;border-radius:999px;font-size:0.85rem;">${service}</span></td></tr>
-            <tr><td style="padding:0.75rem 0;color:#8e8da0;vertical-align:top;">Message</td><td style="padding:0.75rem 0;"><p style="margin:0;line-height:1.7;">${message}</p></td></tr>
-          </table>
-          <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid #2a2a35;color:#7d7b8f;font-size:0.8rem;">
-            Submitted at ${submittedAt} (Bangladesh Time)
+        <div style="margin:0;padding:24px;background:#f6f7fb;font-family:Arial,sans-serif;color:#172033;">
+          <div style="max-width:680px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:20px;overflow:hidden;">
+            <div style="padding:24px 20px;background:linear-gradient(135deg,#0f766e,#0b3b66);color:#fff;">
+              <p style="margin:0 0 8px 0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;">Rubab's Digital</p>
+              <h1 style="margin:0;font-size:28px;line-height:1.2;">New Consultation Request</h1>
+            </div>
+            <div style="padding:24px 20px;">
+              <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Name:</strong> ${safeName}</p>
+              <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Email:</strong> ${safeEmail}</p>
+              <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Phone:</strong> ${safePhone}</p>
+              <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Service:</strong> ${safeService}</p>
+              <p style="margin:0 0 18px 0;font-size:15px;line-height:1.7;"><strong>Submitted:</strong> ${safeSubmittedAt}</p>
+              <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:16px;">
+                <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Message:</strong></p>
+                <p style="margin:0;font-size:15px;line-height:1.8;">${safeMessage}</p>
+              </div>
+            </div>
           </div>
         </div>
       `,
-    })
+    });
 
-    if (resendResult.error) {
-      console.error("Resend error:", resendResult.error)
+    if (adminEmail.error) {
+      console.error("RESEND_ADMIN_ERROR:", adminEmail.error);
       return NextResponse.json(
-        { error: resendResult.error.message, resend: resendResult },
+        {
+          error: `Admin email failed: ${adminEmail.error.message || "Unknown Resend error"}`,
+          details: adminEmail.error,
+        },
         { status: 500 }
-      )
+      );
     }
 
-    try {
-      await appendToSheet({ name, email, phone: phone || "", service, message })
-    } catch (sheetError) {
-      console.error("Google Sheets append failed:", sheetError)
+    const ackEmail = await resend.emails.send({
+      from: `Rubab's Digital <${contactAckFromEmail}>`,
+      to: email,
+      reply_to: contactToEmail,
+      subject: "We received your consultation request",
+      html: `
+        <div style="margin:0;padding:24px;background:#f6f7fb;font-family:Arial,sans-serif;color:#172033;">
+          <div style="max-width:680px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:20px;overflow:hidden;">
+            <div style="padding:28px 20px 14px 20px;background:linear-gradient(135deg,#0f766e,#0b3b66);color:#ffffff;">
+              <p style="margin:0 0 8px 0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;">Rubab's Digital</p>
+              <h1 style="margin:0;font-size:28px;line-height:1.2;">Message Received</h1>
+            </div>
+            <div style="padding:24px 20px;">
+              <p style="margin:0 0 14px 0;font-size:16px;line-height:1.7;">Hi ${safeName},</p>
+              <p style="margin:0 0 14px 0;font-size:16px;line-height:1.7;">
+                Thanks for reaching out to Rubab's Digital. We received your consultation request successfully.
+              </p>
+              <p style="margin:0 0 18px 0;font-size:16px;line-height:1.7;">
+                We’ll review your request and contact you within <strong>2–6 hours</strong> with a clear plan.
+              </p>
+              <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin:0 0 18px 0;">
+                <p style="margin:0 0 8px 0;font-size:14px;color:#475467;"><strong>Your submission summary</strong></p>
+                <p style="margin:0 0 6px 0;font-size:14px;line-height:1.6;"><strong>Service:</strong> ${safeService}</p>
+                <p style="margin:0 0 6px 0;font-size:14px;line-height:1.6;"><strong>Email:</strong> ${safeEmail}</p>
+                <p style="margin:0 0 6px 0;font-size:14px;line-height:1.6;"><strong>Phone:</strong> ${safePhone}</p>
+                <p style="margin:0;font-size:14px;line-height:1.6;"><strong>Submitted:</strong> ${safeSubmittedAt}</p>
+              </div>
+              <p style="margin:0 0 14px 0;font-size:15px;line-height:1.7;color:#344054;">
+                If you want to add more details, just reply to this email.
+              </p>
+              <p style="margin:0;font-size:15px;line-height:1.7;">
+                Regards,<br />
+                Rubab's Digital
+              </p>
+            </div>
+          </div>
+        </div>
+      `,
+    });
+
+    if (ackEmail.error) {
+      console.error("RESEND_ACK_ERROR:", ackEmail.error);
+      return NextResponse.json(
+        {
+          error: `Acknowledgment email failed: ${ackEmail.error.message || "Unknown Resend error"}`,
+          details: ackEmail.error,
+        },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ success: true, resend: resendResult })
-  } catch (err) {
-    console.error("Contact API error:", err)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    return NextResponse.json({
+      ok: true,
+      message:
+        "Message received. We'll review your request and contact you within 2–6 hours.",
+      adminEmailId: adminEmail.data?.id || null,
+      ackEmailId: ackEmail.data?.id || null,
+    });
+  } catch (error) {
+    console.error("CONTACT_ROUTE_FATAL_ERROR:", error);
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+      },
+      { status: 500 }
+    );
   }
 }
