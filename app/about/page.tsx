@@ -29,20 +29,75 @@ export default function AboutPage() {
 
           <div
             style={{
-              background: "var(--color-surface)",
-              border: "1px solid var(--color-border)",
-              borderRadius: "var(--radius-xl)",
-              padding: "1.3rem",
+              display: "grid",
+              gridTemplateColumns: "1.05fr 0.95fr",
+              gap: "1rem",
               marginBottom: "1.5rem",
             }}
           >
-            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.6rem" }}>Founder note</div>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.7rem, 1rem + 1.5vw, 2.6rem)", lineHeight: 1.1, marginBottom: "0.8rem" }}>
-              We care about how a business is understood before it is contacted.
-            </h2>
-            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.85, maxWidth: "860px" }}>
-              That is why our work focuses on clearer messaging, stronger trust signals, and more connected systems. A better website should not only look refined; it should also support the way a business communicates, qualifies opportunities, and moves toward growth with less friction.
-            </p>
+            <div
+              style={{
+                background: "var(--color-surface)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-xl)",
+                padding: "1.3rem",
+              }}
+            >
+              <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.6rem" }}>Founder bio</div>
+              <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.7rem, 1rem + 1.5vw, 2.6rem)", lineHeight: 1.1, marginBottom: "0.8rem" }}>
+                Strategy-minded, systems-aware, and focused on how businesses are understood online.
+              </h2>
+              <p style={{ color: "var(--color-text-muted)", lineHeight: 1.85, maxWidth: "860px", marginBottom: "0.9rem" }}>
+                The founder behind Rubab&apos;s Digital approaches websites as business assets, not decorative pages. The work is shaped around positioning clarity, stronger trust, better next-step logic, and a practical understanding of how design, automation, and lead systems connect.
+              </p>
+              <p style={{ color: "var(--color-text-muted)", lineHeight: 1.85, maxWidth: "860px" }}>
+                That means each project is treated with a consultative mindset: how the service is perceived, where friction is happening, what the visitor needs to trust, and what operational improvements can make the business more effective after the first enquiry.
+              </p>
+            </div>
+
+            <div
+              style={{
+                background: "var(--color-surface)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-xl)",
+                padding: "1rem",
+              }}
+            >
+              <div
+                style={{
+                  height: "100%",
+                  minHeight: "280px",
+                  borderRadius: "calc(var(--radius-xl) - 0.35rem)",
+                  background: "linear-gradient(180deg, rgba(0,229,160,0.14), rgba(255,255,255,0.03))",
+                  border: "1px solid rgba(0,229,160,0.18)",
+                  padding: "1rem",
+                  display: "grid",
+                  gap: "0.7rem",
+                  alignContent: "start",
+                }}
+              >
+                <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem" }}>Founder principles</div>
+                {[
+                  "Positioning before polish",
+                  "Trust before traffic waste",
+                  "Clarity before complexity",
+                  "Systems before scattered tools",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    style={{
+                      padding: "0.85rem 0.95rem",
+                      borderRadius: "0.95rem",
+                      background: "rgba(255,255,255,0.05)",
+                      color: "var(--color-text)",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.9rem" }}>
@@ -75,7 +130,7 @@ export default function AboutPage() {
                 background: "var(--color-surface)",
               }}
             >
-              Contact Us
+              Start a Conversation
             </Link>
           </div>
         </div>

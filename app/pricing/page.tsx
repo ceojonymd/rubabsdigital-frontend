@@ -17,6 +17,8 @@ const packages = [
       "Trust-focused structure for service businesses",
       "Basic enquiry improvement recommendations",
     ],
+    cta: "Best if you need a cleaner, more credible first step.",
+    button: "Choose Starter Presence →",
   },
   {
     name: "Growth System",
@@ -29,6 +31,8 @@ const packages = [
       "Automation planning for lead handling or follow-up",
       "Positioning support for clearer conversion paths",
     ],
+    cta: "Best if you need stronger conversion thinking across the journey.",
+    button: "Choose Growth System →",
   },
   {
     name: "Enterprise Direction",
@@ -41,15 +45,9 @@ const packages = [
       "Lead management and response system thinking",
       "Priority attention for larger business needs",
     ],
+    cta: "Best if your business needs deeper operational and strategic support.",
+    button: "Choose Enterprise Direction →",
   },
-];
-
-const comparison = [
-  ["Consultative page direction", "Yes", "Yes", "Yes"],
-  ["Landing page or website structure", "Focused", "Advanced", "Custom"],
-  ["Lead-flow improvement", "Basic", "Strong", "Deep"],
-  ["Automation planning", "Light", "Included", "Priority"],
-  ["Best fit", "Smaller service businesses", "Growing teams", "Enterprise and complex operations"],
 ];
 
 export default function PricingPage() {
@@ -71,12 +69,12 @@ export default function PricingPage() {
             <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Better-Fit Engagements.</span>
           </h1>
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
-            These packages are meant to help businesses quickly understand the level of direction, support, and system thinking that fits their current stage.
+            These packages are designed to help businesses quickly understand what level of direction, support, and systems thinking fits their current stage.
           </p>
         </div>
       </section>
 
-      <section style={{ padding: "0 1.5rem 3rem" }}>
+      <section style={{ padding: "0 1.5rem 5rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
           {packages.map((pkg) => (
             <div
@@ -129,6 +127,21 @@ export default function PricingPage() {
                 ))}
               </div>
 
+              <div
+                style={{
+                  padding: "0.85rem 0.95rem",
+                  borderRadius: "0.95rem",
+                  background: "linear-gradient(180deg, rgba(0,229,160,0.10), rgba(0,229,160,0.03))",
+                  border: "1px solid rgba(0,229,160,0.14)",
+                  color: "var(--color-text)",
+                  lineHeight: 1.7,
+                  fontWeight: 600,
+                  marginBottom: "1rem",
+                }}
+              >
+                {pkg.cta}
+              </div>
+
               <Link
                 href="/contact"
                 style={{
@@ -142,124 +155,10 @@ export default function PricingPage() {
                   textDecoration: "none",
                 }}
               >
-                Discuss This Package →
+                {pkg.button}
               </Link>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section style={{ padding: "0 1.5rem 4rem" }}>
-        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
-          <div style={{ marginBottom: "1rem" }}>
-            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>Package comparison</div>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 3rem)", lineHeight: 1.08 }}>
-              A faster way to see the difference.
-            </h2>
-          </div>
-
-          <div
-            style={{
-              overflowX: "auto",
-              background: "var(--color-surface)",
-              border: "1px solid var(--color-border)",
-              borderRadius: "var(--radius-xl)",
-            }}
-          >
-            <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "720px" }}>
-              <thead>
-                <tr>
-                  {["Feature", "Starter Presence", "Growth System", "Enterprise Direction"].map((head) => (
-                    <th
-                      key={head}
-                      style={{
-                        textAlign: "left",
-                        padding: "1rem",
-                        borderBottom: "1px solid var(--color-border)",
-                        color: "var(--color-text)",
-                        fontWeight: 700,
-                        background: "rgba(255,255,255,0.02)",
-                      }}
-                    >
-                      {head}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {comparison.map((row) => (
-                  <tr key={row[0]}>
-                    {row.map((cell, index) => (
-                      <td
-                        key={cell + index}
-                        style={{
-                          padding: "1rem",
-                          borderBottom: "1px solid rgba(255,255,255,0.05)",
-                          color: index === 0 ? "var(--color-text)" : "var(--color-text-muted)",
-                          fontWeight: index === 0 ? 700 : 500,
-                          lineHeight: 1.7,
-                        }}
-                      >
-                        {cell}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section style={{ padding: "0 1.5rem 6rem" }}>
-        <div
-          style={{
-            maxWidth: "1120px",
-            margin: "0 auto",
-            background: "linear-gradient(180deg, rgba(0,229,160,0.10), rgba(0,229,160,0.04))",
-            border: "1px solid rgba(0,229,160,0.18)",
-            borderRadius: "var(--radius-xl)",
-            padding: "2rem",
-          }}
-        >
-          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.65rem" }}>
-            Not sure which package fits?
-          </div>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.9rem, 1rem + 2vw, 3rem)",
-              lineHeight: 1.08,
-              marginBottom: "0.8rem",
-            }}
-          >
-            We can recommend the right level after a short conversation.
-          </h2>
-          <p
-            style={{
-              color: "var(--color-text-muted)",
-              lineHeight: 1.8,
-              maxWidth: "760px",
-              marginBottom: "1.2rem",
-            }}
-          >
-            If your needs sit somewhere between design, automation, and lead handling, we can guide you toward the package that makes the most practical sense.
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "0.9rem 1.2rem",
-              borderRadius: "var(--radius-lg)",
-              background: "var(--color-accent)",
-              color: "#09140f",
-              fontWeight: 700,
-              textDecoration: "none",
-            }}
-          >
-            Get a Recommendation →
-          </Link>
         </div>
       </section>
     </main>

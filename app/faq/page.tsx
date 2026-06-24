@@ -1,60 +1,149 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "FAQ | Rubab's Digital",
-  description: "Frequently asked questions about working with Rubab's Digital.",
+  description: "Frequently asked questions about websites, automation, pricing, and project fit.",
 };
 
-const section = { padding: "6rem 1.5rem" } as React.CSSProperties;
-const container = { maxWidth: "920px", margin: "0 auto" } as React.CSSProperties;
-const card = {
-  background: "var(--color-surface)",
-  border: "1px solid var(--color-border)",
-  borderRadius: "var(--radius-xl)",
-  padding: "1.75rem",
-  marginBottom: "1rem",
-} as React.CSSProperties;
-const h1 = {
-  fontFamily: "var(--font-display)",
-  fontSize: "clamp(2.4rem, 1rem + 4vw, 4.75rem)",
-  lineHeight: 1.08,
-  letterSpacing: "-0.02em",
-  marginBottom: "1rem",
-} as React.CSSProperties;
-const q = { fontFamily: "var(--font-display)", fontSize: "1.35rem", marginBottom: "0.65rem", lineHeight: 1.15 } as React.CSSProperties;
-const p = { color: "var(--color-text-muted)", fontSize: "1rem", lineHeight: 1.75 } as React.CSSProperties;
-
 const faqs = [
-  ["What kind of businesses do you work with?", "We mainly focus on service businesses such as clinics, consultants, law firms, real estate agents, salons, and other modern local or professional brands."],
-  ["Do you only build websites?", "No. We also help with AI automation, custom AI systems, lead handling workflows, landing pages, and growth support connected to the website."],
-  ["Can you redesign an existing site?", "Yes. We can improve design, messaging, structure, speed, and conversion flow while keeping the parts of your business that already work."],
-  ["Do you provide ongoing support?", "Yes. Depending on the engagement, we can offer support, improvements, updates, and growth-focused iteration after launch."],
-  ["How do projects usually start?", "Most projects start with a consultation, then a proposal or scope outline, followed by onboarding, asset collection, and production."],
-  ["Do you guarantee leads or rankings?", "No agency can honestly guarantee exact business outcomes. We focus on building strong systems, better conversion paths, and practical growth foundations."],
+  {
+    q: "Will a redesign only improve appearance, or can it improve lead quality too?",
+    a: "A strong redesign should do more than improve aesthetics. It should make the offer clearer, strengthen trust, reduce friction, and guide better-fit visitors toward a more confident enquiry.",
+  },
+  {
+    q: "Do you only design websites, or can you also help with automation and lead flow?",
+    a: "Rubab's Digital is positioned around connected business direction. That means the website can be shaped alongside automation thinking, lead handling, contact flow, and practical growth support where needed.",
+  },
+  {
+    q: "Who is this best for?",
+    a: "The strongest fit is usually service businesses that need a more credible digital presence, clearer positioning, and a better path from website visit to real business conversation.",
+  },
+  {
+    q: "What if I do not know which package is right for me?",
+    a: "That is normal. The packages are there to help frame scope, but the final recommendation depends on your business goals, the quality of your current website, and how much operational support you need.",
+  },
+  {
+    q: "Can this work for smaller teams, or only larger companies?",
+    a: "It can work for both. Some businesses only need sharper messaging and a clearer website structure, while others need a broader system that connects design, automation, and lead handling.",
+  },
+  {
+    q: "How do projects usually begin?",
+    a: "Most projects begin with a short consultation where the current website, business goals, offer clarity, and likely next steps are reviewed first.",
+  },
 ];
 
 export default function FAQPage() {
   return (
     <main style={{ paddingTop: "80px" }}>
-      <section style={{ ...section, paddingBottom: "2.5rem", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "-20%", left: "50%", transform: "translateX(-50%)", width: "820px", height: "420px", background: "radial-gradient(ellipse, rgba(0,229,160,0.12) 0%, transparent 72%)", pointerEvents: "none" }} />
-        <div style={{ ...container, position: "relative", zIndex: 1 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "0.4rem 1rem", borderRadius: "999px", background: "var(--color-accent-dim)", border: "1px solid rgba(0,229,160,0.22)", color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem", marginBottom: "1.25rem" }}>
-            ❓ FAQ
-          </div>
-          <h1 style={h1}>Good Questions,<br /><span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Straight Answers.</span></h1>
-          <p style={{ ...p, maxWidth: "720px", fontSize: "1.08rem" }}>
-            A few common questions clients ask before starting a website, automation, or growth project with Rubab&apos;s Digital.
+      <section style={{ padding: "6rem 1.5rem 2.5rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.7rem" }}>FAQ</div>
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2.5rem, 1rem + 4vw, 4.8rem)",
+              lineHeight: 1.05,
+              marginBottom: "1rem",
+            }}
+          >
+            Answers for Businesses
+            <br />
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Thinking Seriously About Improvement.</span>
+          </h1>
+          <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
+            These questions are written to address the most common objections, uncertainties, and fit questions buyers often have before starting a conversation.
           </p>
         </div>
       </section>
 
-      <section style={{ padding: "1rem 1.5rem 6rem" }}>
-        <div style={container}>
-          {faqs.map(([question, answer]) => (
-            <div key={question} style={card}>
-              <div style={q}>{question}</div>
-              <p style={p}>{answer}</p>
+      <section style={{ padding: "0 1.5rem 5rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto", display: "grid", gap: "1rem" }}>
+          {faqs.map((item) => (
+            <div
+              key={item.q}
+              style={{
+                background: "var(--color-surface)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-xl)",
+                padding: "1.2rem",
+              }}
+            >
+              <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.45rem", lineHeight: 1.18, marginBottom: "0.75rem" }}>
+                {item.q}
+              </h2>
+              <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "860px" }}>{item.a}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section style={{ padding: "0 1.5rem 6rem" }}>
+        <div
+          style={{
+            maxWidth: "1120px",
+            margin: "0 auto",
+            background: "linear-gradient(180deg, rgba(0,229,160,0.10), rgba(0,229,160,0.04))",
+            border: "1px solid rgba(0,229,160,0.18)",
+            borderRadius: "var(--radius-xl)",
+            padding: "2rem",
+          }}
+        >
+          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.65rem" }}>
+            Still deciding?
+          </div>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.9rem, 1rem + 2vw, 3rem)",
+              lineHeight: 1.08,
+              marginBottom: "0.8rem",
+            }}
+          >
+            We can help you decide what makes the most sense for your business.
+          </h2>
+          <p
+            style={{
+              color: "var(--color-text-muted)",
+              lineHeight: 1.8,
+              maxWidth: "760px",
+              marginBottom: "1.2rem",
+            }}
+          >
+            If you are comparing redesign, landing page improvement, automation, or a broader package, the right path usually becomes clear after a short consultation.
+          </p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.9rem" }}>
+            <Link
+              href="/contact"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "0.9rem 1.2rem",
+                borderRadius: "var(--radius-lg)",
+                background: "var(--color-accent)",
+                color: "#09140f",
+                fontWeight: 700,
+                textDecoration: "none",
+              }}
+            >
+              Ask About Your Project →
+            </Link>
+            <Link
+              href="/pricing"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "0.9rem 1.2rem",
+                borderRadius: "var(--radius-lg)",
+                border: "1px solid var(--color-border)",
+                color: "var(--color-text)",
+                fontWeight: 700,
+                textDecoration: "none",
+                background: "var(--color-surface)",
+              }}
+            >
+              Review Packages →
+            </Link>
+          </div>
         </div>
       </section>
     </main>
