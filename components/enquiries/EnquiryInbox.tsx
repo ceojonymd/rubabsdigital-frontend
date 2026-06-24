@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import LogoutButton from "@/components/enquiries/LogoutButton";
+import EnquiryFilters from "@/components/enquiries/EnquiryFilters";
 
 type EnquiryItem = {
   file: string;
@@ -14,6 +16,7 @@ type EnquiryItem = {
   priority: string;
   inboxStatus: string;
   receivedAt: string;
+  note: string;
 };
 
 const statusOptions = ["new", "contacted", "qualified", "closed"] as const;
@@ -42,13 +45,37 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
     }
   }
 
+  async function saveNote(file: string, note: string) {
+    setBusy(`${file}:note`);
+    try {
+      const res = await fetch("/api/enquiries/note", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ file, note }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data?.ok) throw new Error(data?.error || "Note save failed.");
+
+      setRows((prev) => prev.map((item) => (item.file === file ? { ...item, note } : item)));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Note save failed.");
+    } finally {
+      setBusy("");
+    }
+  }
+
   return (
     <main style={{ paddingTop: "80px", paddingBottom: "80px" }}>
       <section style={{ padding: "5rem 1.5rem 2rem" }}>
         <div style={{ maxWidth: "1160px", margin: "0 auto" }}>
-          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.65rem" }}>
-            Enquiry Ops
+          <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", alignItems: "center", flexWrap: "wrap", marginBottom: "0.65rem" }}>
+            <div style={{ color: "var(--color-accent)", fontWeight: 700 }}>
+              Enquiry Ops
+            </div>
+            <LogoutButton />
           </div>
+
           <h1
             style={{
               fontFamily: "var(--font-display)",
@@ -57,13 +84,16 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
               marginBottom: "1rem",
             }}
           >
-            Secure Enquiry
+            Lead Desk
             <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Management Desk.</span>
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Usability Layer.</span>
           </h1>
-          <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
-            Review fallback enquiries, update follow-up status, and keep the lead desk more organized.
+
+          <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px", marginBottom: "1rem" }}>
+            Search enquiries, update lead status, save short notes, and keep follow-up work organized.
           </p>
+
+          <EnquiryFilters />
         </div>
       </section>
 
@@ -79,7 +109,7 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
                 color: "var(--color-text-muted)",
               }}
             >
-              No local fallback enquiries found yet.
+              No enquiries match the current filter.
             </div>
           ) : (
             rows.map((item) => (
@@ -128,6 +158,26 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
                       {busy === `${item.file}:${status}` ? "Updating..." : status}
                     </button>
                   ))}
+                </div>
+
+                <div style={{ marginBottom: "0.85rem" }}>
+                  <textarea
+                    defaultValue={item.note}
+                    placeholder="Add a short internal note..."
+                    rows={4}
+                    onBlur={(e) => {
+                      if (e.target.value !== item.note) saveNote(item.file, e.target.value);
+                    }}
+                    style={{
+                      width: "100%",
+                      padding: "0.9rem 1rem",
+                      borderRadius: "1rem",
+                      border: "1px solid var(--color-border)",
+                      background: "rgba(255,255,255,0.03)",
+                      color: "var(--color-text)",
+                      resize: "vertical",
+                    }}
+                  />
                 </div>
 
                 <div style={{ color: "var(--color-text-muted)", fontSize: "0.95rem" }}>

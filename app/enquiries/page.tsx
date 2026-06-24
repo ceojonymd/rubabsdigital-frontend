@@ -23,21 +23,24 @@ type StoredRecord = {
   ops?: {
     priority?: string;
     inboxStatus?: string;
+    note?: string;
   };
   meta?: {
     receivedAt?: string;
   };
 };
 
-async function getItems() {
+async function getItems(searchParams?: { q?: string; status?: string }) {
   const dir = path.join(process.cwd(), "data", "enquiries");
+  const q = (searchParams?.q || "").trim().toLowerCase();
+  const status = (searchParams?.status || "").trim().toLowerCase();
 
   try {
     const files = (await fs.readdir(dir))
       .filter((name) => name.endsWith(".json"))
       .sort()
       .reverse()
-      .slice(0, 50);
+      .slice(0, 100);
 
     const rows = await Promise.all(
       files.map(async (file) => {
@@ -55,23 +58,48 @@ async function getItems() {
           timeline: parsed.contact?.timeline || "Not specified",
           priority: parsed.ops?.priority || "normal",
           inboxStatus: parsed.ops?.inboxStatus || "new",
+          note: parsed.ops?.note || "",
           receivedAt: parsed.meta?.receivedAt || file.replace("enquiry-", "").replace(".json", ""),
         };
       })
     );
 
-    return rows;
+    return rows.filter((item) => {
+      const matchesQ =
+        !q ||
+        [
+          item.subject,
+          item.businessName,
+          item.email,
+          item.service,
+          item.packageDirection,
+          item.budget,
+          item.timeline,
+          item.note,
+        ]
+          .join(" ")
+          .toLowerCase()
+          .includes(q);
+
+      const matchesStatus = !status || status === "all" || item.inboxStatus.toLowerCase() === status;
+
+      return matchesQ && matchesStatus;
+    });
   } catch {
     return [];
   }
 }
 
-export default async function EnquiriesPage() {
+export default async function EnquiriesPage({
+  searchParams,
+}: {
+  searchParams?: { q?: string; status?: string };
+}) {
   const token = cookies().get(getAdminCookieName())?.value;
   if (!verifyAdminValue(token)) {
     redirect("/admin-login?next=/enquiries");
   }
 
-  const items = await getItems();
+  const items = await getItems(searchParams);
   return <EnquiryInbox items={items} />;
 }
