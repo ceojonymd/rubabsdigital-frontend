@@ -66,6 +66,24 @@ export default function EnquiryToolbar() {
         </a>
 
         <a
+          href="/enquiries/analytics"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0.78rem 1rem",
+            borderRadius: "999px",
+            border: "1px solid rgba(0,229,160,0.24)",
+            background: "var(--color-accent-dim)",
+            color: "var(--color-accent)",
+            fontWeight: 700,
+            textDecoration: "none",
+          }}
+        >
+          Analytics Dashboard
+        </a>
+
+        <a
           href="/ops/rubabs-digital-live-activation.md"
           target="_blank"
           rel="noopener noreferrer"

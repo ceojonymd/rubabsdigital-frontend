@@ -5,6 +5,7 @@ import { getAdminCookieName, verifyAdminValue } from "@/lib/admin-auth";
 import { readDeliveryLogs, readEnquiryByFile } from "@/lib/enquiry-store";
 import LogoutButton from "@/components/enquiries/LogoutButton";
 import TestDeliveryButton from "@/components/enquiries/TestDeliveryButton";
+import RetryDeliveryButton from "@/components/enquiries/RetryDeliveryButton";
 
 export default async function EnquiryDetailPage({
   params,
@@ -43,7 +44,7 @@ export default async function EnquiryDetailPage({
           </h1>
 
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px", marginBottom: "1rem" }}>
-            Review full lead context, run test delivery, and inspect webhook response history.
+            Review full lead context, run test delivery, retry failures, and inspect webhook response history.
           </p>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.8rem", marginBottom: "1.2rem" }}>
@@ -54,7 +55,7 @@ export default async function EnquiryDetailPage({
             <InfoCard label="Status" value={enquiry.ops?.inboxStatus || "new"} />
             <InfoCard label="Priority" value={enquiry.ops?.priority || "normal"} />
             <InfoCard label="Last Delivery" value={enquiry.delivery?.lastStatus || "not-tested"} />
-            <InfoCard label="Updated" value={enquiry.delivery?.lastUpdatedAt || "—"} />
+            <InfoCard label="Retry Count" value={String(enquiry.delivery?.retryCount || 0)} />
           </div>
 
           <div
@@ -81,8 +82,11 @@ export default async function EnquiryDetailPage({
               marginBottom: "1rem",
             }}
           >
-            <div style={{ fontWeight: 700, marginBottom: "0.8rem" }}>Test Delivery</div>
-            <TestDeliveryButton file={file} />
+            <div style={{ fontWeight: 700, marginBottom: "0.8rem" }}>Delivery Actions</div>
+            <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap" }}>
+              <TestDeliveryButton file={file} />
+              <RetryDeliveryButton file={file} />
+            </div>
           </div>
 
           <div
@@ -110,10 +114,10 @@ export default async function EnquiryDetailPage({
                     }}
                   >
                     <div style={{ color: "var(--color-text)", fontWeight: 700, marginBottom: "0.35rem" }}>
-                      {String(log.status || "unknown")} · {String(log.mode || "dry-run")}
+                      {String(log.status || "unknown")} · {String(log.mode || log.action || "delivery")}
                     </div>
                     <div style={{ color: "var(--color-text-muted)", marginBottom: "0.45rem" }}>
-                      {String(log.testedAt || "")}
+                      {String(log.testedAt || log.retriedAt || "")}
                     </div>
                     <pre
                       style={{

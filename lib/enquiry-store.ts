@@ -82,7 +82,7 @@ export async function appendDeliveryLog(file: string, entry: Record<string, unkn
   } catch {}
 
   logs.unshift(entry);
-  await fs.writeFile(out, JSON.stringify(logs.slice(0, 50), null, 2), "utf8");
+  await fs.writeFile(out, JSON.stringify(logs.slice(0, 100), null, 2), "utf8");
 }
 
 export async function readDeliveryLogs(file: string) {
@@ -94,4 +94,75 @@ export async function readDeliveryLogs(file: string) {
   } catch {
     return [];
   }
+}
+
+export async function getAnalyticsSummary() {
+  const rows = await readEnquiryRows();
+
+  const summary = {
+    total: rows.length,
+    newCount: rows.filter((r) => r.inboxStatus === "new").length,
+    qualifiedCount: rows.filter((r) => r.inboxStatus === "qualified").length,
+    highPriorityCount: rows.filter((r) => r.priority === "high").length,
+    sentCount: rows.filter((r) => r.deliveryStatus === "sent").length,
+    failedCount: rows.filter((r) => r.deliveryStatus === "failed").length,
+    configMissingCount: rows.filter((r) => r.deliveryStatus === "config-missing").length,
+    dryRunCount: rows.filter((r) => r.deliveryStatus === "dry-run").length,
+    notTestedCount: rows.filter((r) => r.deliveryStatus === "not-tested").length,
+  };
+
+  const statusBuckets = ["new", "contacted", "qualified", "closed"].map((key) => ({
+    label: key,
+    value: rows.filter((r) => r.inboxStatus === key).length,
+  }));
+
+  const deliveryBuckets = ["sent", "failed", "config-missing", "dry-run", "not-tested"].map((key) => ({
+    label: key,
+    value: rows.filter((r) => r.deliveryStatus === key).length,
+  }));
+
+  const serviceMap = new Map<string, number>();
+  for (const row of rows) {
+    const key = row.service || "Not specified";
+    serviceMap.set(key, (serviceMap.get(key) || 0) + 1);
+  }
+
+  const topServices = Array.from(serviceMap.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([label, value]) => ({ label, value }));
+
+  const volumeMap = new Map<string, number>();
+  for (const row of rows) {
+    const day = String(row.receivedAt || "").slice(0, 10) || "unknown";
+    volumeMap.set(day, (volumeMap.get(day) || 0) + 1);
+  }
+
+  const volumeTrend = Array.from(volumeMap.entries())
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .slice(-14)
+    .map(([label, value]) => ({ label, value }));
+
+  const failures = rows
+    .filter((r) => r.deliveryStatus === "failed" || r.deliveryStatus === "config-missing")
+    .map((r) => ({
+      file: r.file,
+      subject: r.subject,
+      businessName: r.businessName,
+      email: r.email,
+      deliveryStatus: r.deliveryStatus,
+      deliveryUpdatedAt: r.deliveryUpdatedAt,
+      deliveryMessage: r.deliveryMessage,
+    }));
+
+  return {
+    summary,
+    charts: {
+      statusBuckets,
+      deliveryBuckets,
+      topServices,
+      volumeTrend,
+    },
+    failures,
+  };
 }
