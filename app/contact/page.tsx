@@ -78,7 +78,56 @@ export default function ContactPage() {
             {[
               { icon: "📍", title: "Our Office", val: "H# 859-17, Sohid Mosiur Rahman Sarak, Puraton Kashba, Jashore, Bangladesh" },
               { icon: "✉️", title: "Email", val: "mail@rubabsdigital.com", href: "mailto:mail@rubabsdigital.com" },
-              { icon: "🕐", title: "Response Time", val: "Usually within 2–6 hours. 24/7 for enterprise clients." },
+              {
+                icon: "🕐",
+                title: "Response Time",
+                val: (
+                  <div style={{ display: "grid", gap: "0.4rem" }}>
+                    <div
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "fit-content",
+                        padding: "0.32rem 0.72rem",
+                        borderRadius: "999px",
+                        background: "rgba(0, 229, 160, 0.12)",
+                        border: "1px solid rgba(0, 229, 160, 0.28)",
+                        color: "var(--color-accent)",
+                        fontSize: "0.78rem",
+                        fontWeight: 700,
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        boxShadow: "0 0 0 1px rgba(0, 229, 160, 0.04) inset",
+                      }}
+                    >
+                      24/7
+                    </div>
+
+                    <div
+                      style={{
+                        color: "var(--color-text)",
+                        fontSize: "0.95rem",
+                        fontWeight: 600,
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      For enterprise clients
+                    </div>
+
+                    <div
+                      style={{
+                        color: "var(--color-text-muted)",
+                        fontSize: "0.82rem",
+                        lineHeight: 1.6,
+                        maxWidth: "28ch",
+                      }}
+                    >
+                      Priority support with dedicated attention for urgent business needs.
+                    </div>
+                  </div>
+                ),
+              },
             ].map(item => (
               <div key={item.title} style={{ marginBottom: "1.75rem", display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                 <div style={{
