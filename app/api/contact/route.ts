@@ -86,6 +86,18 @@ export async function POST(req: Request) {
       clean.details,
     ].join("\n");
 
+    const telegramText = [
+      "📩 Rubab's Digital Enquiry",
+      `Business: ${clean.businessName}`,
+      `Email: ${clean.email}`,
+      `Service: ${clean.service}`,
+      `Package: ${clean.packageDirection}`,
+      `Budget: ${clean.budget}`,
+      `Timeline: ${clean.timeline}`,
+      `Project: ${clean.projectType}`,
+      `Page: ${clean.page}`,
+    ].join("\n");
+
     const htmlMessage = `
       <h2>${escapeHtml(structuredSubject)}</h2>
       <p><strong>Source:</strong> ${escapeHtml(clean.source)}</p>
@@ -103,13 +115,24 @@ export async function POST(req: Request) {
       <p>${escapeHtml(clean.details).replaceAll("\n", "<br />")}</p>
     `.trim();
 
-    const handoffPayload = {
+    const opsRecord = {
       ok: true,
       type: "rubabs_digital_contact_enquiry",
       subject: structuredSubject,
       text: structuredText,
       html: htmlMessage,
+      telegramText,
       contact: clean,
+      ops: {
+        inboxStatus: "new",
+        priority:
+          clean.packageDirection === "Enterprise Direction" || clean.budget === "$7,000+"
+            ? "high"
+            : clean.budget === "$3,000–$7,000"
+            ? "medium"
+            : "normal",
+        channelTargets: ["n8n", "email", "telegram", "local_inbox"],
+      },
       meta: {
         receivedAt: new Date().toISOString(),
         site: "Rubab's Digital",
@@ -139,7 +162,7 @@ export async function POST(req: Request) {
             "Content-Type": "application/json",
             ...(webhookToken ? { Authorization: `Bearer ${webhookToken}` } : {}),
           },
-          body: JSON.stringify(handoffPayload),
+          body: JSON.stringify(opsRecord),
           cache: "no-store",
         });
 
@@ -160,10 +183,10 @@ export async function POST(req: Request) {
         handoff.delivered = false;
         handoff.status = 502;
         handoff.response = err instanceof Error ? err.message : "Webhook handoff failed";
-        handoff.fallbackFile = await persistFallback(handoffPayload);
+        handoff.fallbackFile = await persistFallback(opsRecord);
       }
     } else {
-      handoff.fallbackFile = await persistFallback(handoffPayload);
+      handoff.fallbackFile = await persistFallback(opsRecord);
     }
 
     return NextResponse.json({
@@ -171,6 +194,7 @@ export async function POST(req: Request) {
       message: "Your enquiry has been received. We will review it and get back to you shortly.",
       subject: structuredSubject,
       handoff,
+      ops: opsRecord.ops,
     });
   } catch {
     return NextResponse.json(
