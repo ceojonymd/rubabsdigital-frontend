@@ -134,6 +134,27 @@ function inDateRange(dateValue: string, from?: string, to?: string) {
   return true;
 }
 
+export function classifyRecoveryState(message: string, attemptCount: number, maxRetries = 5) {
+  const text = String(message || "").toLowerCase();
+
+  if (
+    text.includes("403") ||
+    text.includes("404") ||
+    text.includes("not found") ||
+    text.includes("invalid") ||
+    text.includes("unauthorized") ||
+    text.includes("forbidden")
+  ) {
+    return "dead-letter";
+  }
+
+  if (attemptCount >= maxRetries) {
+    return "dead-letter";
+  }
+
+  return "pending-retry";
+}
+
 export async function getAnalyticsSummary(from?: string, to?: string) {
   const rows = (await readEnquiryRows()).filter((row) => inDateRange(row.receivedAt, from, to));
 
@@ -219,25 +240,4 @@ export async function getAnalyticsSummary(from?: string, to?: string) {
       return inDateRange(at, from, to);
     }).slice(0, 50),
   };
-}
-
-export function classifyRecoveryState(message: string, attemptCount: number, maxRetries = 5) {
-  const text = String(message || "").toLowerCase();
-
-  if (
-    text.includes("403") ||
-    text.includes("404") ||
-    text.includes("not found") ||
-    text.includes("invalid") ||
-    text.includes("unauthorized") ||
-    text.includes("forbidden")
-  ) {
-    return "dead-letter";
-  }
-
-  if (attemptCount >= maxRetries) {
-    return "dead-letter";
-  }
-
-  return "pending-retry";
 }

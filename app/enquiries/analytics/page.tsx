@@ -8,6 +8,8 @@ import AnalyticsCharts from "@/components/enquiries/AnalyticsCharts";
 import RetryDeliveryButton from "@/components/enquiries/RetryDeliveryButton";
 import RunRetryWorkerButton from "@/components/enquiries/RunRetryWorkerButton";
 import AnalyticsFilters from "@/components/enquiries/AnalyticsFilters";
+import ReplayDlqButton from "@/components/enquiries/ReplayDlqButton";
+import AnalyticsExportButtons from "@/components/enquiries/AnalyticsExportButtons";
 
 export const metadata = {
   title: "Enquiry Analytics | Rubab's Digital",
@@ -47,19 +49,20 @@ export default async function EnquiryAnalyticsPage({
               marginBottom: "1rem",
             }}
           >
-            Scheduled Recovery
+            Replay, Snapshot
             <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>and Timeline Layer.</span>
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>and Handoff Layer.</span>
           </h1>
 
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "780px", marginBottom: "1rem" }}>
-            Filter analytics by date range, inspect pending retry and dead-letter items, run the retry worker, and review operator activity.
+            Export analytics snapshots, replay dead-letter items, run the retry worker, and integrate with n8n error workflow handoff.
           </p>
 
           <AnalyticsFilters />
 
           <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap", marginBottom: "1rem" }}>
             <RunRetryWorkerButton />
+            <AnalyticsExportButtons />
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.8rem", marginBottom: "1rem" }}>
@@ -127,7 +130,7 @@ export default async function EnquiryAnalyticsPage({
                     {item.recoveryState === "pending-retry" ? (
                       <RetryDeliveryButton file={item.file} />
                     ) : (
-                      <div style={{ color: "#ff8d8d", fontWeight: 700 }}>Dead Letter</div>
+                      <ReplayDlqButton file={item.file} />
                     )}
                   </div>
                 ))
