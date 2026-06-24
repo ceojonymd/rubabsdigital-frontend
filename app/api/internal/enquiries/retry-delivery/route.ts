@@ -6,14 +6,26 @@ import {
   readEnquiryByFile,
   writeEnquiryByFile,
 } from "@/lib/enquiry-store";
+import { verifyM2MRequest } from "@/lib/m2m-auth";
 
 export async function POST(req: Request) {
+  const m2m = await verifyM2MRequest(req);
+  if (!m2m.ok) {
+    return NextResponse.json(
+      { ok: false, error: m2m.error || "Unauthorized." },
+      { status: 401, headers: { "X-Robots-Tag": "noindex, nofollow" } }
+    );
+  }
+
   try {
-    const body = await req.json();
+    const body = m2m.bodyText ? JSON.parse(m2m.bodyText) : {};
     const file = typeof body?.file === "string" ? body.file : "";
 
     if (!file) {
-      return NextResponse.json({ ok: false, error: "Invalid file." }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "Invalid file." },
+        { status: 400, headers: { "X-Robots-Tag": "noindex, nofollow" } }
+      );
     }
 
     const enquiry = await readEnquiryByFile(file);
@@ -105,7 +117,14 @@ export async function POST(req: Request) {
     };
 
     await writeEnquiryByFile(file, enquiry);
-    await appendDeliveryLog(file, { file, action: "retry", ...result, retryCount, recoveryState });
+    await appendDeliveryLog(file, {
+      file,
+      action: "retry",
+      ...result,
+      retryCount,
+      recoveryState,
+      keySlot: m2m.keySlot || "",
+    });
     await appendOperatorTimeline({
       at: now,
       type: "retry-delivery",
@@ -115,10 +134,18 @@ export async function POST(req: Request) {
       retryCount,
       recoveryState,
       message,
+      actor: "scheduler",
+      keySlot: m2m.keySlot || "",
     });
 
-    return NextResponse.json(result, { status: result.ok ? 200 : 500 });
+    return NextResponse.json(result, {
+      status: result.ok ? 200 : 500,
+      headers: { "X-Robots-Tag": "noindex, nofollow" },
+    });
   } catch {
-    return NextResponse.json({ ok: false, error: "Unable to retry delivery." }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, error: "Unable to retry delivery." },
+      { status: 500, headers: { "X-Robots-Tag": "noindex, nofollow" } }
+    );
   }
 }
