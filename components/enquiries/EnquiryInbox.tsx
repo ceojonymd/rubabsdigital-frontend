@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import LogoutButton from "@/components/enquiries/LogoutButton";
 import EnquiryFilters from "@/components/enquiries/EnquiryFilters";
+import EnquiryToolbar from "@/components/enquiries/EnquiryToolbar";
 
 type EnquiryItem = {
   file: string;
@@ -24,6 +25,15 @@ const statusOptions = ["new", "contacted", "qualified", "closed"] as const;
 export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
   const [rows, setRows] = useState(items);
   const [busy, setBusy] = useState<string>("");
+
+  const stats = useMemo(() => {
+    return {
+      total: rows.length,
+      high: rows.filter((item) => item.priority === "high").length,
+      qualified: rows.filter((item) => item.inboxStatus === "qualified").length,
+      newItems: rows.filter((item) => item.inboxStatus === "new").length,
+    };
+  }, [rows]);
 
   async function updateStatus(file: string, status: string) {
     setBusy(`${file}:${status}`);
@@ -84,16 +94,24 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
               marginBottom: "1rem",
             }}
           >
-            Lead Desk
+            Reporting &
             <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Usability Layer.</span>
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Delivery Activation.</span>
           </h1>
 
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px", marginBottom: "1rem" }}>
-            Search enquiries, update lead status, save short notes, and keep follow-up work organized.
+            Review reporting signals, export desk data, and verify whether live delivery wiring is ready.
           </p>
 
+          <EnquiryToolbar />
           <EnquiryFilters />
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.8rem", marginBottom: "1.2rem" }}>
+            <StatCard label="Total Records" value={String(stats.total)} />
+            <StatCard label="New Leads" value={String(stats.newItems)} />
+            <StatCard label="Qualified" value={String(stats.qualified)} />
+            <StatCard label="High Priority" value={String(stats.high)} />
+          </div>
         </div>
       </section>
 
@@ -189,6 +207,26 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
         </div>
       </section>
     </main>
+  );
+}
+
+function StatCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div
+      style={{
+        background: "var(--color-surface)",
+        border: "1px solid var(--color-border)",
+        borderRadius: "1rem",
+        padding: "1rem",
+      }}
+    >
+      <div style={{ color: "var(--color-text-muted)", fontSize: "0.85rem", marginBottom: "0.45rem" }}>
+        {label}
+      </div>
+      <div style={{ fontFamily: "var(--font-display)", fontSize: "2rem", lineHeight: 1 }}>
+        {value}
+      </div>
+    </div>
   );
 }
 
