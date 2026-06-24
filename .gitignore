@@ -28,3 +28,17 @@ output
 *.no-login.20*
 *.pre-fix.20*
 *.wire.20*
+
+# Local backup and emergency-edit artifacts
+*.bak
+*.backup.*
+*.navfix.*
+*.authfix.*
+*.internalize.*
+*.fix-auth-cleanup.*
+*.m2m-only-fix.*
+*.status-m2m-fix.*
+*.rotation.*
+*.governance.*
+*.selfheal.*
+ops/*.txt
