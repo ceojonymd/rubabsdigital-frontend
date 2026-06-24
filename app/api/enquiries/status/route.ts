@@ -1,41 +1,44 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-import { cookies } from "next/headers";
-import { getAdminCookieName, verifyAdminValue } from "@/lib/admin-auth";
-
-const allowed = new Set(["new", "contacted", "qualified", "closed"]);
+import { readEnquiryByFile, writeEnquiryByFile, appendOperatorTimeline } from "@/lib/enquiry-store";
+import { verifyM2MRequest } from "@/lib/m2m-auth";
 
 export async function POST(req: Request) {
-  try {
-    const cookieStore = cookies();
-    const token = cookieStore.get(getAdminCookieName())?.value;
-    if (!verifyAdminValue(token)) {
-      return NextResponse.json({ ok: false, error: "Unauthorized." }, { status: 401 });
-    }
+  const m2m = await verifyM2MRequest(req);
+  if (!m2m.ok) {
+    return NextResponse.json({ ok: false, error: m2m.error || "Unauthorized." }, { status: 401 });
+  }
 
+  try {
     const body = await req.json();
     const file = typeof body?.file === "string" ? body.file : "";
-    const status = typeof body?.status === "string" ? body.status : "";
+    const inboxStatus = typeof body?.inboxStatus === "string" ? body.inboxStatus : "";
 
-    if (!file || !allowed.has(status)) {
-      return NextResponse.json({ ok: false, error: "Invalid file or status." }, { status: 400 });
+    if (!file || !inboxStatus) {
+      return NextResponse.json({ ok: false, error: "Missing file or inboxStatus." }, { status: 400 });
     }
 
-    const fullPath = path.join(process.cwd(), "data", "enquiries", path.basename(file));
-    const raw = await fs.readFile(fullPath, "utf8");
-    const parsed = JSON.parse(raw);
-
-    parsed.ops = {
-      ...(parsed.ops || {}),
-      inboxStatus: status,
-      updatedAt: new Date().toISOString(),
+    const record = await readEnquiryByFile(file);
+    const updated = {
+      ...record,
+      ops: {
+        ...(record?.ops || {}),
+        inboxStatus,
+        updatedAt: new Date().toISOString(),
+      },
     };
 
-    await fs.writeFile(fullPath, JSON.stringify(parsed, null, 2), "utf8");
+    await writeEnquiryByFile(file, updated);
+    await appendOperatorTimeline({
+      at: new Date().toISOString(),
+      type: "status-update",
+      status: inboxStatus,
+      message: file,
+      actor: "scheduler",
+      keySlot: m2m.keySlot || "",
+    });
 
-    return NextResponse.json({ ok: true, file: path.basename(file), status });
+    return NextResponse.json({ ok: true, file, inboxStatus });
   } catch {
-    return NextResponse.json({ ok: false, error: "Unable to update enquiry status." }, { status: 500 });
+    return NextResponse.json({ ok: false, error: "Unable to update status." }, { status: 500 });
   }
 }
