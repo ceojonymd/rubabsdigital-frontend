@@ -1,6 +1,9 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import EnquiryInbox from "@/components/enquiries/EnquiryInbox";
+import { getAdminCookieName, verifyAdminValue } from "@/lib/admin-auth";
 
 export const metadata = {
   title: "Enquiries | Rubab's Digital",
@@ -34,7 +37,7 @@ async function getItems() {
       .filter((name) => name.endsWith(".json"))
       .sort()
       .reverse()
-      .slice(0, 20);
+      .slice(0, 50);
 
     const rows = await Promise.all(
       files.map(async (file) => {
@@ -64,6 +67,11 @@ async function getItems() {
 }
 
 export default async function EnquiriesPage() {
+  const token = cookies().get(getAdminCookieName())?.value;
+  if (!verifyAdminValue(token)) {
+    redirect("/admin-login?next=/enquiries");
+  }
+
   const items = await getItems();
   return <EnquiryInbox items={items} />;
 }
