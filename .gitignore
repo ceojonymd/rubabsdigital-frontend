@@ -11,3 +11,20 @@ output
 *.bak.*
 *.fix-mobile.*
 .vercel
+
+# Local backups / migration snapshots (do not commit)
+*.reporting.20*
+*.secure.20*
+*.fix-auth-cleanup.20*
+*.internalize.20*
+*.m2m-only-fix.20*
+*.status-m2m-fix.20*
+*.governance.20*
+*.rotation.20*
+*.selfheal.20*
+*.replay.20*
+*.integrity.20*
+*.m2m.20*
+*.no-login.20*
+*.pre-fix.20*
+*.wire.20*
