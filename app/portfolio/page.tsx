@@ -10,55 +10,55 @@ const featuredStudies = [
     title: "Service Business Website Systems",
     tag: "Web Design",
     text: "Premium website direction for service businesses that need stronger first impressions, clearer positioning, and better enquiry flow.",
-    visual: "Homepage architecture · Offer framing",
+    bullets: ["Positioning-first layout", "Trust-led homepage blocks", "Cleaner enquiry journey"],
   },
   {
     title: "AI Workflow & Lead Automation",
     tag: "Automation",
     text: "Lead capture, follow-up, alerts, and workflow logic shaped into practical systems that save time and improve response speed.",
-    visual: "Form routing · Follow-up sequence",
+    bullets: ["Structured lead capture", "Follow-up readiness", "Operator-friendly workflow"],
   },
   {
     title: "Custom AI Agent Experiences",
     tag: "AI Systems",
     text: "Tailored AI-driven interfaces and operational layers that help businesses support visitors, teams, and content workflows more efficiently.",
-    visual: "Assistant flow · Guided response UX",
+    bullets: ["Guided UX flow", "Visitor assistance", "System thinking"],
   },
   {
     title: "Growth-Focused Marketing Direction",
     tag: "Marketing",
     text: "A conversion-aware link between landing pages, audience intent, messaging, and business growth support.",
-    visual: "Message hierarchy · CTA clarity",
+    bullets: ["Message hierarchy", "Offer clarity", "Growth logic"],
   },
 ];
 
 const worldCupConcepts = [
-  { label: "WC01", brand: "Adidas", href: "https://ranch-drums-37308651.figma.site/" },
-  { label: "WC02", brand: "Coca-Cola", href: "https://bony-khaki-28980549.figma.site/" },
-  { label: "WC03", brand: "Hyundai–Kia", href: "https://khaki-spray-17520158.figma.site/" },
-  { label: "WC04", brand: "Visa", href: "https://trill-name-39631032.figma.site/" },
-  { label: "WC05", brand: "Qatar Airways", href: "https://cover-stamp-99875270.figma.site/" },
-  { label: "WC06", brand: "Aramco", href: "https://shell-drawer-98082737.figma.site/" },
-  { label: "WC07", brand: "Lenovo", href: "https://money-pacing-83147189.figma.site/" },
-  { label: "WC08", brand: "AB InBev", href: "https://prior-tutor-97577445.figma.site/" },
-  { label: "WC09", brand: "Bank of America", href: "https://sun-tusk-12908953.figma.site/" },
-  { label: "WC10", brand: "Lay’s", href: "https://malt-shadow-95809262.figma.site/" },
-  { label: "WC11", brand: "McDonald’s", href: "https://half-gentle-74967322.figma.site/" },
-  { label: "WC12", brand: "Mondelēz", href: "https://epic-zippy-28751361.figma.site/" },
-  { label: "WC13", brand: "Mengniu Dairy", href: "https://mood-hall-91339399.figma.site/" },
-  { label: "WC14", brand: "Unilever Personal Care", href: "https://deep-pep-99990106.figma.site/" },
-  { label: "WC15", brand: "Verizon", href: "https://effect-film-51249470.figma.site/" },
-  { label: "WC16", brand: "DoorDash", href: "https://stable-reply-58119542.figma.site/" },
-  { label: "WC17", brand: "Marriott Bonvoy", href: "https://crowd-self-73447767.figma.site/" },
-  { label: "WC18", brand: "Rock-it Cargo", href: "https://opt-mount-52177957.figma.site/" },
-  { label: "WC19", brand: "Valvoline", href: "https://dog-blast-71214759.figma.site/" },
-  { label: "WC20", brand: "ADI Predictstreet", href: "https://ethics-tidy-84167911.figma.site/" },
-  { label: "WC21", brand: "Fanatics", href: "https://cause-five-61027758.figma.site/" },
-  { label: "WC22", brand: "Boggi Milano", href: "https://dew-cane-49830228.figma.site/" },
-  { label: "WC23", brand: "American Airlines", href: "https://queue-nix-72603901.figma.site/" },
-  { label: "WC24", brand: "Sailun Tire", href: "https://relax-genre-23000737.figma.site/" },
-  { label: "WC25", brand: "Diageo", href: "https://bronze-pitch-64416473.figma.site/" },
-  { label: "WC26", brand: "The Home Depot", href: "https://method-grab-21943836.figma.site/" },
+  { label: "WC01", brand: "Adidas", href: "https://ranch-drums-37308651.figma.site/", note: "Sportswear / match ball" },
+  { label: "WC02", brand: "Coca-Cola", href: "https://bony-khaki-28980549.figma.site/", note: "Beverage / fan emotion" },
+  { label: "WC03", brand: "Hyundai–Kia", href: "https://khaki-spray-17520158.figma.site/", note: "Mobility / tournament movement" },
+  { label: "WC04", brand: "Visa", href: "https://trill-name-39631032.figma.site/", note: "Payments / access systems" },
+  { label: "WC05", brand: "Qatar Airways", href: "https://cover-stamp-99875270.figma.site/", note: "Airline / travel prestige" },
+  { label: "WC06", brand: "Aramco", href: "https://shell-drawer-98082737.figma.site/", note: "Energy / infrastructure tone" },
+  { label: "WC07", brand: "Lenovo", href: "https://money-pacing-83147189.figma.site/", note: "Technology / connected fan systems" },
+  { label: "WC08", brand: "AB InBev", href: "https://prior-tutor-97577445.figma.site/", note: "Beer / social gathering energy" },
+  { label: "WC09", brand: "Bank of America", href: "https://sun-tusk-12908953.figma.site/", note: "Banking / trust and access" },
+  { label: "WC10", brand: "Lay’s", href: "https://malt-shadow-95809262.figma.site/", note: "Snack food / shareable campaign tone" },
+  { label: "WC11", brand: "McDonald’s", href: "https://half-gentle-74967322.figma.site/", note: "Food / mass fan participation" },
+  { label: "WC12", brand: "Mondelēz", href: "https://epic-zippy-28751361.figma.site/", note: "Snacking / global brand layer" },
+  { label: "WC13", brand: "Mengniu Dairy", href: "https://mood-hall-91339399.figma.site/", note: "Dairy / sponsor identity" },
+  { label: "WC14", brand: "Unilever Personal Care", href: "https://deep-pep-99990106.figma.site/", note: "Personal care / lifestyle storytelling" },
+  { label: "WC15", brand: "Verizon", href: "https://effect-film-51249470.figma.site/", note: "Telecommunications / network power" },
+  { label: "WC16", brand: "DoorDash", href: "https://stable-reply-58119542.figma.site/", note: "Delivery / local fan routine" },
+  { label: "WC17", brand: "Marriott Bonvoy", href: "https://crowd-self-73447767.figma.site/", note: "Hospitality / stay near the match" },
+  { label: "WC18", brand: "Rock-it Cargo", href: "https://opt-mount-52177957.figma.site/", note: "Logistics / behind-the-scenes movement" },
+  { label: "WC19", brand: "Valvoline", href: "https://dog-blast-71214759.figma.site/", note: "Automotive services / road-to-match" },
+  { label: "WC20", brand: "ADI Predictstreet", href: "https://ethics-tidy-84167911.figma.site/", note: "Prediction / fan engagement" },
+  { label: "WC21", brand: "Fanatics", href: "https://cause-five-61027758.figma.site/", note: "Retail / merchandise ecosystem" },
+  { label: "WC22", brand: "Boggi Milano", href: "https://dew-cane-49830228.figma.site/", note: "Formalwear / style and prestige" },
+  { label: "WC23", brand: "American Airlines", href: "https://queue-nix-72603901.figma.site/", note: "Airline supplier / travel movement" },
+  { label: "WC24", brand: "Sailun Tire", href: "https://relax-genre-23000737.figma.site/", note: "Mobility support / road confidence" },
+  { label: "WC25", brand: "Diageo", href: "https://bronze-pitch-64416473.figma.site/", note: "Spirits / celebration storytelling" },
+  { label: "WC26", brand: "The Home Depot", href: "https://method-grab-21943836.figma.site/", note: "Retail supporter / host-at-home energy" },
 ];
 
 export default function PortfolioPage() {
@@ -140,32 +140,32 @@ export default function PortfolioPage() {
                   style={{
                     borderRadius: "calc(var(--radius-xl) - 0.35rem)",
                     padding: "1rem",
-                    minHeight: "150px",
+                    minHeight: "170px",
                     marginBottom: "1rem",
-                    background:
-                      "linear-gradient(180deg, rgba(0,229,160,0.12), rgba(0,229,160,0.03))",
+                    background: "linear-gradient(180deg, rgba(0,229,160,0.12), rgba(0,229,160,0.03))",
                     border: "1px solid rgba(0,229,160,0.16)",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
+                    display: "grid",
+                    gap: "0.55rem",
+                    alignContent: "start",
                   }}
                 >
                   <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem" }}>
                     Proof Snapshot
                   </div>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "1.2rem",
-                      lineHeight: 1.08,
-                      color: "var(--color-text)",
-                    }}
-                  >
-                    {item.visual}
-                  </div>
-                  <div style={{ color: "var(--color-text-muted)", fontSize: "0.92rem" }}>
-                    Screenshot-style presentation block
-                  </div>
+                  {item.bullets.map((bullet) => (
+                    <div
+                      key={bullet}
+                      style={{
+                        padding: "0.7rem 0.8rem",
+                        borderRadius: "0.9rem",
+                        background: "rgba(255,255,255,0.05)",
+                        color: "var(--color-text)",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {bullet}
+                    </div>
+                  ))}
                 </div>
 
                 <div
@@ -202,11 +202,11 @@ export default function PortfolioPage() {
               A curated concept library for brand storytelling.
             </h2>
             <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
-              These concept links represent creative exploration and campaign-style page thinking across multiple World Cup themed brand directions. They work best here as portfolio proof with brand context.
+              These concept links represent creative exploration and campaign-style page thinking across multiple World Cup themed brand directions. They work best here as portfolio proof with stronger context.
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.85rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "0.85rem" }}>
             {worldCupConcepts.map((item) => (
               <a
                 key={item.label}
@@ -226,7 +226,8 @@ export default function PortfolioPage() {
                 <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem", marginBottom: "0.35rem" }}>
                   {item.label}
                 </div>
-                <div style={{ fontWeight: 700 }}>{item.brand}</div>
+                <div style={{ fontWeight: 700, marginBottom: "0.35rem" }}>{item.brand}</div>
+                <div style={{ color: "var(--color-text-muted)", lineHeight: 1.65, fontSize: "0.94rem" }}>{item.note}</div>
               </a>
             ))}
           </div>
