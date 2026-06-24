@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { getAdminCookieName, verifyAdminValue } from "@/lib/admin-auth";
 import {
   appendDeliveryLog,
+  appendOperatorTimeline,
+  classifyRecoveryState,
   readEnquiryByFile,
   writeEnquiryByFile,
 } from "@/lib/enquiry-store";
@@ -105,19 +107,34 @@ export async function POST(req: Request) {
       }
     }
 
+    const retryCount = Number(enquiry.delivery?.retryCount || 0);
+    const message = String(result.message || "");
+    const recoveryState =
+      result.status === "sent" || result.status === "dry-run"
+        ? "clear"
+        : classifyRecoveryState(message, retryCount);
+
     enquiry.delivery = {
       ...(enquiry.delivery || {}),
       lastStatus: String(result.status || "unknown"),
       lastUpdatedAt: now,
-      lastMessage: String(result.message || ""),
+      lastMessage: message,
       lastMode: mode,
+      recoveryState,
     };
 
     await writeEnquiryByFile(file, enquiry);
 
-    await appendDeliveryLog(file, {
+    await appendDeliveryLog(file, { file, action: "test", ...result, recoveryState });
+    await appendOperatorTimeline({
+      at: now,
+      type: "delivery-test",
       file,
-      ...result,
+      subject: enquiry.subject || "Untitled enquiry",
+      mode,
+      status: String(result.status || "unknown"),
+      recoveryState,
+      message,
     });
 
     return NextResponse.json(result, { status: result.ok ? 200 : 500 });

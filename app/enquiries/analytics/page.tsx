@@ -6,19 +6,27 @@ import { getAnalyticsSummary } from "@/lib/enquiry-store";
 import LogoutButton from "@/components/enquiries/LogoutButton";
 import AnalyticsCharts from "@/components/enquiries/AnalyticsCharts";
 import RetryDeliveryButton from "@/components/enquiries/RetryDeliveryButton";
+import RunRetryWorkerButton from "@/components/enquiries/RunRetryWorkerButton";
+import AnalyticsFilters from "@/components/enquiries/AnalyticsFilters";
 
 export const metadata = {
   title: "Enquiry Analytics | Rubab's Digital",
   description: "Analytics dashboard for lead desk reporting and delivery recovery.",
 };
 
-export default async function EnquiryAnalyticsPage() {
+export default async function EnquiryAnalyticsPage({
+  searchParams,
+}: {
+  searchParams?: { from?: string; to?: string };
+}) {
   const token = cookies().get(getAdminCookieName())?.value;
   if (!verifyAdminValue(token)) {
     redirect("/admin-login?next=/enquiries/analytics");
   }
 
-  const data = await getAnalyticsSummary();
+  const from = searchParams?.from || "";
+  const to = searchParams?.to || "";
+  const data = await getAnalyticsSummary(from, to);
 
   return (
     <main style={{ paddingTop: "80px", paddingBottom: "80px" }}>
@@ -39,27 +47,34 @@ export default async function EnquiryAnalyticsPage() {
               marginBottom: "1rem",
             }}
           >
-            Dashboard Analytics
+            Scheduled Recovery
             <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>and Recovery Layer.</span>
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>and Timeline Layer.</span>
           </h1>
 
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "780px", marginBottom: "1rem" }}>
-            Track lead flow, delivery health, and failed items that need retry or recovery action.
+            Filter analytics by date range, inspect pending retry and dead-letter items, run the retry worker, and review operator activity.
           </p>
+
+          <AnalyticsFilters />
+
+          <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap", marginBottom: "1rem" }}>
+            <RunRetryWorkerButton />
+          </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.8rem", marginBottom: "1rem" }}>
             <StatCard label="Total Leads" value={String(data.summary.total)} />
+            <StatCard label="Pending Retry" value={String(data.summary.pendingRetryCount)} />
+            <StatCard label="Dead Letter" value={String(data.summary.deadLetterCount)} />
             <StatCard label="Qualified" value={String(data.summary.qualifiedCount)} />
             <StatCard label="Sent" value={String(data.summary.sentCount)} />
             <StatCard label="Failed" value={String(data.summary.failedCount)} />
-            <StatCard label="Config Missing" value={String(data.summary.configMissingCount)} />
-            <StatCard label="Not Tested" value={String(data.summary.notTestedCount)} />
           </div>
 
           <AnalyticsCharts
             statusBuckets={data.charts.statusBuckets}
             deliveryBuckets={data.charts.deliveryBuckets}
+            recoveryBuckets={data.charts.recoveryBuckets}
             topServices={data.charts.topServices}
             volumeTrend={data.charts.volumeTrend}
           />
@@ -73,11 +88,11 @@ export default async function EnquiryAnalyticsPage() {
               padding: "1rem",
             }}
           >
-            <div style={{ fontWeight: 700, marginBottom: "0.8rem" }}>Failure Queue</div>
+            <div style={{ fontWeight: 700, marginBottom: "0.8rem" }}>Recovery Queue</div>
 
             <div style={{ display: "grid", gap: "0.8rem" }}>
               {data.failures.length === 0 ? (
-                <div style={{ color: "var(--color-text-muted)" }}>No failed or blocked delivery items right now.</div>
+                <div style={{ color: "var(--color-text-muted)" }}>No pending retry or dead-letter items in this filter range.</div>
               ) : (
                 data.failures.map((item) => (
                   <div
@@ -101,13 +116,59 @@ export default async function EnquiryAnalyticsPage() {
                     </div>
 
                     <div>
-                      <div style={{ marginBottom: "0.25rem", color: "var(--color-text)" }}>{item.deliveryStatus}</div>
+                      <div style={{ marginBottom: "0.25rem", color: "var(--color-text)" }}>
+                        {item.recoveryState} · retry {item.retryCount}
+                      </div>
                       <div style={{ color: "var(--color-text-muted)", fontSize: "0.9rem" }}>
                         {item.deliveryUpdatedAt || item.deliveryMessage || "No timestamp"}
                       </div>
                     </div>
 
-                    <RetryDeliveryButton file={item.file} />
+                    {item.recoveryState === "pending-retry" ? (
+                      <RetryDeliveryButton file={item.file} />
+                    ) : (
+                      <div style={{ color: "#ff8d8d", fontWeight: 700 }}>Dead Letter</div>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div
+            style={{
+              marginTop: "1rem",
+              background: "var(--color-surface)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "1rem",
+              padding: "1rem",
+            }}
+          >
+            <div style={{ fontWeight: 700, marginBottom: "0.8rem" }}>Operator Activity Timeline</div>
+
+            <div style={{ display: "grid", gap: "0.75rem" }}>
+              {data.timeline.length === 0 ? (
+                <div style={{ color: "var(--color-text-muted)" }}>No operator activity found in this date range.</div>
+              ) : (
+                data.timeline.map((item, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      borderRadius: "1rem",
+                      padding: "0.9rem",
+                      background: "rgba(255,255,255,0.03)",
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, marginBottom: "0.25rem" }}>
+                      {String(item.type || "activity")} · {String(item.status || "unknown")}
+                    </div>
+                    <div style={{ color: "var(--color-text-muted)", fontSize: "0.95rem", marginBottom: "0.25rem" }}>
+                      {String(item.subject || "")}
+                    </div>
+                    <div style={{ color: "var(--color-text-muted)", fontSize: "0.9rem" }}>
+                      {String(item.at || "")}
+                    </div>
                   </div>
                 ))
               )}

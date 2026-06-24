@@ -17,6 +17,8 @@ export type EnquiryRow = {
   deliveryStatus: string;
   deliveryUpdatedAt: string;
   deliveryMessage: string;
+  retryCount?: number;
+  recoveryState?: string;
 };
 
 export async function readEnquiryRows() {
@@ -49,6 +51,8 @@ export async function readEnquiryRows() {
           deliveryStatus: parsed.delivery?.lastStatus || "not-tested",
           deliveryUpdatedAt: parsed.delivery?.lastUpdatedAt || "",
           deliveryMessage: parsed.delivery?.lastMessage || "",
+          retryCount: Number(parsed.delivery?.retryCount || 0),
+          recoveryState: parsed.delivery?.recoveryState || "clear",
         } as EnquiryRow;
       })
     );
@@ -96,8 +100,42 @@ export async function readDeliveryLogs(file: string) {
   }
 }
 
-export async function getAnalyticsSummary() {
-  const rows = await readEnquiryRows();
+export async function appendOperatorTimeline(entry: Record<string, unknown>) {
+  const dir = path.join(process.cwd(), "data", "operator-timeline");
+  await fs.mkdir(dir, { recursive: true });
+  const out = path.join(dir, "timeline.json");
+
+  let rows: Record<string, unknown>[] = [];
+  try {
+    rows = JSON.parse(await fs.readFile(out, "utf8"));
+    if (!Array.isArray(rows)) rows = [];
+  } catch {}
+
+  rows.unshift(entry);
+  await fs.writeFile(out, JSON.stringify(rows.slice(0, 250), null, 2), "utf8");
+}
+
+export async function readOperatorTimeline() {
+  const out = path.join(process.cwd(), "data", "operator-timeline", "timeline.json");
+  try {
+    const raw = await fs.readFile(out, "utf8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function inDateRange(dateValue: string, from?: string, to?: string) {
+  const day = String(dateValue || "").slice(0, 10);
+  if (!day) return !from && !to;
+  if (from && day < from) return false;
+  if (to && day > to) return false;
+  return true;
+}
+
+export async function getAnalyticsSummary(from?: string, to?: string) {
+  const rows = (await readEnquiryRows()).filter((row) => inDateRange(row.receivedAt, from, to));
 
   const summary = {
     total: rows.length,
@@ -109,6 +147,8 @@ export async function getAnalyticsSummary() {
     configMissingCount: rows.filter((r) => r.deliveryStatus === "config-missing").length,
     dryRunCount: rows.filter((r) => r.deliveryStatus === "dry-run").length,
     notTestedCount: rows.filter((r) => r.deliveryStatus === "not-tested").length,
+    pendingRetryCount: rows.filter((r) => r.recoveryState === "pending-retry").length,
+    deadLetterCount: rows.filter((r) => r.recoveryState === "dead-letter").length,
   };
 
   const statusBuckets = ["new", "contacted", "qualified", "closed"].map((key) => ({
@@ -119,6 +159,11 @@ export async function getAnalyticsSummary() {
   const deliveryBuckets = ["sent", "failed", "config-missing", "dry-run", "not-tested"].map((key) => ({
     label: key,
     value: rows.filter((r) => r.deliveryStatus === key).length,
+  }));
+
+  const recoveryBuckets = ["clear", "pending-retry", "dead-letter"].map((key) => ({
+    label: key,
+    value: rows.filter((r) => (r.recoveryState || "clear") === key).length,
   }));
 
   const serviceMap = new Map<string, number>();
@@ -140,11 +185,11 @@ export async function getAnalyticsSummary() {
 
   const volumeTrend = Array.from(volumeMap.entries())
     .sort((a, b) => a[0].localeCompare(b[0]))
-    .slice(-14)
+    .slice(-31)
     .map(([label, value]) => ({ label, value }));
 
   const failures = rows
-    .filter((r) => r.deliveryStatus === "failed" || r.deliveryStatus === "config-missing")
+    .filter((r) => r.recoveryState === "pending-retry" || r.recoveryState === "dead-letter")
     .map((r) => ({
       file: r.file,
       subject: r.subject,
@@ -153,16 +198,46 @@ export async function getAnalyticsSummary() {
       deliveryStatus: r.deliveryStatus,
       deliveryUpdatedAt: r.deliveryUpdatedAt,
       deliveryMessage: r.deliveryMessage,
+      retryCount: r.retryCount || 0,
+      recoveryState: r.recoveryState || "clear",
     }));
+
+  const timeline = await readOperatorTimeline();
 
   return {
     summary,
     charts: {
       statusBuckets,
       deliveryBuckets,
+      recoveryBuckets,
       topServices,
       volumeTrend,
     },
     failures,
+    timeline: timeline.filter((item) => {
+      const at = String(item.at || "");
+      return inDateRange(at, from, to);
+    }).slice(0, 50),
   };
+}
+
+export function classifyRecoveryState(message: string, attemptCount: number, maxRetries = 5) {
+  const text = String(message || "").toLowerCase();
+
+  if (
+    text.includes("403") ||
+    text.includes("404") ||
+    text.includes("not found") ||
+    text.includes("invalid") ||
+    text.includes("unauthorized") ||
+    text.includes("forbidden")
+  ) {
+    return "dead-letter";
+  }
+
+  if (attemptCount >= maxRetries) {
+    return "dead-letter";
+  }
+
+  return "pending-retry";
 }

@@ -13,11 +13,13 @@ type Item = { label: string; value: number };
 export default function AnalyticsCharts({
   statusBuckets,
   deliveryBuckets,
+  recoveryBuckets,
   topServices,
   volumeTrend,
 }: {
   statusBuckets: Item[];
   deliveryBuckets: Item[];
+  recoveryBuckets: Item[];
   topServices: Item[];
   volumeTrend: Item[];
 }) {
@@ -56,6 +58,7 @@ export default function AnalyticsCharts({
 
       destroyIf("statusChart");
       destroyIf("deliveryChart");
+      destroyIf("recoveryChart");
       destroyIf("serviceChart");
       destroyIf("trendChart");
 
@@ -72,7 +75,7 @@ export default function AnalyticsCharts({
             borderRadius: 8,
           }]
         },
-        options: baseOptions("Lead Status Breakdown"),
+        options: baseOptions(),
       });
 
       new Chart(document.getElementById("deliveryChart"), {
@@ -91,7 +94,26 @@ export default function AnalyticsCharts({
             borderWidth: 1,
           }]
         },
-        options: baseOptions("Delivery State"),
+        options: doughnutOptions(),
+      });
+
+      new Chart(document.getElementById("recoveryChart"), {
+        type: "bar",
+        data: {
+          labels: recoveryBuckets.map((i) => i.label),
+          datasets: [{
+            label: "Recovery State",
+            data: recoveryBuckets.map((i) => i.value),
+            backgroundColor: [
+              "rgba(120,120,120,0.4)",
+              "rgba(247,183,49,0.45)",
+              "rgba(255,107,107,0.45)",
+            ],
+            borderWidth: 1,
+            borderRadius: 8,
+          }]
+        },
+        options: baseOptions(),
       });
 
       new Chart(document.getElementById("serviceChart"), {
@@ -107,7 +129,7 @@ export default function AnalyticsCharts({
             borderRadius: 8,
           }]
         },
-        options: baseOptions("Top Services"),
+        options: baseOptions(),
       });
 
       new Chart(document.getElementById("trendChart"), {
@@ -123,18 +145,19 @@ export default function AnalyticsCharts({
             tension: 0.35,
           }]
         },
-        options: baseOptions("Lead Volume Trend"),
+        options: baseOptions(),
       });
     }
 
     init();
     return () => { mounted = false; };
-  }, [statusBuckets, deliveryBuckets, topServices, volumeTrend]);
+  }, [statusBuckets, deliveryBuckets, recoveryBuckets, topServices, volumeTrend]);
 
   return (
     <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
       <ChartCard title="Lead Status"><canvas id="statusChart" /></ChartCard>
       <ChartCard title="Delivery State"><canvas id="deliveryChart" /></ChartCard>
+      <ChartCard title="Recovery State"><canvas id="recoveryChart" /></ChartCard>
       <ChartCard title="Top Services"><canvas id="serviceChart" /></ChartCard>
       <ChartCard title="Lead Trend"><canvas id="trendChart" /></ChartCard>
     </div>
@@ -158,17 +181,13 @@ function ChartCard({ title, children }: { title: string; children: React.ReactNo
   );
 }
 
-function baseOptions(title: string) {
+function baseOptions() {
   return {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
         labels: { color: "#cfcfcf" },
-      },
-      title: {
-        display: false,
-        text: title,
       },
     },
     scales: {
@@ -180,6 +199,18 @@ function baseOptions(title: string) {
         ticks: { color: "#a8a8a8" },
         grid: { color: "rgba(255,255,255,0.06)" },
         beginAtZero: true,
+      },
+    },
+  };
+}
+
+function doughnutOptions() {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: { color: "#cfcfcf" },
       },
     },
   };

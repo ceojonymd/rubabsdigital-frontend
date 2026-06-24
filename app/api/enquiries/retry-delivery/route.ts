@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { getAdminCookieName, verifyAdminValue } from "@/lib/admin-auth";
 import {
   appendDeliveryLog,
+  appendOperatorTimeline,
+  classifyRecoveryState,
   readEnquiryByFile,
   writeEnquiryByFile,
 } from "@/lib/enquiry-store";
@@ -93,16 +95,34 @@ export async function POST(req: Request) {
       }
     }
 
+    const retryCount = Number(enquiry.delivery?.retryCount || 0) + 1;
+    const message = String(result.message || "");
+    const recoveryState =
+      result.status === "sent"
+        ? "clear"
+        : classifyRecoveryState(message, retryCount);
+
     enquiry.delivery = {
       ...(enquiry.delivery || {}),
       lastStatus: String(result.status || "unknown"),
       lastUpdatedAt: now,
-      lastMessage: String(result.message || ""),
-      retryCount: Number(enquiry.delivery?.retryCount || 0) + 1,
+      lastMessage: message,
+      retryCount,
+      recoveryState,
     };
 
     await writeEnquiryByFile(file, enquiry);
-    await appendDeliveryLog(file, { file, action: "retry", ...result });
+    await appendDeliveryLog(file, { file, action: "retry", ...result, retryCount, recoveryState });
+    await appendOperatorTimeline({
+      at: now,
+      type: "retry-delivery",
+      file,
+      subject: enquiry.subject || "Untitled enquiry",
+      status: String(result.status || "unknown"),
+      retryCount,
+      recoveryState,
+      message,
+    });
 
     return NextResponse.json(result, { status: result.ok ? 200 : 500 });
   } catch {
