@@ -14,6 +14,8 @@ import ArchiveSnapshotButton from "@/components/enquiries/ArchiveSnapshotButton"
 import WeeklyExecutiveButton from "@/components/enquiries/WeeklyExecutiveButton";
 import DailyOpsDigestButton from "@/components/enquiries/DailyOpsDigestButton";
 import DigestSettingsPanel from "@/components/enquiries/DigestSettingsPanel";
+import DigestPreferencesPanel from "@/components/enquiries/DigestPreferencesPanel";
+import DigestArchivePanel from "@/components/enquiries/DigestArchivePanel";
 
 export const metadata = {
   title: "Enquiry Analytics | Rubab's Digital",
@@ -54,13 +56,13 @@ export default async function EnquiryAnalyticsPage({
               marginBottom: "1rem",
             }}
           >
-            Digest Rules,
+            Rotation,
             <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Nonce and Escalation Layer.</span>
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Preferences and Audit Layer.</span>
           </h1>
 
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "780px", marginBottom: "1rem" }}>
-            Manage replay-safe machine auth, digest recipients, alert severity rules, daily ops reporting, and weekly executive reporting.
+            Manage dual-secret rollover, recipient-level digest controls, critical alert fast lane, and archived digest resend with audit visibility.
           </p>
 
           <AnalyticsFilters />
@@ -91,6 +93,8 @@ export default async function EnquiryAnalyticsPage({
           />
 
           <DigestSettingsPanel />
+          <DigestPreferencesPanel />
+          <DigestArchivePanel />
 
           <div
             style={{

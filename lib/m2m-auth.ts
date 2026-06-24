@@ -29,7 +29,19 @@ async function readNonceStore() {
 
 async function writeNonceStore(rows: Record<string, unknown>[]) {
   await fs.mkdir(path.dirname(NONCE_STORE), { recursive: true });
-  await fs.writeFile(NONCE_STORE, JSON.stringify(rows.slice(-500), null, 2), "utf8");
+  await fs.writeFile(NONCE_STORE, JSON.stringify(rows.slice(-800), null, 2), "utf8");
+}
+
+function getMachineSecrets() {
+  const activeKey = process.env.RD_MACHINE_KEY || "";
+  const activeSecret = process.env.RD_MACHINE_SECRET || "";
+  const nextKey = process.env.RD_MACHINE_NEXT_KEY || "";
+  const nextSecret = process.env.RD_MACHINE_NEXT_SECRET || "";
+
+  return [
+    { slot: "active", key: activeKey, secret: activeSecret },
+    ...(nextKey && nextSecret ? [{ slot: "next", key: nextKey, secret: nextSecret }] : []),
+  ].filter((item) => item.key && item.secret);
 }
 
 export function getM2MHeaders() {
@@ -65,7 +77,12 @@ export function createM2MSignature(input: {
 
 export async function verifyM2MRequest(req: Request, options?: { allowAdminCookie?: boolean }) {
   if (options?.allowAdminCookie) {
-    return { ok: true, mode: "admin-cookie" as const, bodyText: await req.text() };
+    return {
+      ok: true,
+      mode: "admin-cookie" as const,
+      bodyText: await req.text(),
+      keySlot: "admin-cookie",
+    };
   }
 
   const key = req.headers.get(HEADER_KEY) || "";
@@ -74,15 +91,8 @@ export async function verifyM2MRequest(req: Request, options?: { allowAdminCooki
   const nonce = req.headers.get(HEADER_NONCE) || "";
   const idempotencyKey = req.headers.get(HEADER_IDEMPOTENCY) || "";
 
-  const expectedKey = process.env.RD_MACHINE_KEY || "";
-  const secret = process.env.RD_MACHINE_SECRET || "";
-
-  if (!key || !timestamp || !signature || !nonce || !idempotencyKey || !expectedKey || !secret) {
-    return { ok: false, error: "Missing machine auth headers or env." };
-  }
-
-  if (key !== expectedKey) {
-    return { ok: false, error: "Invalid machine key." };
+  if (!key || !timestamp || !signature || !nonce || !idempotencyKey) {
+    return { ok: false, error: "Missing machine auth headers." };
   }
 
   const now = Math.floor(Date.now() / 1000);
@@ -94,17 +104,35 @@ export async function verifyM2MRequest(req: Request, options?: { allowAdminCooki
   const url = new URL(req.url);
   const body = await req.text();
 
-  const expectedSig = createM2MSignature({
-    secret,
-    method: req.method,
-    path: url.pathname,
-    timestamp,
-    nonce,
-    idempotencyKey,
-    body,
-  });
+  const secrets = getMachineSecrets();
+  if (!secrets.length) {
+    return { ok: false, error: "Machine auth env missing." };
+  }
 
-  if (!safeEqual(signature, expectedSig)) {
+  let matchedSlot = "";
+  let matchedKey = "";
+
+  for (const item of secrets) {
+    if (key !== item.key) continue;
+
+    const expectedSig = createM2MSignature({
+      secret: item.secret,
+      method: req.method,
+      path: url.pathname,
+      timestamp,
+      nonce,
+      idempotencyKey,
+      body,
+    });
+
+    if (safeEqual(signature, expectedSig)) {
+      matchedSlot = item.slot;
+      matchedKey = item.key;
+      break;
+    }
+  }
+
+  if (!matchedSlot) {
     return { ok: false, error: "Invalid signature." };
   }
 
@@ -126,6 +154,8 @@ export async function verifyM2MRequest(req: Request, options?: { allowAdminCooki
     nonce,
     idempotencyKey,
     timestamp,
+    key,
+    keySlot: matchedSlot,
   });
 
   await writeNonceStore(existing);
@@ -136,5 +166,7 @@ export async function verifyM2MRequest(req: Request, options?: { allowAdminCooki
     bodyText: body,
     nonce,
     idempotencyKey,
+    keySlot: matchedSlot,
+    machineKey: matchedKey,
   };
 }

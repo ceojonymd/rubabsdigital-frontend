@@ -22,6 +22,8 @@ export type EnquiryRow = {
 };
 
 const SETTINGS_FILE = path.join(process.cwd(), "data", "settings", "digest-settings.json");
+const PREFS_FILE = path.join(process.cwd(), "data", "settings", "digest-preferences.json");
+const AUDIT_FILE = path.join(process.cwd(), "data", "audit", "digest-audit.json");
 
 export async function readEnquiryRows() {
   const dir = path.join(process.cwd(), "data", "enquiries");
@@ -114,7 +116,7 @@ export async function appendOperatorTimeline(entry: Record<string, unknown>) {
   } catch {}
 
   rows.unshift(entry);
-  await fs.writeFile(out, JSON.stringify(rows.slice(0, 300), null, 2), "utf8");
+  await fs.writeFile(out, JSON.stringify(rows.slice(0, 350), null, 2), "utf8");
 }
 
 export async function readOperatorTimeline() {
@@ -190,6 +192,44 @@ export async function getDigestSettings() {
 export async function saveDigestSettings(payload: Record<string, unknown>) {
   await fs.mkdir(path.dirname(SETTINGS_FILE), { recursive: true });
   await fs.writeFile(SETTINGS_FILE, JSON.stringify(payload, null, 2), "utf8");
+}
+
+export async function getDigestPreferences() {
+  try {
+    const raw = await fs.readFile(PREFS_FILE, "utf8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function saveDigestPreferences(payload: Record<string, unknown>[]) {
+  await fs.mkdir(path.dirname(PREFS_FILE), { recursive: true });
+  await fs.writeFile(PREFS_FILE, JSON.stringify(payload, null, 2), "utf8");
+}
+
+export async function appendDigestAudit(entry: Record<string, unknown>) {
+  await fs.mkdir(path.dirname(AUDIT_FILE), { recursive: true });
+
+  let rows: Record<string, unknown>[] = [];
+  try {
+    rows = JSON.parse(await fs.readFile(AUDIT_FILE, "utf8"));
+    if (!Array.isArray(rows)) rows = [];
+  } catch {}
+
+  rows.unshift(entry);
+  await fs.writeFile(AUDIT_FILE, JSON.stringify(rows.slice(0, 500), null, 2), "utf8");
+}
+
+export async function readDigestAudit() {
+  try {
+    const raw = await fs.readFile(AUDIT_FILE, "utf8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }
 
 export async function getAnalyticsSummary(from?: string, to?: string) {
@@ -316,4 +356,25 @@ export async function saveDigestRecord(payload: Record<string, unknown>) {
   const file = path.join(dir, `digest-${stamp}.json`);
   await fs.writeFile(file, JSON.stringify(payload, null, 2), "utf8");
   return file;
+}
+
+export async function readDigestRecords() {
+  const dir = path.join(process.cwd(), "data", "digests");
+  try {
+    const files = (await fs.readdir(dir))
+      .filter((name) => name.endsWith(".json"))
+      .sort()
+      .reverse();
+
+    return Promise.all(
+      files.slice(0, 40).map(async (file) => {
+        const full = path.join(dir, file);
+        const raw = await fs.readFile(full, "utf8");
+        const parsed = JSON.parse(raw);
+        return { file, parsed };
+      })
+    );
+  } catch {
+    return [];
+  }
 }

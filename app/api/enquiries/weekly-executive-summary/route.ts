@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import {
+  appendDigestAudit,
   appendOperatorTimeline,
   getAnalyticsSummary,
+  getDigestPreferences,
   getDigestSettings,
   saveDigestRecord,
 } from "@/lib/enquiry-store";
@@ -39,6 +41,15 @@ function buildHtml(summary: Awaited<ReturnType<typeof getAnalyticsSummary>>) {
   `;
 }
 
+function filterRecipients(recipients: string[], prefs: any[]) {
+  return recipients.filter((email) => {
+    const pref = prefs.find((item) => item.email.toLowerCase() === email.toLowerCase());
+    if (!pref) return true;
+    if (pref.unsubscribedAll) return false;
+    return pref.executiveWeekly !== false;
+  });
+}
+
 export async function POST(req: Request) {
   const m2m = await verifyM2MRequest(req);
   if (!m2m.ok) {
@@ -51,11 +62,15 @@ export async function POST(req: Request) {
   } catch {}
 
   const settings = await getDigestSettings();
+  const prefs = await getDigestPreferences();
   const from = typeof body?.from === "string" ? body.from : startOfLast7Days();
   const to = typeof body?.to === "string" ? body.to : today();
-  const recipients = Array.isArray(body?.recipients) && body.recipients.length
+
+  const requested = Array.isArray(body?.recipients) && body.recipients.length
     ? body.recipients.map(String)
     : settings.executiveRecipients;
+
+  const recipients = filterRecipients(requested, prefs);
   const mode = body?.mode === "live" ? "live" : "dry-run";
 
   const summary = await getAnalyticsSummary(from, to);
@@ -117,17 +132,28 @@ export async function POST(req: Request) {
   const record = {
     createdAt: new Date().toISOString(),
     authMode: m2m.mode,
+    keySlot: m2m.keySlot || "",
     mode,
     digestType: "weekly-executive",
     from,
     to,
     recipients,
     subject,
+    html,
     delivery,
     summary,
   };
 
   const file = await saveDigestRecord(record);
+
+  await appendDigestAudit({
+    at: new Date().toISOString(),
+    type: "digest-create",
+    file,
+    digestType: "weekly-executive",
+    deliveryStatus: delivery.status,
+    keySlot: m2m.keySlot || "",
+  });
 
   await appendOperatorTimeline({
     at: new Date().toISOString(),
