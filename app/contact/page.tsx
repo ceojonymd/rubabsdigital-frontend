@@ -64,7 +64,7 @@ export default function ContactPage() {
             fontWeight: 400, lineHeight: 1.1, marginBottom: "1rem", letterSpacing: "-0.02em"
           }}>Let&apos;s Talk About<br /><span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Your Growth.</span></h1>
           <p style={{ fontSize: "1.1rem", color: "var(--color-text-muted)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.8 }}>
-            Fill in the form below and we&apos;ll get back to you within 2–6 hours with a clear, honest plan.
+            "Fill in the form below and our team will respond with a clear, honest plan tailored to your business needs."
           </p>
         </div>
       </section>
@@ -112,7 +112,7 @@ export default function ContactPage() {
                         lineHeight: 1.5,
                       }}
                     >
-                      For enterprise clients
+                      for enterprise clients
                     </div>
 
                     <div
@@ -172,30 +172,30 @@ export default function ContactPage() {
               <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
                 <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>✅</div>
                 <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", marginBottom: "0.75rem", color: "var(--color-accent)" }}>Message Received!</h3>
-                <p style={{ color: "var(--color-text-muted)", lineHeight: 1.7 }}>We&apos;ll review your request and contact you within 2–6 hours with a clear plan.</p>
+                <p style={{ color: "var(--color-text-muted)", lineHeight: 1.7 }}>We&apos;ll review your request and respond with the right next steps for your business needs.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
                   <div>
                     <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Full Name *</label>
-                    <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})}
+                    <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
                       placeholder="Your name" style={inputStyle} />
                   </div>
                   <div>
                     <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Email *</label>
-                    <input required type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})}
+                    <input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
                       placeholder="you@email.com" style={inputStyle} />
                   </div>
                 </div>
                 <div style={{ marginBottom: "1rem" }}>
                   <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Phone Number</label>
-                  <input value={form.phone} onChange={e => setForm({...form, phone: e.target.value})}
+                  <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
                     placeholder="+880 1234 567890" style={inputStyle} />
                 </div>
                 <div style={{ marginBottom: "1rem" }}>
                   <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Service Needed *</label>
-                  <select required value={form.service} onChange={e => setForm({...form, service: e.target.value})}
+                  <select required value={form.service} onChange={e => setForm({ ...form, service: e.target.value })}
                     style={{ ...inputStyle, appearance: "none" }}>
                     <option value="">Select a service...</option>
                     {services.map(s => <option key={s} value={s}>{s}</option>)}
@@ -203,7 +203,7 @@ export default function ContactPage() {
                 </div>
                 <div style={{ marginBottom: "1.5rem" }}>
                   <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Your Message *</label>
-                  <textarea required value={form.message} onChange={e => setForm({...form, message: e.target.value})}
+                  <textarea required value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
                     placeholder="Describe your business, goals, and what you need help with..." rows={5}
                     style={{ ...inputStyle, resize: "vertical" }} />
                 </div>
@@ -224,7 +224,7 @@ export default function ContactPage() {
                   {status === "loading" ? "Sending..." : "Send Free Consultation Request →"}
                 </button>
                 <p style={{ textAlign: "center", color: "var(--color-text-faint)", fontSize: "0.8rem", marginTop: "1rem" }}>
-                  ✓ Free consultation &nbsp;·&nbsp; ✓ No contracts &nbsp;·&nbsp; ✓ Reply in 2–6 hours
+                  ✓ Free consultation &nbsp;·&nbsp; ✓ No contracts &nbsp;·&nbsp; ✓ Priority response for enterprise clients
                 </p>
               </form>
             )}
