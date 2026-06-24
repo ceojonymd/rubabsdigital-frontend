@@ -1,77 +1,265 @@
+import Link from "next/link";
+
 export const metadata = {
   title: "Pricing | Rubab's Digital",
-  description: "Explore pricing guidance and engagement models for websites, automation, AI agents, and digital growth systems.",
+  description: "Pricing packages for websites, automation, and growth support from Rubab's Digital.",
 };
 
-const section = { padding: "6rem 1.5rem" } as React.CSSProperties;
-const container = { maxWidth: "1120px", margin: "0 auto" } as React.CSSProperties;
-const card = {
-  background: "var(--color-surface)",
-  border: "1px solid var(--color-border)",
-  borderRadius: "var(--radius-xl)",
-  padding: "1.9rem",
-} as React.CSSProperties;
-const h1 = {
-  fontFamily: "var(--font-display)",
-  fontSize: "clamp(2.4rem, 1rem + 4vw, 4.75rem)",
-  lineHeight: 1.08,
-  letterSpacing: "-0.02em",
-  marginBottom: "1rem",
-} as React.CSSProperties;
-const h2 = { fontFamily: "var(--font-display)", fontSize: "1.45rem", marginBottom: "0.65rem", lineHeight: 1.15 } as React.CSSProperties;
-const p = { color: "var(--color-text-muted)", fontSize: "1rem", lineHeight: 1.75 } as React.CSSProperties;
+const packages = [
+  {
+    name: "Starter Presence",
+    badge: "Best for early trust",
+    price: "From $500",
+    intro: "For businesses that need a cleaner digital presence and a more credible first impression.",
+    items: [
+      "Strategic website refresh or landing page direction",
+      "Clearer offer presentation and CTA flow",
+      "Trust-focused structure for service businesses",
+      "Basic enquiry improvement recommendations",
+    ],
+  },
+  {
+    name: "Growth System",
+    badge: "Most balanced",
+    price: "From $1,200",
+    intro: "For businesses that need design, enquiry flow, and practical system thinking to work together.",
+    items: [
+      "Website or landing page system with stronger narrative flow",
+      "Contact journey and qualification improvements",
+      "Automation planning for lead handling or follow-up",
+      "Positioning support for clearer conversion paths",
+    ],
+  },
+  {
+    name: "Enterprise Direction",
+    badge: "Best for operations",
+    price: "Custom",
+    intro: "For teams that need a more connected digital experience across website, automation, and internal handling.",
+    items: [
+      "Full consultative website and workflow direction",
+      "AI or automation layer planning",
+      "Lead management and response system thinking",
+      "Priority attention for larger business needs",
+    ],
+  },
+];
 
-const plans = [
-  {
-    name: "Starter",
-    price: "Custom quote",
-    text: "For businesses that need a clean, conversion-aware online presence with fast setup and practical execution.",
-    bullets: ["Single-page or focused website build", "Core brand messaging", "Mobile-ready layout", "Contact or lead capture setup"],
-  },
-  {
-    name: "Growth",
-    price: "Custom quote",
-    text: "For service businesses that need website polish, stronger lead handling, and better operational flow.",
-    bullets: ["Multi-section website", "Lead flow improvement", "Automation-ready forms", "Strategy and iteration support"],
-  },
-  {
-    name: "System",
-    price: "Custom quote",
-    text: "For brands that want websites, automation, AI support, and business logic working together as one system.",
-    bullets: ["Website + automation integration", "Custom workflow logic", "AI support layer", "Ongoing optimization options"],
-  },
+const comparison = [
+  ["Consultative page direction", "Yes", "Yes", "Yes"],
+  ["Landing page or website structure", "Focused", "Advanced", "Custom"],
+  ["Lead-flow improvement", "Basic", "Strong", "Deep"],
+  ["Automation planning", "Light", "Included", "Priority"],
+  ["Best fit", "Smaller service businesses", "Growing teams", "Enterprise and complex operations"],
 ];
 
 export default function PricingPage() {
   return (
     <main style={{ paddingTop: "80px" }}>
-      <section style={{ ...section, paddingBottom: "2.5rem", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "-20%", left: "50%", transform: "translateX(-50%)", width: "880px", height: "440px", background: "radial-gradient(ellipse, rgba(0,229,160,0.12) 0%, transparent 72%)", pointerEvents: "none" }} />
-        <div style={{ ...container, position: "relative", zIndex: 1 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "0.4rem 1rem", borderRadius: "999px", background: "var(--color-accent-dim)", border: "1px solid rgba(0,229,160,0.22)", color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem", marginBottom: "1.25rem" }}>
-            💼 Pricing
-          </div>
-          <h1 style={h1}>Flexible Engagements,<br /><span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Built Around Real Needs.</span></h1>
-          <p style={{ ...p, maxWidth: "760px", fontSize: "1.08rem" }}>
-            Every project is scoped around your goals, complexity, timeline, and business stage. These engagement models are here to help you understand how we typically structure work.
+      <section style={{ padding: "6rem 1.5rem 2.5rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.7rem" }}>Pricing</div>
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2.5rem, 1rem + 4vw, 4.8rem)",
+              lineHeight: 1.05,
+              marginBottom: "1rem",
+            }}
+          >
+            Clearer Packages for
+            <br />
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Better-Fit Engagements.</span>
+          </h1>
+          <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
+            These packages are meant to help businesses quickly understand the level of direction, support, and system thinking that fits their current stage.
           </p>
         </div>
       </section>
 
-      <section style={{ padding: "1rem 1.5rem 6rem" }}>
-        <div style={{ ...container, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
-          {plans.map((plan) => (
-            <div key={plan.name} style={card}>
-              <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-                {plan.name}
+      <section style={{ padding: "0 1.5rem 3rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
+          {packages.map((pkg) => (
+            <div
+              key={pkg.name}
+              style={{
+                background: "var(--color-surface)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-xl)",
+                padding: "1.2rem",
+              }}
+            >
+              <div
+                style={{
+                  display: "inline-flex",
+                  padding: "0.35rem 0.75rem",
+                  borderRadius: "999px",
+                  background: "var(--color-accent-dim)",
+                  color: "var(--color-accent)",
+                  fontSize: "0.78rem",
+                  fontWeight: 700,
+                  marginBottom: "0.9rem",
+                }}
+              >
+                {pkg.badge}
               </div>
-              <h2 style={h2}>{plan.price}</h2>
-              <p style={{ ...p, marginBottom: "1rem" }}>{plan.text}</p>
-              <ul style={{ paddingLeft: "1.1rem", margin: 0, color: "var(--color-text-muted)", lineHeight: 1.8 }}>
-                {plan.bullets.map((b) => <li key={b} style={{ marginBottom: "0.5rem" }}>{b}</li>)}
-              </ul>
+
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.55rem", lineHeight: 1.12, marginBottom: "0.5rem" }}>
+                {pkg.name}
+              </div>
+              <div style={{ color: "var(--color-text)", fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.8rem" }}>
+                {pkg.price}
+              </div>
+              <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginBottom: "1rem" }}>{pkg.intro}</p>
+
+              <div style={{ display: "grid", gap: "0.7rem", marginBottom: "1.1rem" }}>
+                {pkg.items.map((item) => (
+                  <div
+                    key={item}
+                    style={{
+                      padding: "0.8rem 0.9rem",
+                      borderRadius: "0.95rem",
+                      background: "rgba(255,255,255,0.04)",
+                      color: "var(--color-text-muted)",
+                      lineHeight: 1.75,
+                      border: "1px solid rgba(255,255,255,0.06)",
+                    }}
+                  >
+                    {item}
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/contact"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  padding: "0.85rem 1.1rem",
+                  borderRadius: "var(--radius-lg)",
+                  background: "var(--color-accent)",
+                  color: "#09140f",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                }}
+              >
+                Discuss This Package →
+              </Link>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section style={{ padding: "0 1.5rem 4rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "1rem" }}>
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>Package comparison</div>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 3rem)", lineHeight: 1.08 }}>
+              A faster way to see the difference.
+            </h2>
+          </div>
+
+          <div
+            style={{
+              overflowX: "auto",
+              background: "var(--color-surface)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "var(--radius-xl)",
+            }}
+          >
+            <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "720px" }}>
+              <thead>
+                <tr>
+                  {["Feature", "Starter Presence", "Growth System", "Enterprise Direction"].map((head) => (
+                    <th
+                      key={head}
+                      style={{
+                        textAlign: "left",
+                        padding: "1rem",
+                        borderBottom: "1px solid var(--color-border)",
+                        color: "var(--color-text)",
+                        fontWeight: 700,
+                        background: "rgba(255,255,255,0.02)",
+                      }}
+                    >
+                      {head}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {comparison.map((row) => (
+                  <tr key={row[0]}>
+                    {row.map((cell, index) => (
+                      <td
+                        key={cell + index}
+                        style={{
+                          padding: "1rem",
+                          borderBottom: "1px solid rgba(255,255,255,0.05)",
+                          color: index === 0 ? "var(--color-text)" : "var(--color-text-muted)",
+                          fontWeight: index === 0 ? 700 : 500,
+                          lineHeight: 1.7,
+                        }}
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: "0 1.5rem 6rem" }}>
+        <div
+          style={{
+            maxWidth: "1120px",
+            margin: "0 auto",
+            background: "linear-gradient(180deg, rgba(0,229,160,0.10), rgba(0,229,160,0.04))",
+            border: "1px solid rgba(0,229,160,0.18)",
+            borderRadius: "var(--radius-xl)",
+            padding: "2rem",
+          }}
+        >
+          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.65rem" }}>
+            Not sure which package fits?
+          </div>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.9rem, 1rem + 2vw, 3rem)",
+              lineHeight: 1.08,
+              marginBottom: "0.8rem",
+            }}
+          >
+            We can recommend the right level after a short conversation.
+          </h2>
+          <p
+            style={{
+              color: "var(--color-text-muted)",
+              lineHeight: 1.8,
+              maxWidth: "760px",
+              marginBottom: "1.2rem",
+            }}
+          >
+            If your needs sit somewhere between design, automation, and lead handling, we can guide you toward the package that makes the most practical sense.
+          </p>
+          <Link
+            href="/contact"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "0.9rem 1.2rem",
+              borderRadius: "var(--radius-lg)",
+              background: "var(--color-accent)",
+              color: "#09140f",
+              fontWeight: 700,
+              textDecoration: "none",
+            }}
+          >
+            Get a Recommendation →
+          </Link>
         </div>
       </section>
     </main>

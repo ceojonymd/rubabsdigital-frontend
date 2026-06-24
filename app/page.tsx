@@ -25,21 +25,18 @@ const caseStudies = [
   },
 ];
 
-const proofItems = [
+const testimonialCards = [
   {
-    title: "Website Redesign & Landing Pages",
-    text: "Sharper messaging, cleaner page flow, and stronger calls to action for service businesses that need more trust before the first enquiry.",
-    lines: ["Hero → trust → offer", "Premium visual hierarchy", "CRO-minded structure"],
+    line: "The direction feels much more premium and much easier to trust than a typical agency landing page.",
+    who: "Positioning-focused service business perspective",
   },
   {
-    title: "AI Chatbots & Automation",
-    text: "Connected systems for enquiry capture, follow-up, response speed, and workflow support so your operation feels less fragmented.",
-    lines: ["Lead routing logic", "Fast response systems", "Automation-ready journey"],
+    line: "What stands out is the thinking behind the journey, not just the visuals.",
+    who: "Consultative buyer perspective",
   },
   {
-    title: "SEO, Ads & Growth Support",
-    text: "Digital visibility and conversion support shaped to help your business move from clicks and visits into more meaningful leads.",
-    lines: ["Traffic → enquiry path", "Offer clarity", "Growth-oriented planning"],
+    line: "The site feels more prepared for real enquiries, not just admiration.",
+    who: "Lead-quality focused business perspective",
   },
 ];
 
@@ -122,7 +119,7 @@ export default function HomePage() {
                   Book a Consultation →
                 </Link>
                 <Link
-                  href="/portfolio#case-studies"
+                  href="/pricing"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -135,7 +132,7 @@ export default function HomePage() {
                     background: "var(--color-surface)",
                   }}
                 >
-                  Review Our Direction →
+                  Review Packages →
                 </Link>
               </div>
             </div>
@@ -157,29 +154,16 @@ export default function HomePage() {
                   background: "linear-gradient(180deg, rgba(0,229,160,0.12), rgba(0,229,160,0.04))",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "0.45rem",
-                    padding: "0.8rem 1rem",
-                    borderBottom: "1px solid rgba(255,255,255,0.06)",
-                  }}
-                >
-                  <span style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#ff6b6b" }} />
-                  <span style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#f7b731" }} />
-                  <span style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#20bf6b" }} />
-                </div>
-
                 <div style={{ padding: "1.2rem" }}>
                   <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem", marginBottom: "0.8rem" }}>
-                    Consultative Preview
+                    Founder-led direction
                   </div>
                   <div style={{ display: "grid", gap: "0.65rem" }}>
                     {[
-                      "Positioning clarity",
-                      "Trust-led structure",
-                      "Lead-ready handoff",
-                      "Operator-friendly flow",
+                      "Positioning before decoration",
+                      "Trust before traffic waste",
+                      "Systems before scattered tools",
+                      "Clear next steps before confusion",
                     ].map((line) => (
                       <div
                         key={line}
@@ -196,7 +180,7 @@ export default function HomePage() {
                     ))}
                   </div>
                   <div style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginTop: "0.9rem" }}>
-                    A more consultative frame for visitors who need to feel structure, confidence, and direction before starting a conversation.
+                    A business-first view of websites, automation, and growth support shaped to help service brands look clearer and operate better.
                   </div>
                 </div>
               </div>
@@ -235,69 +219,32 @@ export default function HomePage() {
 
       <section style={{ padding: "0 1.5rem 4rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "1rem",
-            }}
-          >
-            {proofItems.map((item) => (
-              <div
-                key={item.title}
-                style={{
-                  background: "var(--color-surface)",
-                  border: "1px solid var(--color-border)",
-                  borderRadius: "var(--radius-xl)",
-                  padding: "1rem",
-                }}
-              >
-                <div
-                  style={{
-                    borderRadius: "calc(var(--radius-xl) - 0.35rem)",
-                    padding: "1rem",
-                    minHeight: "165px",
-                    marginBottom: "1rem",
-                    background: "linear-gradient(180deg, rgba(0,229,160,0.12), rgba(0,229,160,0.03))",
-                    border: "1px solid rgba(0,229,160,0.16)",
-                    display: "grid",
-                    gap: "0.55rem",
-                    alignContent: "start",
-                  }}
-                >
-                  <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem" }}>
-                    Strategic Snapshot
-                  </div>
-                  {item.lines.map((line) => (
-                    <div
-                      key={line}
-                      style={{
-                        padding: "0.7rem 0.8rem",
-                        borderRadius: "0.9rem",
-                        background: "rgba(255,255,255,0.05)",
-                        color: "var(--color-text)",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {line}
-                    </div>
-                  ))}
-                </div>
-                <div style={{ color: "var(--color-text)", fontWeight: 700, marginBottom: "0.6rem" }}>
-                  {item.title}
-                </div>
-                <div style={{ color: "var(--color-text-muted)", lineHeight: 1.75 }}>{item.text}</div>
-              </div>
-            ))}
+          <div style={{ marginBottom: "1.25rem" }}>
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>
+              Founder note
+            </div>
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.9rem, 1rem + 2vw, 3rem)",
+                lineHeight: 1.08,
+                marginBottom: "0.8rem",
+              }}
+            >
+              We believe a modern service business needs more than a nice-looking site.
+            </h2>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "860px" }}>
+              It needs message clarity, trust, speed, and a cleaner path from attention into action. Rubab&apos;s Digital is built around that belief: the website should support how the business is seen, how enquiries are handled, and how growth systems work together.
+            </p>
           </div>
         </div>
       </section>
 
-      <section id="case-studies" style={{ padding: "0 1.5rem 4.5rem" }}>
+      <section id="case-studies" style={{ padding: "0 1.5rem 4rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div style={{ marginBottom: "1.25rem" }}>
             <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>
-              Why clients choose us
+              Mini case studies
             </div>
             <h2
               style={{
@@ -359,6 +306,45 @@ export default function HomePage() {
                   {item.outcome}
                 </div>
                 <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75 }}>{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: "0 1.5rem 4.5rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "1.25rem" }}>
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>
+              Trust perspective
+            </div>
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.9rem, 1rem + 2vw, 3rem)",
+                lineHeight: 1.08,
+                marginBottom: "0.8rem",
+              }}
+            >
+              The kind of reactions this direction is built to create.
+            </h2>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
+            {testimonialCards.map((item) => (
+              <div
+                key={item.line}
+                style={{
+                  background: "var(--color-surface)",
+                  border: "1px solid var(--color-border)",
+                  borderRadius: "var(--radius-xl)",
+                  padding: "1.1rem",
+                }}
+              >
+                <div style={{ color: "var(--color-text)", lineHeight: 1.8, marginBottom: "1rem", fontWeight: 600 }}>
+                  “{item.line}”
+                </div>
+                <div style={{ color: "var(--color-text-muted)", fontSize: "0.95rem" }}>{item.who}</div>
               </div>
             ))}
           </div>
