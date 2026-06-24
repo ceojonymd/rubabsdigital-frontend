@@ -1,0 +1,60 @@
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { getAdminCookieName, verifyAdminValue } from "@/lib/admin-auth";
+import {
+  archiveAnalyticsSnapshot,
+  getAnalyticsSummary,
+  readArchivedSnapshots,
+  appendOperatorTimeline,
+} from "@/lib/enquiry-store";
+import { verifyM2MRequest } from "@/lib/m2m-auth";
+
+export async function GET() {
+  const token = cookies().get(getAdminCookieName())?.value;
+  if (!verifyAdminValue(token)) {
+    return NextResponse.json({ ok: false, error: "Unauthorized." }, { status: 401 });
+  }
+
+  const items = await readArchivedSnapshots();
+  return NextResponse.json({ ok: true, items });
+}
+
+export async function POST(req: Request) {
+  const token = cookies().get(getAdminCookieName())?.value;
+  const isAdmin = verifyAdminValue(token);
+
+  const m2m = await verifyM2MRequest(req, { allowAdminCookie: isAdmin });
+  if (!m2m.ok) {
+    return NextResponse.json({ ok: false, error: m2m.error || "Unauthorized." }, { status: 401 });
+  }
+
+  let body: Record<string, unknown> = {};
+  try {
+    body = m2m.bodyText ? JSON.parse(m2m.bodyText) : {};
+  } catch {}
+
+  const from = typeof body?.from === "string" ? body.from : "";
+  const to = typeof body?.to === "string" ? body.to : "";
+
+  const snapshot = await getAnalyticsSummary(from, to);
+  const payload = {
+    archivedAt: new Date().toISOString(),
+    authMode: m2m.mode,
+    from,
+    to,
+    snapshot,
+  };
+
+  const file = await archiveAnalyticsSnapshot(payload);
+
+  await appendOperatorTimeline({
+    at: new Date().toISOString(),
+    type: "archive-snapshot",
+    status: "stored",
+    authMode: m2m.mode,
+    file,
+    message: "Analytics snapshot archived.",
+  });
+
+  return NextResponse.json({ ok: true, file, authMode: m2m.mode });
+}

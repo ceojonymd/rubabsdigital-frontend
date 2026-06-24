@@ -1,0 +1,183 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import Link from "next/link";
+
+export const metadata = {
+  title: "Portfolio | Rubab's Digital",
+  description: "Explore selected website, automation, AI, campaign, and growth-focused concept work from Rubab's Digital.",
+};
+
+const filters = ["All", "Web Design", "Automation", "AI Systems", "Landing Pages", "Service Business"];
+
+const items = [
+  {
+    title: "Service Website Systems",
+    type: "Web Design",
+    niche: "Service Business",
+    text: "Premium website direction for businesses that need stronger first impressions, clearer positioning, and better enquiry flow.",
+  },
+  {
+    title: "Lead Handling Workflow Direction",
+    type: "Automation",
+    niche: "Service Business",
+    text: "A contact and qualification flow shaped to make incoming leads easier to review, route, and act on.",
+  },
+  {
+    title: "AI Visitor Guidance Layer",
+    type: "AI Systems",
+    niche: "Service Business",
+    text: "AI-assisted visitor direction designed to support service discovery, trust-building, and clearer next steps.",
+  },
+  {
+    title: "Growth Landing Flow",
+    type: "Landing Pages",
+    niche: "Service Business",
+    text: "Landing page structure focused on message clarity, CTA rhythm, and stronger buyer confidence.",
+  },
+];
+
+export default function PortfolioPage() {
+  const [active, setActive] = useState("All");
+
+  const filtered = useMemo(() => {
+    if (active === "All") return items;
+    return items.filter((item) => item.type === active || item.niche === active);
+  }, [active]);
+
+  return (
+    <main style={{ paddingTop: "80px", paddingBottom: "110px" }}>
+      <section style={{ padding: "6rem 1.5rem 2.5rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.7rem" }}>Portfolio</div>
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2.5rem, 1rem + 4vw, 4.8rem)",
+              lineHeight: 1.05,
+              marginBottom: "1rem",
+            }}
+          >
+            Proof, Direction, and
+            <br />
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Conversion-Aware Presentation.</span>
+          </h1>
+          <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
+            Browse selected categories of work to quickly understand the kind of website, automation, and conversion thinking Rubab&apos;s Digital brings to service businesses.
+          </p>
+        </div>
+      </section>
+
+      <section style={{ padding: "0 1.5rem 1.5rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActive(filter)}
+                style={{
+                  padding: "0.78rem 1rem",
+                  borderRadius: "999px",
+                  border: active === filter ? "1px solid rgba(0,229,160,0.35)" : "1px solid var(--color-border)",
+                  background: active === filter ? "var(--color-accent-dim)" : "var(--color-surface)",
+                  color: active === filter ? "var(--color-accent)" : "var(--color-text)",
+                  fontWeight: 700,
+                }}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: "0 1.5rem 4rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
+          {filtered.map((item) => (
+            <div
+              key={item.title}
+              style={{
+                background: "var(--color-surface)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-xl)",
+                padding: "1rem",
+              }}
+            >
+              <div
+                style={{
+                  height: "220px",
+                  borderRadius: "calc(var(--radius-xl) - 0.35rem)",
+                  background: "linear-gradient(135deg, rgba(0,229,160,0.18), rgba(255,255,255,0.03))",
+                  border: "1px solid rgba(0,229,160,0.18)",
+                  display: "grid",
+                  placeItems: "center",
+                  marginBottom: "1rem",
+                }}
+              >
+                <div
+                  style={{
+                    width: "78%",
+                    height: "74%",
+                    borderRadius: "1rem",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    background: "rgba(10,15,13,0.72)",
+                    padding: "0.8rem",
+                    display: "grid",
+                    gap: "0.5rem",
+                    alignContent: "start",
+                  }}
+                >
+                  <div style={{ display: "flex", gap: "0.4rem" }}>
+                    <span style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#ff6b6b" }} />
+                    <span style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#f7b731" }} />
+                    <span style={{ width: "10px", height: "10px", borderRadius: "999px", background: "#20bf6b" }} />
+                  </div>
+                  <div style={{ height: "18px", width: "60%", borderRadius: "999px", background: "rgba(0,229,160,0.22)" }} />
+                  <div style={{ height: "12px", width: "86%", borderRadius: "999px", background: "rgba(255,255,255,0.12)" }} />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem", marginTop: "0.25rem" }}>
+                    <div style={{ height: "62px", borderRadius: "0.8rem", background: "rgba(255,255,255,0.06)" }} />
+                    <div style={{ height: "62px", borderRadius: "0.8rem", background: "rgba(255,255,255,0.06)" }} />
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.75rem" }}>
+                <span style={tagStyle}>{item.type}</span>
+                <span style={tagStyle}>{item.niche}</span>
+              </div>
+
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.45rem", lineHeight: 1.12, marginBottom: "0.7rem" }}>
+                {item.title}
+              </div>
+              <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginBottom: "1rem" }}>{item.text}</p>
+
+              <div
+                style={{
+                  padding: "0.8rem 0.9rem",
+                  borderRadius: "0.95rem",
+                  background: "rgba(255,255,255,0.04)",
+                  color: "var(--color-text)",
+                  lineHeight: 1.7,
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  fontWeight: 600,
+                }}
+              >
+                Media slot ready for future real screenshots or case-study mockups.
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
+
+const tagStyle: React.CSSProperties = {
+  display: "inline-flex",
+  padding: "0.35rem 0.75rem",
+  borderRadius: "999px",
+  background: "var(--color-accent-dim)",
+  color: "var(--color-accent)",
+  fontSize: "0.78rem",
+  fontWeight: 700,
+};
