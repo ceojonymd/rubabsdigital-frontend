@@ -30,7 +30,7 @@ function escapeHtml(value: string) {
 }
 
 async function persistFallback(record: Record<string, unknown>) {
-  const dir = path.join(process.cwd(), "data", "enquiries");
+  const dir = path.join("/tmp", "rubabs-digital-enquiries");
   await fs.mkdir(dir, { recursive: true });
   const stamp = new Date().toISOString().replace(/[:.]/g, "-");
   const file = path.join(dir, `enquiry-${stamp}.json`);
@@ -145,15 +145,15 @@ export async function POST(req: Request) {
     let handoff = {
       attempted: false,
       delivered: false,
-      target: "local_fallback",
+      target: webhookUrl ? "n8n_webhook" : "tmp_fallback",
       status: 0,
       response: null as unknown,
       fallbackFile: "",
+      fallbackError: "",
     };
 
     if (webhookUrl) {
       handoff.attempted = true;
-      handoff.target = "n8n_webhook";
 
       try {
         const res = await fetch(webhookUrl, {
@@ -168,35 +168,54 @@ export async function POST(req: Request) {
 
         const raw = await res.text();
         let parsed: unknown = raw;
+
         try {
           parsed = JSON.parse(raw);
         } catch {}
+
+        handoff.status = res.status;
+        handoff.response = parsed;
 
         if (!res.ok) {
           throw new Error(`n8n webhook returned ${res.status}`);
         }
 
         handoff.delivered = true;
-        handoff.status = res.status;
-        handoff.response = parsed;
       } catch (err) {
+        console.error("[contact] webhook handoff failed", err);
         handoff.delivered = false;
-        handoff.status = 502;
+        handoff.status = handoff.status || 502;
         handoff.response = err instanceof Error ? err.message : "Webhook handoff failed";
-        handoff.fallbackFile = await persistFallback(opsRecord);
+
+        try {
+          handoff.fallbackFile = await persistFallback(opsRecord);
+        } catch (fallbackErr) {
+          console.error("[contact] tmp fallback failed", fallbackErr);
+          handoff.fallbackError =
+            fallbackErr instanceof Error ? fallbackErr.message : "Fallback persistence failed";
+        }
       }
     } else {
-      handoff.fallbackFile = await persistFallback(opsRecord);
+      try {
+        handoff.fallbackFile = await persistFallback(opsRecord);
+      } catch (fallbackErr) {
+        console.error("[contact] tmp fallback failed", fallbackErr);
+        handoff.fallbackError =
+          fallbackErr instanceof Error ? fallbackErr.message : "Fallback persistence failed";
+      }
     }
 
     return NextResponse.json({
       ok: true,
-      message: "Your enquiry has been received. We will review it and get back to you shortly.",
+      message: handoff.delivered
+        ? "Your enquiry has been received. We will review it and get back to you shortly."
+        : "Your enquiry has been received and queued for follow-up.",
       subject: structuredSubject,
       handoff,
       ops: opsRecord.ops,
     });
-  } catch {
+  } catch (error) {
+    console.error("[contact] unexpected route error", error);
     return NextResponse.json(
       {
         ok: false,
