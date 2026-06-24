@@ -8,25 +8,30 @@ type Pref = {
   executiveWeekly: boolean;
   criticalAlerts: boolean;
   unsubscribedAll: boolean;
+  publicLinkToken?: string;
 };
 
 export default function DigestPreferencesPanel() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [role, setRole] = useState("admin");
   const [rows, setRows] = useState<Pref[]>([
     { email: "", opsDaily: true, executiveWeekly: true, criticalAlerts: true, unsubscribedAll: false },
   ]);
 
+  async function load() {
+    try {
+      const res = await fetch("/api/admin/digest-preferences");
+      const data = await res.json();
+      if (data?.ok) {
+        setRole(String(data.role || "admin"));
+        if (Array.isArray(data.items) && data.items.length) setRows(data.items);
+      }
+    } catch {}
+  }
+
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch("/api/admin/digest-preferences");
-        const data = await res.json();
-        if (data?.ok && Array.isArray(data.items) && data.items.length) {
-          setRows(data.items);
-        }
-      } catch {}
-    })();
+    load();
   }, []);
 
   function update(index: number, key: keyof Pref, value: string | boolean) {
@@ -40,7 +45,6 @@ export default function DigestPreferencesPanel() {
   async function save() {
     setBusy(true);
     setMessage("");
-
     try {
       const res = await fetch("/api/admin/digest-preferences", {
         method: "POST",
@@ -49,6 +53,7 @@ export default function DigestPreferencesPanel() {
       });
       const data = await res.json();
       setMessage(data?.ok ? "Preferences saved." : data?.error || "Save failed.");
+      await load();
     } catch {
       setMessage("Save failed.");
     } finally {
@@ -56,29 +61,55 @@ export default function DigestPreferencesPanel() {
     }
   }
 
+  async function regenerate(email: string, index: number) {
+    setMessage("");
+    try {
+      const res = await fetch("/api/admin/regenerate-preference-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data?.ok) {
+        setRows((prev) => prev.map((row, i) => (i === index ? { ...row, publicLinkToken: data.publicLinkToken } : row)));
+        setMessage("Preference link regenerated.");
+      } else {
+        setMessage(data?.error || "Regenerate failed.");
+      }
+    } catch {
+      setMessage("Regenerate failed.");
+    }
+  }
+
   return (
     <div style={panelStyle}>
-      <div style={{ fontWeight: 700, marginBottom: "0.8rem" }}>Recipient Preferences</div>
+      <div style={{ fontWeight: 700, marginBottom: "0.35rem" }}>Recipient Preferences</div>
+      <div style={{ color: "var(--color-text-muted)", fontSize: "0.9rem", marginBottom: "0.8rem" }}>
+        Current role: {role}
+      </div>
 
       <div style={{ display: "grid", gap: "0.75rem" }}>
         {rows.map((row, index) => (
           <div key={index} style={{ border: "1px solid var(--color-border)", borderRadius: "1rem", padding: "0.85rem", display: "grid", gap: "0.75rem" }}>
-            <input
-              value={row.email}
-              onChange={(e) => update(index, "email", e.target.value)}
-              placeholder="recipient@example.com"
-              style={inputStyle}
-            />
+            <input value={row.email} onChange={(e) => update(index, "email", e.target.value)} placeholder="recipient@example.com" style={inputStyle} />
             <label style={labelStyle}><input type="checkbox" checked={row.opsDaily} onChange={(e) => update(index, "opsDaily", e.target.checked)} /> <span>Daily ops digest</span></label>
             <label style={labelStyle}><input type="checkbox" checked={row.executiveWeekly} onChange={(e) => update(index, "executiveWeekly", e.target.checked)} /> <span>Weekly executive digest</span></label>
             <label style={labelStyle}><input type="checkbox" checked={row.criticalAlerts} onChange={(e) => update(index, "criticalAlerts", e.target.checked)} /> <span>Critical alerts</span></label>
             <label style={labelStyle}><input type="checkbox" checked={row.unsubscribedAll} onChange={(e) => update(index, "unsubscribedAll", e.target.checked)} /> <span>Unsubscribe from all</span></label>
+            {row.publicLinkToken ? (
+              <div style={{ color: "var(--color-text-muted)", fontSize: "0.85rem", wordBreak: "break-all" }}>
+                Public link: /preferences/{row.publicLinkToken}
+              </div>
+            ) : null}
+            <div style={{ display: "flex", gap: "0.65rem", flexWrap: "wrap" }}>
+              <button onClick={() => regenerate(row.email, index)} disabled={role !== "admin" || !row.email} style={secondaryButton}>Regenerate Link</button>
+            </div>
           </div>
         ))}
 
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
           <button onClick={addRow} style={secondaryButton}>Add Recipient</button>
-          <button onClick={save} disabled={busy} style={primaryButton}>{busy ? "Saving..." : "Save Preferences"}</button>
+          <button onClick={save} disabled={busy || role !== "admin"} style={primaryButton}>{busy ? "Saving..." : "Save Preferences"}</button>
         </div>
 
         {message ? <div style={{ color: "var(--color-text-muted)", fontSize: "0.92rem" }}>{message}</div> : null}

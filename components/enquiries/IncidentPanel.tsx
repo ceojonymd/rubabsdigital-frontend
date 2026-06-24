@@ -1,0 +1,150 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function IncidentPanel() {
+  const [items, setItems] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
+  const [role, setRole] = useState("admin");
+  const [message, setMessage] = useState("");
+
+  async function load() {
+    try {
+      const res = await fetch("/api/admin/incidents");
+      const data = await res.json();
+      if (data?.ok) {
+        setItems(Array.isArray(data.items) ? data.items : []);
+        setEvents(Array.isArray(data.events) ? data.events : []);
+        setRole(String(data.role || "admin"));
+      }
+    } catch {}
+  }
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  async function createIncident() {
+    setMessage("");
+    try {
+      const res = await fetch("/api/admin/incidents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "delivery", severity: "critical", title: "Dead-letter queue requires review" }),
+      });
+      const data = await res.json();
+      setMessage(data?.ok ? "Incident created." : data?.error || "Create failed.");
+      await load();
+    } catch {
+      setMessage("Create failed.");
+    }
+  }
+
+  async function ackIncident(incidentId: string) {
+    setMessage("");
+    try {
+      const res = await fetch("/api/admin/ack-incident", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ incidentId }),
+      });
+      const data = await res.json();
+      setMessage(data?.ok ? "Incident acknowledged." : data?.error || "Acknowledge failed.");
+      await load();
+    } catch {
+      setMessage("Acknowledge failed.");
+    }
+  }
+
+  return (
+    <div style={panelStyle}>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", marginBottom: "0.8rem", alignItems: "center" }}>
+        <div style={{ fontWeight: 700 }}>Incidents and Escalation Timeline</div>
+        <button onClick={createIncident} style={buttonStyle}>Create Incident</button>
+      </div>
+
+      <div style={{ color: "var(--color-text-muted)", fontSize: "0.9rem", marginBottom: "0.8rem" }}>
+        Current role: {role}
+      </div>
+
+      <div style={{ display: "grid", gap: "0.75rem", marginBottom: "1rem" }}>
+        {items.length === 0 ? (
+          <div style={{ color: "var(--color-text-muted)" }}>No incidents recorded yet.</div>
+        ) : (
+          items.slice(0, 12).map((item, index) => (
+            <div key={index} style={cardStyle}>
+              <div>
+                <div style={{ fontWeight: 700 }}>{String(item.title || item.type || "incident")}</div>
+                <div style={{ color: "var(--color-text-muted)", fontSize: "0.92rem" }}>
+                  {String(item.severity || "")} · {String(item.status || "")} · SLA {item.slaBreached ? "breached" : "ok"}
+                </div>
+                <div style={{ color: "var(--color-text-muted)", fontSize: "0.85rem" }}>
+                  Due: {String(item.escalationDueAt || item.at || "")}
+                </div>
+              </div>
+              {item.id && item.status === "open" ? (
+                <button onClick={() => ackIncident(String(item.id))} style={buttonStyle}>Acknowledge</button>
+              ) : null}
+            </div>
+          ))
+        )}
+      </div>
+
+      <div style={{ fontWeight: 700, marginBottom: "0.7rem" }}>Incident Events</div>
+      <div style={{ display: "grid", gap: "0.75rem" }}>
+        {events.length === 0 ? (
+          <div style={{ color: "var(--color-text-muted)" }}>No incident events yet.</div>
+        ) : (
+          events.slice(0, 12).map((item, index) => (
+            <div key={index} style={eventStyle}>
+              <div style={{ fontWeight: 700 }}>{String(item.type || "event")}</div>
+              <div style={{ color: "var(--color-text-muted)", fontSize: "0.92rem" }}>
+                {String(item.incidentId || "")} · {String(item.status || "")} · {String(item.actor || "")}
+              </div>
+              <div style={{ color: "var(--color-text-muted)", fontSize: "0.85rem" }}>
+                {String(item.at || "")}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {message ? <div style={{ color: "var(--color-text-muted)", fontSize: "0.92rem", marginTop: "0.8rem" }}>{message}</div> : null}
+    </div>
+  );
+}
+
+const panelStyle: React.CSSProperties = {
+  marginTop: "1rem",
+  background: "var(--color-surface)",
+  border: "1px solid var(--color-border)",
+  borderRadius: "1rem",
+  padding: "1rem",
+};
+
+const cardStyle: React.CSSProperties = {
+  display: "flex",
+  justifyContent: "space-between",
+  gap: "1rem",
+  alignItems: "center",
+  border: "1px solid rgba(255,255,255,0.08)",
+  borderRadius: "1rem",
+  padding: "0.9rem",
+  background: "rgba(255,255,255,0.03)",
+};
+
+const eventStyle: React.CSSProperties = {
+  border: "1px solid rgba(255,255,255,0.08)",
+  borderRadius: "1rem",
+  padding: "0.85rem",
+  background: "rgba(255,255,255,0.03)",
+};
+
+const buttonStyle: React.CSSProperties = {
+  padding: "0.76rem 0.95rem",
+  borderRadius: "999px",
+  border: "1px solid rgba(255,107,107,0.28)",
+  background: "rgba(255,107,107,0.12)",
+  color: "#ffb3b3",
+  fontWeight: 700,
+};
