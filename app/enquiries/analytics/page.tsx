@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getAdminCookieName, verifyAdminValue } from "@/lib/admin-auth";
-import { getAnalyticsSummary } from "@/lib/enquiry-store";
+import { getAnalyticsSummary, readArchivedSnapshots } from "@/lib/enquiry-store";
 import LogoutButton from "@/components/enquiries/LogoutButton";
 import AnalyticsCharts from "@/components/enquiries/AnalyticsCharts";
 import RetryDeliveryButton from "@/components/enquiries/RetryDeliveryButton";
@@ -10,6 +10,10 @@ import RunRetryWorkerButton from "@/components/enquiries/RunRetryWorkerButton";
 import AnalyticsFilters from "@/components/enquiries/AnalyticsFilters";
 import ReplayDlqButton from "@/components/enquiries/ReplayDlqButton";
 import AnalyticsExportButtons from "@/components/enquiries/AnalyticsExportButtons";
+import ArchiveSnapshotButton from "@/components/enquiries/ArchiveSnapshotButton";
+import WeeklyExecutiveButton from "@/components/enquiries/WeeklyExecutiveButton";
+import DailyOpsDigestButton from "@/components/enquiries/DailyOpsDigestButton";
+import DigestSettingsPanel from "@/components/enquiries/DigestSettingsPanel";
 
 export const metadata = {
   title: "Enquiry Analytics | Rubab's Digital",
@@ -29,6 +33,7 @@ export default async function EnquiryAnalyticsPage({
   const from = searchParams?.from || "";
   const to = searchParams?.to || "";
   const data = await getAnalyticsSummary(from, to);
+  const archived = await readArchivedSnapshots();
 
   return (
     <main style={{ paddingTop: "80px", paddingBottom: "80px" }}>
@@ -49,19 +54,22 @@ export default async function EnquiryAnalyticsPage({
               marginBottom: "1rem",
             }}
           >
-            Replay, Snapshot
+            Digest Rules,
             <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>and Handoff Layer.</span>
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Nonce and Escalation Layer.</span>
           </h1>
 
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "780px", marginBottom: "1rem" }}>
-            Export analytics snapshots, replay dead-letter items, run the retry worker, and integrate with n8n error workflow handoff.
+            Manage replay-safe machine auth, digest recipients, alert severity rules, daily ops reporting, and weekly executive reporting.
           </p>
 
           <AnalyticsFilters />
 
           <div style={{ display: "flex", gap: "0.8rem", flexWrap: "wrap", marginBottom: "1rem" }}>
             <RunRetryWorkerButton />
+            <ArchiveSnapshotButton />
+            <DailyOpsDigestButton />
+            <WeeklyExecutiveButton />
             <AnalyticsExportButtons />
           </div>
 
@@ -81,6 +89,42 @@ export default async function EnquiryAnalyticsPage({
             topServices={data.charts.topServices}
             volumeTrend={data.charts.volumeTrend}
           />
+
+          <DigestSettingsPanel />
+
+          <div
+            style={{
+              marginTop: "1rem",
+              background: "var(--color-surface)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "1rem",
+              padding: "1rem",
+            }}
+          >
+            <div style={{ fontWeight: 700, marginBottom: "0.8rem" }}>Archived Snapshots</div>
+            <div style={{ display: "grid", gap: "0.75rem" }}>
+              {archived.length === 0 ? (
+                <div style={{ color: "var(--color-text-muted)" }}>No archived snapshots yet.</div>
+              ) : (
+                archived.slice(0, 8).map((item, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      borderRadius: "1rem",
+                      padding: "0.9rem",
+                      background: "rgba(255,255,255,0.03)",
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, marginBottom: "0.2rem" }}>{item.file}</div>
+                    <div style={{ color: "var(--color-text-muted)", fontSize: "0.92rem" }}>
+                      {String(item.parsed?.archivedAt || "")}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
 
           <div
             style={{

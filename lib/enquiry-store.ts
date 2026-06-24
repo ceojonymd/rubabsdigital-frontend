@@ -21,6 +21,8 @@ export type EnquiryRow = {
   recoveryState?: string;
 };
 
+const SETTINGS_FILE = path.join(process.cwd(), "data", "settings", "digest-settings.json");
+
 export async function readEnquiryRows() {
   const dir = path.join(process.cwd(), "data", "enquiries");
 
@@ -112,7 +114,7 @@ export async function appendOperatorTimeline(entry: Record<string, unknown>) {
   } catch {}
 
   rows.unshift(entry);
-  await fs.writeFile(out, JSON.stringify(rows.slice(0, 250), null, 2), "utf8");
+  await fs.writeFile(out, JSON.stringify(rows.slice(0, 300), null, 2), "utf8");
 }
 
 export async function readOperatorTimeline() {
@@ -153,6 +155,41 @@ export function classifyRecoveryState(message: string, attemptCount: number, max
   }
 
   return "pending-retry";
+}
+
+export async function getDigestSettings() {
+  try {
+    const raw = await fs.readFile(SETTINGS_FILE, "utf8");
+    const parsed = JSON.parse(raw);
+    return {
+      opsRecipients: Array.isArray(parsed?.opsRecipients) ? parsed.opsRecipients : [],
+      executiveRecipients: Array.isArray(parsed?.executiveRecipients) ? parsed.executiveRecipients : [],
+      opsDigestEnabled: parsed?.opsDigestEnabled !== false,
+      executiveDigestEnabled: parsed?.executiveDigestEnabled !== false,
+      severityRules: Array.isArray(parsed?.severityRules) ? parsed.severityRules : [
+        { key: "dead-letter", severity: "critical", action: "immediate-escalation" },
+        { key: "failed", severity: "high", action: "daily-digest" },
+        { key: "pending-retry", severity: "medium", action: "watchlist" },
+      ],
+    };
+  } catch {
+    return {
+      opsRecipients: [],
+      executiveRecipients: [],
+      opsDigestEnabled: true,
+      executiveDigestEnabled: true,
+      severityRules: [
+        { key: "dead-letter", severity: "critical", action: "immediate-escalation" },
+        { key: "failed", severity: "high", action: "daily-digest" },
+        { key: "pending-retry", severity: "medium", action: "watchlist" },
+      ],
+    };
+  }
+}
+
+export async function saveDigestSettings(payload: Record<string, unknown>) {
+  await fs.mkdir(path.dirname(SETTINGS_FILE), { recursive: true });
+  await fs.writeFile(SETTINGS_FILE, JSON.stringify(payload, null, 2), "utf8");
 }
 
 export async function getAnalyticsSummary(from?: string, to?: string) {
@@ -238,7 +275,7 @@ export async function getAnalyticsSummary(from?: string, to?: string) {
     timeline: timeline.filter((item) => {
       const at = String(item.at || "");
       return inDateRange(at, from, to);
-    }).slice(0, 50),
+    }).slice(0, 80),
   };
 }
 
