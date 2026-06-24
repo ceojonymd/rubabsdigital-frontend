@@ -3,6 +3,19 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
+const primaryNavLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/website-design", label: "Website Design" },
+  { href: "/ai-automation", label: "AI Automation" },
+  { href: "/custom-ai-agents", label: "AI Agents" },
+  { href: "/digital-marketing", label: "Marketing" },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/contact", label: "Contact" },
+];
+
+
 const links = [
   { href: "/", label: "Home" },
   { href: "/ai-automation", label: "AI Automation" },
@@ -29,6 +42,23 @@ export default function Navbar() {
   return (
     <>
       <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:100,padding:isMobile?"0.85rem 1rem":"0.85rem 1.5rem",background:"rgba(10,10,11,0.88)",backdropFilter:"blur(20px) saturate(180%)",borderBottom:"1px solid var(--color-divider)",display:"flex",alignItems:"center",justifyContent:"space-between",gap:"1rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "0.9rem", flexWrap: "wrap" }}>
+                {primaryNavLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    style={{
+                      color: "var(--color-text)",
+                      textDecoration: "none",
+                      fontWeight: 600,
+                      fontSize: "0.95rem",
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            
         <Link href="/" style={{ display:"flex",alignItems:"center",gap:"0.75rem",fontWeight:700,fontSize:isMobile?"0.95rem":"1rem",letterSpacing:"-0.01em",flexShrink:0 }}>
           <img src="/logo.png" alt="Rubab's Digital logo" style={{ width:"36px",height:"36px",objectFit:"contain",borderRadius:"8px",flexShrink:0 }} />
           <span style={{ whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",maxWidth:isMobile?"150px":"none" }}>Rubab&apos;s Digital</span>

@@ -1,5 +1,35 @@
 import Link from "next/link"
 
+const footerLinkGroups = [
+  {
+    title: "Services",
+    links: [
+      { href: "/website-design", label: "Website Design" },
+      { href: "/ai-automation", label: "AI Automation" },
+      { href: "/custom-ai-agents", label: "Custom AI Agents" },
+      { href: "/digital-marketing", label: "Digital Marketing" },
+    ],
+  },
+  {
+    title: "Explore",
+    links: [
+      { href: "/portfolio", label: "Portfolio" },
+      { href: "/pricing", label: "Pricing" },
+      { href: "/faq", label: "FAQ" },
+      { href: "/dentist-websites", label: "Dentist Websites" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { href: "/privacy-policy", label: "Privacy Policy" },
+      { href: "/terms-conditions", label: "Terms & Conditions" },
+      { href: "/refund-policy", label: "Refund Policy" },
+    ],
+  },
+];
+
+
 export default function Footer() {
   return (
     <footer style={{ borderTop: "1px solid var(--color-divider)", padding: "3.5rem 1.5rem 2rem", marginTop: "2rem" }}>
@@ -62,6 +92,36 @@ export default function Footer() {
         <span>© 2026 Rubab&apos;s Digital. All rights reserved.</span>
         <span>Built with 💜 in Jashore, Bangladesh</span>
       </div>
-    </footer>
+    
+  <div style={{ maxWidth: "1120px", margin: "2rem auto 0", padding: "0 1.5rem 2rem" }}>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+        gap: "1.25rem",
+        paddingTop: "1.25rem",
+        borderTop: "1px solid var(--color-border)",
+      }}
+    >
+      {footerLinkGroups.map((group) => (
+        <div key={group.title}>
+          <div style={{ fontWeight: 700, marginBottom: "0.8rem", color: "var(--color-text)" }}>{group.title}</div>
+          <div style={{ display: "grid", gap: "0.6rem" }}>
+            {group.links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                style={{ color: "var(--color-text-muted)", textDecoration: "none", fontSize: "0.95rem" }}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</footer>
+
   )
 }
