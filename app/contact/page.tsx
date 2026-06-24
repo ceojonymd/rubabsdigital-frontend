@@ -253,6 +253,44 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+    
+      <section style={{ padding: "0 1.5rem 5rem" }}>
+        <div
+          style={{
+            maxWidth: "1120px",
+            margin: "0 auto",
+            background: "linear-gradient(180deg, rgba(0,229,160,0.10), rgba(0,229,160,0.04))",
+            border: "1px solid rgba(0,229,160,0.18)",
+            borderRadius: "var(--radius-xl)",
+            padding: "2rem",
+          }}
+        >
+          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.65rem" }}>
+            Clear next step
+          </div>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.8rem, 1rem + 2vw, 2.8rem)",
+              lineHeight: 1.08,
+              marginBottom: "0.8rem",
+            }}
+          >
+            Tell us what you need, and we will shape the right direction.
+          </h2>
+          <p
+            style={{
+              color: "var(--color-text-muted)",
+              lineHeight: 1.8,
+              maxWidth: "760px",
+              marginBottom: "1.2rem",
+            }}
+          >
+            The more clearly we understand your service, budget, and goals, the faster we can guide you toward a practical next step.
+          </p>
+        </div>
+      </section>
+
     </main>
   );
 }

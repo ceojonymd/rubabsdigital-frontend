@@ -1,5 +1,30 @@
 import Link from "next/link";
 
+const trustStrip = [
+  "Consultative website direction",
+  "AI and automation thinking",
+  "Lead-flow-first structure",
+  "Service-business positioning clarity",
+];
+
+const caseStudies = [
+  {
+    title: "Service Website Restructure",
+    outcome: "Clearer offer hierarchy and stronger contact intent.",
+    detail: "A homepage reframed around trust, service clarity, and better CTA positioning for service-led businesses.",
+  },
+  {
+    title: "Lead Handling System Direction",
+    outcome: "Faster internal response and cleaner enquiry qualification.",
+    detail: "A contact and workflow direction shaped to make incoming leads easier to review, sort, and act on.",
+  },
+  {
+    title: "Growth-Focused Landing Flow",
+    outcome: "More persuasive first impressions for higher-intent visitors.",
+    detail: "A conversion-aware structure connecting message clarity, page rhythm, and next-step confidence.",
+  },
+];
+
 const proofItems = [
   {
     title: "Website Redesign & Landing Pages",
@@ -18,16 +43,10 @@ const proofItems = [
   },
 ];
 
-const trustBullets = [
-  "Built for modern service businesses, not generic templates.",
-  "Designed to connect positioning, trust, and lead flow in one system.",
-  "Structured for industries where credibility matters before contact.",
-];
-
 export default function HomePage() {
   return (
     <main style={{ paddingTop: "80px" }}>
-      <section style={{ padding: "6rem 1.5rem 4rem" }}>
+      <section style={{ padding: "6rem 1.5rem 2.5rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div
             style={{
@@ -79,7 +98,7 @@ export default function HomePage() {
                   fontSize: "1.08rem",
                   lineHeight: 1.85,
                   maxWidth: "760px",
-                  marginBottom: "1.75rem",
+                  marginBottom: "1.6rem",
                 }}
               >
                 We help clinics, consultants, law firms, real estate agents, salons, and local service brands
@@ -103,7 +122,7 @@ export default function HomePage() {
                   Book a Consultation →
                 </Link>
                 <Link
-                  href="/portfolio#featured-work"
+                  href="/portfolio#case-studies"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -116,26 +135,8 @@ export default function HomePage() {
                     background: "var(--color-surface)",
                   }}
                 >
-                  See Proof →
+                  Review Our Direction →
                 </Link>
-              </div>
-
-              <div style={{ display: "grid", gap: "0.65rem" }}>
-                {trustBullets.map((item) => (
-                  <div key={item} style={{ display: "flex", gap: "0.7rem", alignItems: "flex-start" }}>
-                    <div
-                      style={{
-                        width: "10px",
-                        height: "10px",
-                        borderRadius: "999px",
-                        background: "var(--color-accent)",
-                        marginTop: "0.45rem",
-                        flexShrink: 0,
-                      }}
-                    />
-                    <div style={{ color: "var(--color-text-muted)", lineHeight: 1.75 }}>{item}</div>
-                  </div>
-                ))}
               </div>
             </div>
 
@@ -171,52 +172,63 @@ export default function HomePage() {
 
                 <div style={{ padding: "1.2rem" }}>
                   <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem", marginBottom: "0.8rem" }}>
-                    Preview Frame
+                    Consultative Preview
                   </div>
-
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1.1fr 0.9fr",
-                      gap: "0.8rem",
-                      marginBottom: "0.9rem",
-                    }}
-                  >
-                    <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: "1rem", minHeight: "170px", padding: "1rem" }}>
-                      <div style={{ width: "48%", height: "10px", borderRadius: "999px", background: "rgba(255,255,255,0.14)", marginBottom: "0.8rem" }} />
-                      <div style={{ width: "82%", height: "18px", borderRadius: "999px", background: "rgba(255,255,255,0.22)", marginBottom: "0.55rem" }} />
-                      <div style={{ width: "72%", height: "18px", borderRadius: "999px", background: "rgba(255,255,255,0.16)", marginBottom: "1rem" }} />
-                      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-                        <div style={{ width: "110px", height: "36px", borderRadius: "999px", background: "rgba(0,229,160,0.85)" }} />
-                        <div style={{ width: "95px", height: "36px", borderRadius: "999px", background: "rgba(255,255,255,0.12)" }} />
+                  <div style={{ display: "grid", gap: "0.65rem" }}>
+                    {[
+                      "Positioning clarity",
+                      "Trust-led structure",
+                      "Lead-ready handoff",
+                      "Operator-friendly flow",
+                    ].map((line) => (
+                      <div
+                        key={line}
+                        style={{
+                          padding: "0.85rem 0.95rem",
+                          borderRadius: "0.95rem",
+                          background: "rgba(255,255,255,0.05)",
+                          color: "var(--color-text)",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {line}
                       </div>
-                      <div style={{ display: "grid", gap: "0.45rem" }}>
-                        <div style={{ width: "86%", height: "10px", borderRadius: "999px", background: "rgba(255,255,255,0.12)" }} />
-                        <div style={{ width: "78%", height: "10px", borderRadius: "999px", background: "rgba(255,255,255,0.10)" }} />
-                        <div style={{ width: "64%", height: "10px", borderRadius: "999px", background: "rgba(255,255,255,0.08)" }} />
-                      </div>
-                    </div>
-
-                    <div style={{ display: "grid", gap: "0.8rem" }}>
-                      <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: "1rem", minHeight: "78px", padding: "0.9rem" }}>
-                        <div style={{ width: "42%", height: "9px", borderRadius: "999px", background: "rgba(255,255,255,0.12)", marginBottom: "0.75rem" }} />
-                        <div style={{ width: "76%", height: "14px", borderRadius: "999px", background: "rgba(255,255,255,0.20)", marginBottom: "0.45rem" }} />
-                        <div style={{ width: "58%", height: "10px", borderRadius: "999px", background: "rgba(255,255,255,0.08)" }} />
-                      </div>
-                      <div style={{ background: "rgba(255,255,255,0.04)", borderRadius: "1rem", minHeight: "78px", padding: "0.9rem" }}>
-                        <div style={{ width: "42%", height: "9px", borderRadius: "999px", background: "rgba(255,255,255,0.12)", marginBottom: "0.75rem" }} />
-                        <div style={{ width: "68%", height: "14px", borderRadius: "999px", background: "rgba(255,255,255,0.20)", marginBottom: "0.45rem" }} />
-                        <div style={{ width: "60%", height: "10px", borderRadius: "999px", background: "rgba(255,255,255,0.08)" }} />
-                      </div>
-                    </div>
+                    ))}
                   </div>
-
-                  <div style={{ color: "var(--color-text-muted)", lineHeight: 1.75 }}>
-                    A presentation-style proof frame that helps visitors feel the level of structure, clarity, and polish before they even read the details.
+                  <div style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginTop: "0.9rem" }}>
+                    A more consultative frame for visitors who need to feel structure, confidence, and direction before starting a conversation.
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: "0 1.5rem 2rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: "0.85rem",
+            }}
+          >
+            {trustStrip.map((item) => (
+              <div
+                key={item}
+                style={{
+                  background: "var(--color-surface)",
+                  border: "1px solid var(--color-border)",
+                  borderRadius: "var(--radius-lg)",
+                  padding: "0.95rem 1rem",
+                  color: "var(--color-text)",
+                  fontWeight: 700,
+                }}
+              >
+                {item}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -254,7 +266,7 @@ export default function HomePage() {
                   }}
                 >
                   <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem" }}>
-                    Visual Snapshot
+                    Strategic Snapshot
                   </div>
                   {item.lines.map((line) => (
                     <div
@@ -271,11 +283,82 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
-
                 <div style={{ color: "var(--color-text)", fontWeight: 700, marginBottom: "0.6rem" }}>
                   {item.title}
                 </div>
                 <div style={{ color: "var(--color-text-muted)", lineHeight: 1.75 }}>{item.text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="case-studies" style={{ padding: "0 1.5rem 4.5rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "1.25rem" }}>
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>
+              Why clients choose us
+            </div>
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.9rem, 1rem + 2vw, 3rem)",
+                lineHeight: 1.08,
+                marginBottom: "0.8rem",
+              }}
+            >
+              We do not just design pages.
+            </h2>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
+              We help shape how a service business presents itself, guides attention, earns trust, and turns interest into a cleaner next step.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "1rem",
+            }}
+          >
+            {caseStudies.map((item) => (
+              <div
+                key={item.title}
+                style={{
+                  background: "var(--color-surface)",
+                  border: "1px solid var(--color-border)",
+                  borderRadius: "var(--radius-xl)",
+                  padding: "1.1rem",
+                }}
+              >
+                <div
+                  style={{
+                    display: "inline-flex",
+                    padding: "0.35rem 0.75rem",
+                    borderRadius: "999px",
+                    background: "var(--color-accent-dim)",
+                    color: "var(--color-accent)",
+                    fontSize: "0.78rem",
+                    fontWeight: 700,
+                    marginBottom: "0.9rem",
+                  }}
+                >
+                  Outcome-led case
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "1.5rem",
+                    lineHeight: 1.12,
+                    marginBottom: "0.7rem",
+                  }}
+                >
+                  {item.title}
+                </div>
+                <div style={{ color: "var(--color-text)", fontWeight: 700, marginBottom: "0.7rem" }}>
+                  {item.outcome}
+                </div>
+                <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75 }}>{item.detail}</p>
               </div>
             ))}
           </div>
@@ -294,7 +377,7 @@ export default function HomePage() {
           }}
         >
           <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.65rem" }}>
-            Ready to build the right system?
+            Ready for the next step?
           </div>
           <h2
             style={{
@@ -304,7 +387,7 @@ export default function HomePage() {
               marginBottom: "0.8rem",
             }}
           >
-            Websites, automation, and growth support should feel connected.
+            Let&apos;s turn your website into a more credible business asset.
           </h2>
           <p
             style={{
@@ -314,12 +397,11 @@ export default function HomePage() {
               marginBottom: "1.2rem",
             }}
           >
-            If your current online presence feels scattered, slow, or too generic, we can help you shape a cleaner
-            system with better design, better positioning, and better lead flow.
+            If your current site feels too generic, too unclear, or disconnected from how leads actually move, we can help shape a better system.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.9rem" }}>
             <Link
-              href="/pricing"
+              href="/contact"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -331,10 +413,10 @@ export default function HomePage() {
                 textDecoration: "none",
               }}
             >
-              View Pricing →
+              Start Your Project →
             </Link>
             <Link
-              href="/contact"
+              href="/pricing"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -347,7 +429,7 @@ export default function HomePage() {
                 background: "var(--color-surface)",
               }}
             >
-              Contact Us
+              View Pricing
             </Link>
           </div>
         </div>

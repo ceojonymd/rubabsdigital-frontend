@@ -24,11 +24,23 @@ const featuredStudies = [
     text: "Tailored AI-driven interfaces and operational layers that help businesses support visitors, teams, and content workflows more efficiently.",
     bullets: ["Guided UX flow", "Visitor assistance", "System thinking"],
   },
+];
+
+const caseRows = [
   {
-    title: "Growth-Focused Marketing Direction",
-    tag: "Marketing",
-    text: "A conversion-aware link between landing pages, audience intent, messaging, and business growth support.",
-    bullets: ["Message hierarchy", "Offer clarity", "Growth logic"],
+    title: "Homepage Reframing",
+    outcome: "Sharper first impression and clearer service narrative.",
+    summary: "A consultative homepage structure designed to guide visitors from attention into trust and action.",
+  },
+  {
+    title: "Contact Qualification Upgrade",
+    outcome: "Cleaner lead summary and easier inbox review.",
+    summary: "An operator-friendly contact direction with structured service and budget framing for better response handling.",
+  },
+  {
+    title: "Portfolio Proof Layer",
+    outcome: "Stronger credibility before the sales conversation.",
+    summary: "A more intentional proof system using concept framing, trust blocks, and outcome-oriented presentation.",
   },
 ];
 
@@ -107,21 +119,21 @@ export default function PortfolioPage() {
           >
             Proof, Concepts, and
             <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Growth-Focused Direction.</span>
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Outcome-Aware Direction.</span>
           </h1>
 
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px", fontSize: "1.06rem" }}>
-            This page brings together client-facing service direction, systems thinking, and creative concept work that reflects how Rubab&apos;s Digital approaches design, automation, and modern campaign storytelling.
+            This portfolio combines strategic website thinking, operational improvements, and campaign-style concept presentation to show how Rubab&apos;s Digital approaches growth-minded work.
           </p>
         </div>
       </section>
 
-      <section id="featured-work" style={{ padding: "1rem 1.5rem 4rem" }}>
+      <section id="featured-work" style={{ padding: "1rem 1.5rem 3rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div style={{ marginBottom: "1.25rem" }}>
-            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>Featured Work</div>
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>Featured Direction</div>
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 3rem)", lineHeight: 1.08 }}>
-              Real directions we would confidently sell.
+              Strategy that feels business-ready.
             </h2>
           </div>
 
@@ -150,7 +162,7 @@ export default function PortfolioPage() {
                   }}
                 >
                   <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem" }}>
-                    Proof Snapshot
+                    Strategic Snapshot
                   </div>
                   {item.bullets.map((bullet) => (
                     <div
@@ -192,6 +204,58 @@ export default function PortfolioPage() {
         </div>
       </section>
 
+      <section id="case-studies" style={{ padding: "0 1.5rem 4rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div style={{ marginBottom: "1.25rem" }}>
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.5rem" }}>
+              Mini case studies
+            </div>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 1rem + 2vw, 3rem)", lineHeight: 1.08, marginBottom: "0.8rem" }}>
+              Outcome framing before the first call.
+            </h2>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
+              These short case-style blocks help visitors understand not just what was built, but what improved because of the direction.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
+            {caseRows.map((item) => (
+              <div
+                key={item.title}
+                style={{
+                  background: "var(--color-surface)",
+                  border: "1px solid var(--color-border)",
+                  borderRadius: "var(--radius-xl)",
+                  padding: "1.1rem",
+                }}
+              >
+                <div
+                  style={{
+                    display: "inline-flex",
+                    padding: "0.35rem 0.75rem",
+                    borderRadius: "999px",
+                    background: "var(--color-accent-dim)",
+                    color: "var(--color-accent)",
+                    fontSize: "0.78rem",
+                    fontWeight: 700,
+                    marginBottom: "0.9rem",
+                  }}
+                >
+                  Consultative outcome
+                </div>
+                <div style={{ fontFamily: "var(--font-display)", fontSize: "1.45rem", lineHeight: 1.12, marginBottom: "0.7rem" }}>
+                  {item.title}
+                </div>
+                <div style={{ color: "var(--color-text)", fontWeight: 700, marginBottom: "0.65rem" }}>
+                  {item.outcome}
+                </div>
+                <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75 }}>{item.summary}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="world-cup-concepts" style={{ padding: "0 1.5rem 5rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div style={{ marginBottom: "1.25rem" }}>
@@ -202,7 +266,7 @@ export default function PortfolioPage() {
               A curated concept library for brand storytelling.
             </h2>
             <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
-              These concept links represent creative exploration and campaign-style page thinking across multiple World Cup themed brand directions. They work best here as portfolio proof with stronger context.
+              These concept links represent campaign exploration across global brands, framed here as creative proof with clearer context and positioning.
             </p>
           </div>
 
@@ -245,16 +309,16 @@ export default function PortfolioPage() {
             padding: "2rem",
           }}
         >
-          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.65rem" }}>Looking for a business-ready version?</div>
+          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.65rem" }}>Need a business-ready version?</div>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.9rem, 1rem + 2vw, 3rem)", lineHeight: 1.08, marginBottom: "0.8rem" }}>
-            We can turn strong concept thinking into a real service-business asset.
+            Let&apos;s shape a more credible website and lead system for your business.
           </h2>
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px", marginBottom: "1.2rem" }}>
-            If you need a cleaner website, a sharper landing page, or a more connected digital system, the next step is a focused consultation around your actual business goals.
+            If you want design, automation, and message clarity to work together, the next step is a focused consultation around your actual offer and goals.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.9rem" }}>
             <Link
-              href="/pricing"
+              href="/contact"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -266,10 +330,10 @@ export default function PortfolioPage() {
                 textDecoration: "none",
               }}
             >
-              View Pricing →
+              Start a Consultation →
             </Link>
             <Link
-              href="/contact"
+              href="/pricing"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -282,7 +346,7 @@ export default function PortfolioPage() {
                 background: "var(--color-surface)",
               }}
             >
-              Contact Us
+              View Pricing
             </Link>
           </div>
         </div>
