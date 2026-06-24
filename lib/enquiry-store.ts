@@ -241,3 +241,42 @@ export async function getAnalyticsSummary(from?: string, to?: string) {
     }).slice(0, 50),
   };
 }
+
+export async function archiveAnalyticsSnapshot(payload: Record<string, unknown>) {
+  const dir = path.join(process.cwd(), "data", "report-archive");
+  await fs.mkdir(dir, { recursive: true });
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const file = path.join(dir, `analytics-snapshot-${stamp}.json`);
+  await fs.writeFile(file, JSON.stringify(payload, null, 2), "utf8");
+  return file;
+}
+
+export async function readArchivedSnapshots() {
+  const dir = path.join(process.cwd(), "data", "report-archive");
+  try {
+    const files = (await fs.readdir(dir))
+      .filter((name) => name.endsWith(".json"))
+      .sort()
+      .reverse();
+
+    return Promise.all(
+      files.slice(0, 30).map(async (file) => {
+        const full = path.join(dir, file);
+        const raw = await fs.readFile(full, "utf8");
+        const parsed = JSON.parse(raw);
+        return { file, parsed };
+      })
+    );
+  } catch {
+    return [];
+  }
+}
+
+export async function saveDigestRecord(payload: Record<string, unknown>) {
+  const dir = path.join(process.cwd(), "data", "digests");
+  await fs.mkdir(dir, { recursive: true });
+  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const file = path.join(dir, `digest-${stamp}.json`);
+  await fs.writeFile(file, JSON.stringify(payload, null, 2), "utf8");
+  return file;
+}
