@@ -10,51 +10,55 @@ const featuredStudies = [
     title: "Service Business Website Systems",
     tag: "Web Design",
     text: "Premium website direction for service businesses that need stronger first impressions, clearer positioning, and better enquiry flow.",
+    visual: "Homepage architecture · Offer framing",
   },
   {
     title: "AI Workflow & Lead Automation",
     tag: "Automation",
     text: "Lead capture, follow-up, alerts, and workflow logic shaped into practical systems that save time and improve response speed.",
+    visual: "Form routing · Follow-up sequence",
   },
   {
     title: "Custom AI Agent Experiences",
     tag: "AI Systems",
     text: "Tailored AI-driven interfaces and operational layers that help businesses support visitors, teams, and content workflows more efficiently.",
+    visual: "Assistant flow · Guided response UX",
   },
   {
     title: "Growth-Focused Marketing Direction",
     tag: "Marketing",
     text: "A conversion-aware link between landing pages, audience intent, messaging, and business growth support.",
+    visual: "Message hierarchy · CTA clarity",
   },
 ];
 
 const worldCupConcepts = [
-  ["WC01", "https://ranch-drums-37308651.figma.site/"],
-  ["WC02", "https://bony-khaki-28980549.figma.site/"],
-  ["WC02-B", "https://khaki-spray-17520158.figma.site/"],
-  ["WC04", "https://trill-name-39631032.figma.site/"],
-  ["WC05", "https://cover-stamp-99875270.figma.site/"],
-  ["WC06", "https://shell-drawer-98082737.figma.site/"],
-  ["WC07", "https://money-pacing-83147189.figma.site/"],
-  ["WC08", "https://prior-tutor-97577445.figma.site/"],
-  ["WC09", "https://sun-tusk-12908953.figma.site/"],
-  ["WC10", "https://malt-shadow-95809262.figma.site/"],
-  ["WC11", "https://half-gentle-74967322.figma.site/"],
-  ["WC12", "https://epic-zippy-28751361.figma.site/"],
-  ["WC13", "https://mood-hall-91339399.figma.site/"],
-  ["WC14", "https://deep-pep-99990106.figma.site/"],
-  ["WC15", "https://effect-film-51249470.figma.site/"],
-  ["WC16", "https://stable-reply-58119542.figma.site/"],
-  ["WC17", "https://crowd-self-73447767.figma.site/"],
-  ["WC18", "https://opt-mount-52177957.figma.site/"],
-  ["WC19", "https://dog-blast-71214759.figma.site/"],
-  ["WC20", "https://ethics-tidy-84167911.figma.site/"],
-  ["WC21", "https://cause-five-61027758.figma.site/"],
-  ["WC22", "https://dew-cane-49830228.figma.site/"],
-  ["WC23", "https://queue-nix-72603901.figma.site/"],
-  ["WC24", "https://relax-genre-23000737.figma.site/"],
-  ["WC25", "https://bronze-pitch-64416473.figma.site/"],
-  ["WC26", "https://method-grab-21943836.figma.site/"],
+  { label: "WC01", brand: "Adidas", href: "https://ranch-drums-37308651.figma.site/" },
+  { label: "WC02", brand: "Coca-Cola", href: "https://bony-khaki-28980549.figma.site/" },
+  { label: "WC03", brand: "Hyundai–Kia", href: "https://khaki-spray-17520158.figma.site/" },
+  { label: "WC04", brand: "Visa", href: "https://trill-name-39631032.figma.site/" },
+  { label: "WC05", brand: "Qatar Airways", href: "https://cover-stamp-99875270.figma.site/" },
+  { label: "WC06", brand: "Aramco", href: "https://shell-drawer-98082737.figma.site/" },
+  { label: "WC07", brand: "Lenovo", href: "https://money-pacing-83147189.figma.site/" },
+  { label: "WC08", brand: "AB InBev", href: "https://prior-tutor-97577445.figma.site/" },
+  { label: "WC09", brand: "Bank of America", href: "https://sun-tusk-12908953.figma.site/" },
+  { label: "WC10", brand: "Lay’s", href: "https://malt-shadow-95809262.figma.site/" },
+  { label: "WC11", brand: "McDonald’s", href: "https://half-gentle-74967322.figma.site/" },
+  { label: "WC12", brand: "Mondelēz", href: "https://epic-zippy-28751361.figma.site/" },
+  { label: "WC13", brand: "Mengniu Dairy", href: "https://mood-hall-91339399.figma.site/" },
+  { label: "WC14", brand: "Unilever Personal Care", href: "https://deep-pep-99990106.figma.site/" },
+  { label: "WC15", brand: "Verizon", href: "https://effect-film-51249470.figma.site/" },
+  { label: "WC16", brand: "DoorDash", href: "https://stable-reply-58119542.figma.site/" },
+  { label: "WC17", brand: "Marriott Bonvoy", href: "https://crowd-self-73447767.figma.site/" },
+  { label: "WC18", brand: "Rock-it Cargo", href: "https://opt-mount-52177957.figma.site/" },
+  { label: "WC19", brand: "Valvoline", href: "https://dog-blast-71214759.figma.site/" },
+  { label: "WC20", brand: "ADI Predictstreet", href: "https://ethics-tidy-84167911.figma.site/" },
+  { label: "WC21", brand: "Fanatics", href: "https://cause-five-61027758.figma.site/" },
+  { label: "WC22", brand: "Boggi Milano", href: "https://dew-cane-49830228.figma.site/" },
+  { label: "WC23", brand: "American Airlines", href: "https://queue-nix-72603901.figma.site/" },
+  { label: "WC24", brand: "Sailun Tire", href: "https://relax-genre-23000737.figma.site/" },
+  { label: "WC25", brand: "Diageo", href: "https://bronze-pitch-64416473.figma.site/" },
+  { label: "WC26", brand: "The Home Depot", href: "https://method-grab-21943836.figma.site/" },
 ];
 
 export default function PortfolioPage() {
@@ -89,7 +93,7 @@ export default function PortfolioPage() {
               marginBottom: "1.25rem",
             }}
           >
-            🗂 Portfolio
+            Portfolio
           </div>
 
           <h1
@@ -129,9 +133,41 @@ export default function PortfolioPage() {
                   background: "var(--color-surface)",
                   border: "1px solid var(--color-border)",
                   borderRadius: "var(--radius-xl)",
-                  padding: "1.5rem",
+                  padding: "1rem",
                 }}
               >
+                <div
+                  style={{
+                    borderRadius: "calc(var(--radius-xl) - 0.35rem)",
+                    padding: "1rem",
+                    minHeight: "150px",
+                    marginBottom: "1rem",
+                    background:
+                      "linear-gradient(180deg, rgba(0,229,160,0.12), rgba(0,229,160,0.03))",
+                    border: "1px solid rgba(0,229,160,0.16)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem" }}>
+                    Proof Snapshot
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "1.2rem",
+                      lineHeight: 1.08,
+                      color: "var(--color-text)",
+                    }}
+                  >
+                    {item.visual}
+                  </div>
+                  <div style={{ color: "var(--color-text-muted)", fontSize: "0.92rem" }}>
+                    Screenshot-style presentation block
+                  </div>
+                </div>
+
                 <div
                   style={{
                     display: "inline-flex",
@@ -166,15 +202,15 @@ export default function PortfolioPage() {
               A curated concept library for brand storytelling.
             </h2>
             <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
-              These concept links represent creative exploration and campaign-style page thinking across multiple World Cup themed brand directions. They sit best as portfolio proof, not as primary service navigation.
+              These concept links represent creative exploration and campaign-style page thinking across multiple World Cup themed brand directions. They work best here as portfolio proof with brand context.
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.85rem" }}>
-            {worldCupConcepts.map(([label, href]) => (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.85rem" }}>
+            {worldCupConcepts.map((item) => (
               <a
-                key={label}
-                href={href}
+                key={item.label}
+                href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -184,10 +220,13 @@ export default function PortfolioPage() {
                   borderRadius: "var(--radius-lg)",
                   padding: "1rem",
                   color: "var(--color-text)",
-                  fontWeight: 700,
+                  display: "block",
                 }}
               >
-                {label} →
+                <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem", marginBottom: "0.35rem" }}>
+                  {item.label}
+                </div>
+                <div style={{ fontWeight: 700 }}>{item.brand}</div>
               </a>
             ))}
           </div>

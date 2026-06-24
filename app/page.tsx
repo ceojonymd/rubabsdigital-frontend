@@ -2,16 +2,19 @@ import Link from "next/link";
 
 const proofItems = [
   {
-    title: "Service websites with business intent",
-    text: "Built for clinics, consultants, law firms, real estate agents, salons, and modern local service brands.",
+    title: "Service websites built to convert",
+    text: "Positioning, page structure, and calls to action shaped for service businesses that need trust before the first call.",
+    visual: "Website redesign · Landing page CRO",
   },
   {
-    title: "Automation-ready growth systems",
-    text: "Websites, forms, lead capture, and follow-up logic designed to work together instead of staying disconnected.",
+    title: "Automation-ready lead systems",
+    text: "Forms, follow-up, routing, and response workflows designed to reduce delay and create a cleaner enquiry journey.",
+    visual: "AI chatbot · Automation · Lead flow",
   },
   {
-    title: "Campaign and concept exploration",
-    text: "Creative direction, landing-page thinking, and branded concept work that strengthens proof and positioning.",
+    title: "Creative proof with campaign thinking",
+    text: "Concept direction, high-intent landing pages, and branded digital storytelling that strengthen how your business is perceived.",
+    visual: "Campaign concepts · Proof library",
   },
 ];
 
@@ -19,17 +22,17 @@ const entryLinks = [
   {
     href: "/portfolio#featured-work",
     title: "See the Work",
-    text: "Browse featured project directions, proof sections, and campaign-style creative exploration.",
+    text: "Browse selected directions, proof sections, and concept-led portfolio pieces.",
   },
   {
     href: "/pricing",
     title: "Explore Pricing",
-    text: "Understand how website, automation, and growth engagements are usually structured.",
+    text: "See how website, automation, and growth engagements are commonly structured.",
   },
   {
     href: "/contact",
     title: "Start a Conversation",
-    text: "Tell us what you need and we’ll recommend the cleanest way to move from idea to execution.",
+    text: "Share your business goals and we’ll recommend the cleanest next step.",
   },
 ];
 
@@ -127,7 +130,7 @@ export default function HomePage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
               gap: "1rem",
             }}
           >
@@ -138,9 +141,41 @@ export default function HomePage() {
                   background: "var(--color-surface)",
                   border: "1px solid var(--color-border)",
                   borderRadius: "var(--radius-xl)",
-                  padding: "1.4rem",
+                  padding: "1rem",
                 }}
               >
+                <div
+                  style={{
+                    borderRadius: "calc(var(--radius-xl) - 0.35rem)",
+                    padding: "1rem",
+                    minHeight: "150px",
+                    marginBottom: "1rem",
+                    background:
+                      "linear-gradient(180deg, rgba(0,229,160,0.12), rgba(0,229,160,0.03))",
+                    border: "1px solid rgba(0,229,160,0.16)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div style={{ color: "var(--color-accent)", fontWeight: 700, fontSize: "0.82rem" }}>
+                    Proof Snapshot
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "1.35rem",
+                      lineHeight: 1.08,
+                      color: "var(--color-text)",
+                    }}
+                  >
+                    {item.visual}
+                  </div>
+                  <div style={{ color: "var(--color-text-muted)", fontSize: "0.92rem" }}>
+                    Screenshot-style presentation block
+                  </div>
+                </div>
+
                 <div style={{ color: "var(--color-text)", fontWeight: 700, marginBottom: "0.6rem" }}>
                   {item.title}
                 </div>

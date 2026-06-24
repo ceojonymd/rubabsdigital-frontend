@@ -1,236 +1,268 @@
-"use client"
-import { useState } from "react"
+"use client";
+
+import { FormEvent, useState } from "react";
+
+type SubmitState = "idle" | "loading" | "success" | "error";
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" })
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+  const [submitState, setSubmitState] = useState<SubmitState>("idle");
+  const [message, setMessage] = useState("");
 
-  const services = [
-    "AI Automation (n8n)",
-    "Custom AI Agent Building",
-    "Website Design",
-    "Digital Marketing",
-    "Full Package (All Services)",
-  ]
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setSubmitState("loading");
+    setMessage("");
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setStatus("loading")
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const payload = {
+      name: String(formData.get("name") || ""),
+      email: String(formData.get("email") || ""),
+      business: String(formData.get("business") || ""),
+      service: String(formData.get("service") || ""),
+      budget: String(formData.get("budget") || ""),
+      message: String(formData.get("message") || ""),
+    };
+
     try {
-      const res = await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      })
-      if (res.ok) {
-        setStatus("success")
-        setForm({ name: "", email: "", phone: "", service: "", message: "" })
-      } else {
-        setStatus("error")
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data?.error || "Something went wrong. Please try again or email us directly.");
       }
-    } catch {
-      setStatus("error")
+
+      setSubmitState("success");
+      setMessage("Message received. We’ll review your request and reply with the clearest next step.");
+      form.reset();
+    } catch (error) {
+      setSubmitState("error");
+      setMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
     }
   }
 
-  const inputStyle = {
-    width: "100%", padding: "0.85rem 1rem",
-    background: "var(--color-surface-offset)",
-    border: "1px solid var(--color-border)",
-    borderRadius: "var(--radius-md)",
-    color: "var(--color-text)",
-    fontSize: "0.9rem", fontFamily: "var(--font-body)",
-    outline: "none", transition: "border-color 180ms"
-  }
-
   return (
-    <div>
-      <section style={{ padding: "6rem 1.5rem 3rem", position: "relative", overflow: "hidden" }}>
-        <div style={{
-          position: "absolute", top: "-30%", left: "50%", transform: "translateX(-50%)",
-          width: "800px", height: "500px",
-          background: "radial-gradient(ellipse, rgba(0,229,160,0.15) 0%, transparent 70%)",
-          pointerEvents: "none"
-        }} />
-        <div style={{ maxWidth: "960px", margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center" }}>
-          <div style={{
-            display: "inline-flex", alignItems: "stretch", gap: "0.5rem",
-            padding: "0.35rem 1rem", borderRadius: "999px",
-            background: "var(--color-accent-dim)", border: "1px solid rgba(0,229,160,0.25)",
-            fontSize: "0.8rem", fontWeight: 600, color: "var(--color-accent)", marginBottom: "1.5rem"
-          }}>✉️ Contact Us</div>
-          <h1 style={{
-            fontFamily: "var(--font-display)", fontSize: "clamp(2.4rem, 1rem + 4vw, 5rem)",
-            fontWeight: 400, lineHeight: 1.1, marginBottom: "1rem", letterSpacing: "-0.02em"
-          }}>Let&apos;s Talk About<br /><span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Your Growth.</span></h1>
-          <p style={{ fontSize: "1.1rem", color: "var(--color-text-muted)", maxWidth: "520px", margin: "0 auto", lineHeight: 1.8 }}>
-            "Fill in the form below and our team will respond with a clear, honest plan tailored to your business needs."
-          </p>
-        </div>
-      </section>
-
-      <section style={{ padding: "3rem 1.5rem 6rem" }}>
-        <div style={{ maxWidth: "960px", margin: "0 auto", display: "grid", gridTemplateColumns: typeof window !== "undefined" && window.innerWidth < 900 ? "1fr" : "1fr 1.5fr", gap: "4rem" }}>
-
-          {/* LEFT INFO */}
+    <main style={{ paddingTop: "80px" }}>
+      <section style={{ padding: "6rem 1.5rem 4rem" }}>
+        <div
+          style={{
+            maxWidth: "1120px",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "1.5rem",
+            alignItems: "start",
+          }}
+        >
           <div>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.75rem", marginBottom: "1.5rem" }}>Get in Touch</h2>
-            {[
-              { icon: "📍", title: "Our Office", val: "H# 859-17, Sohid Mosiur Rahman Sarak, Puraton Kashba, Jashore, Bangladesh" },
-              { icon: "✉️", title: "Email", val: "mail@rubabsdigital.com", href: "mailto:mail@rubabsdigital.com" },
-              {
-                icon: "🕐",
-                title: "Response Time",
-                val: (
-                  <div style={{ display: "grid", gap: "0.4rem" }}>
-                    <div
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "fit-content",
-                        padding: "0.32rem 0.72rem",
-                        borderRadius: "999px",
-                        background: "rgba(0, 229, 160, 0.12)",
-                        border: "1px solid rgba(0, 229, 160, 0.28)",
-                        color: "var(--color-accent)",
-                        fontSize: "0.78rem",
-                        fontWeight: 700,
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        boxShadow: "0 0 0 1px rgba(0, 229, 160, 0.04) inset",
-                      }}
-                    >
-                      24/7
-                    </div>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                padding: "0.4rem 1rem",
+                borderRadius: "999px",
+                background: "var(--color-accent-dim)",
+                border: "1px solid rgba(0,229,160,0.22)",
+                color: "var(--color-accent)",
+                fontWeight: 700,
+                fontSize: "0.82rem",
+                marginBottom: "1.25rem",
+              }}
+            >
+              Contact
+            </div>
 
-                    <div
-                      style={{
-                        color: "var(--color-text)",
-                        fontSize: "0.95rem",
-                        fontWeight: 600,
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      for enterprise clients
-                    </div>
+            <h1
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(2.3rem, 1rem + 4vw, 4.5rem)",
+                lineHeight: 1.05,
+                marginBottom: "1rem",
+              }}
+            >
+              Let&apos;s Talk About
+              <br />
+              <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>What Your Business Needs.</span>
+            </h1>
 
-                    <div
-                      style={{
-                        color: "var(--color-text-muted)",
-                        fontSize: "0.82rem",
-                        lineHeight: 1.6,
-                        maxWidth: "28ch",
-                      }}
-                    >
-                      Priority support with dedicated attention for urgent business needs.
-                    </div>
-                  </div>
-                ),
-              },
-            ].map(item => (
-              <div key={item.title} style={{ marginBottom: "1.75rem", display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                <div style={{
-                  width: "42px", height: "42px", borderRadius: "var(--radius-md)", flexShrink: 0,
-                  background: "var(--color-accent-dim)", border: "1px solid rgba(0,229,160,0.2)",
-                  display: "flex", alignItems: "stretch", justifyContent: "center", fontSize: "1.1rem"
-                }}>{item.icon}</div>
-                <div>
-                  <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.25rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>{item.title}</div>
-                  {item.href
-                    ? <a href={item.href} style={{ color: "var(--color-accent)", fontSize: "0.9rem" }}>{item.val}</a>
-                    : <div style={{ color: "var(--color-text)", fontSize: "0.9rem", lineHeight: 1.6 }}>{item.val}</div>
-                  }
-                </div>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.85, maxWidth: "58ch", marginBottom: "1.4rem" }}>
+              Tell us where your current website, lead flow, or automation setup feels weak. We’ll review your request and recommend the most practical next step.
+            </p>
+
+            <div
+              style={{
+                background: "var(--color-surface)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-xl)",
+                padding: "1.2rem",
+                marginBottom: "1rem",
+              }}
+            >
+              <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.4rem" }}>Response Time</div>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.7rem", lineHeight: 1.05, marginBottom: "0.35rem" }}>
+                24/7 for enterprise clients
               </div>
-            ))}
-
-            <div style={{ marginTop: "2rem", padding: "1.5rem", background: "var(--color-surface)", border: "1px solid var(--color-border)", borderRadius: "var(--radius-xl)" }}>
-              <div style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Connect With Us</div>
-              <div style={{ display: "flex", gap: "0.75rem" }}>
-                {[
-                  { label: "Facebook", href: "https://www.facebook.com/rubabsdigital", icon: "📘" },
-                  { label: "LinkedIn", href: "https://www.linkedin.com/company/rubab-digital/", icon: "💼" },
-                  { label: "Twitter", href: "https://twitter.com/rubabsdigital", icon: "🐦" },
-                ].map(s => (
-                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" style={{
-                    width: "40px", height: "40px", display: "flex", alignItems: "stretch", justifyContent: "center",
-                    background: "var(--color-surface-offset)", border: "1px solid var(--color-border)",
-                    borderRadius: "var(--radius-md)", fontSize: "1.1rem", transition: "all 180ms"
-                  }}>{s.icon}</a>
-                ))}
+              <div style={{ color: "var(--color-text-muted)", lineHeight: 1.7 }}>
+                Priority support with dedicated attention for urgent business needs.
               </div>
+            </div>
+
+            <div style={{ color: "var(--color-text-muted)", lineHeight: 1.85 }}>
+              Jessore, Bangladesh
+              <br />
+              mail@rubabsdigital.com
             </div>
           </div>
 
-          {/* RIGHT FORM */}
-          <div style={{ padding: "2.5rem", background: "var(--color-surface)", border: "1px solid var(--color-border)", borderRadius: "var(--radius-xl)" }}>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", marginBottom: "0.5rem" }}>Free Consultation Request</h2>
-            <p style={{ color: "var(--color-text-muted)", fontSize: "0.875rem", marginBottom: "2rem" }}>Tell us about your business and we will craft a custom plan.</p>
+          <div
+            style={{
+              background: "var(--color-surface)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "var(--radius-xl)",
+              padding: "1.25rem",
+            }}
+          >
+            <div style={{ fontWeight: 700, marginBottom: "0.3rem", color: "var(--color-text)" }}>
+              Free Consultation Request
+            </div>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginBottom: "1rem" }}>
+              The more clearly you describe your business and current problem, the better we can guide you.
+            </p>
 
-            {status === "success" ? (
-              <div style={{ textAlign: "center", padding: "3rem 1rem" }}>
-                <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>✅</div>
-                <h3 style={{ fontFamily: "var(--font-display)", fontSize: "1.5rem", marginBottom: "0.75rem", color: "var(--color-accent)" }}>Message Received!</h3>
-                <p style={{ color: "var(--color-text-muted)", lineHeight: 1.7 }}>We&apos;ll review your request and respond with the right next steps for your business needs.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
-                  <div>
-                    <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Full Name *</label>
-                    <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                      placeholder="Your name" style={inputStyle} />
-                  </div>
-                  <div>
-                    <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Email *</label>
-                    <input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-                      placeholder="you@email.com" style={inputStyle} />
-                  </div>
-                </div>
-                <div style={{ marginBottom: "1rem" }}>
-                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Phone Number</label>
-                  <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })}
-                    placeholder="+880 1234 567890" style={inputStyle} />
-                </div>
-                <div style={{ marginBottom: "1rem" }}>
-                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Service Needed *</label>
-                  <select required value={form.service} onChange={e => setForm({ ...form, service: e.target.value })}
-                    style={{ ...inputStyle, appearance: "none" }}>
-                    <option value="">Select a service...</option>
-                    {services.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                </div>
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <label style={{ display: "block", fontSize: "0.8rem", fontWeight: 600, color: "var(--color-text-muted)", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.04em" }}>Your Message *</label>
-                  <textarea required value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
-                    placeholder="Describe your business, goals, and what you need help with..." rows={5}
-                    style={{ ...inputStyle, resize: "vertical" }} />
-                </div>
+            <form onSubmit={handleSubmit} style={{ display: "grid", gap: "0.95rem" }}>
+              <label style={{ display: "grid", gap: "0.45rem" }}>
+                <span style={{ fontWeight: 600 }}>Your Name</span>
+                <input
+                  name="name"
+                  required
+                  placeholder="Enter your name"
+                  style={fieldStyle}
+                />
+              </label>
 
-                {status === "error" && (
-                  <div style={{ padding: "0.75rem 1rem", background: "rgba(255,107,107,0.1)", border: "1px solid rgba(255,107,107,0.3)", borderRadius: "var(--radius-md)", color: "var(--color-error)", fontSize: "0.875rem", marginBottom: "1rem" }}>
-                    ⚠️ Something went wrong. Please try again or email us directly.
-                  </div>
-                )}
+              <label style={{ display: "grid", gap: "0.45rem" }}>
+                <span style={{ fontWeight: 600 }}>Email Address</span>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="you@business.com"
+                  style={fieldStyle}
+                />
+              </label>
 
-                <button type="submit" disabled={status === "loading"} style={{
-                  width: "100%", padding: "1rem", fontSize: "1rem", fontWeight: 700,
-                  background: status === "loading" ? "var(--color-border)" : "var(--color-accent)",
-                  color: "#0a1a12", borderRadius: "var(--radius-lg)", border: "none",
-                  cursor: status === "loading" ? "not-allowed" : "pointer",
-                  transition: "all 180ms", display: "flex", alignItems: "stretch", justifyContent: "center", gap: "0.5rem"
-                }}>
-                  {status === "loading" ? "Sending..." : "Send Free Consultation Request →"}
-                </button>
-                <p style={{ textAlign: "center", color: "var(--color-text-faint)", fontSize: "0.8rem", marginTop: "1rem" }}>
-                  ✓ Free consultation &nbsp;·&nbsp; ✓ No contracts &nbsp;·&nbsp; ✓ Priority response for enterprise clients
-                </p>
-              </form>
-            )}
+              <label style={{ display: "grid", gap: "0.45rem" }}>
+                <span style={{ fontWeight: 600 }}>Business Name</span>
+                <input
+                  name="business"
+                  placeholder="Your company or brand"
+                  style={fieldStyle}
+                />
+              </label>
+
+              <label style={{ display: "grid", gap: "0.45rem" }}>
+                <span style={{ fontWeight: 600 }}>What do you need?</span>
+                <select name="service" defaultValue="" style={fieldStyle} required>
+                  <option value="" disabled>
+                    Select a service
+                  </option>
+                  <option value="Website Redesign">Website Redesign</option>
+                  <option value="Landing Page CRO">Landing Page CRO</option>
+                  <option value="AI Chatbot">AI Chatbot</option>
+                  <option value="Automation Workflow">Automation Workflow</option>
+                  <option value="Full Lead System">Full Lead System</option>
+                  <option value="SEO Support">SEO Support</option>
+                  <option value="Ads Support">Ads Support</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+
+              <label style={{ display: "grid", gap: "0.45rem" }}>
+                <span style={{ fontWeight: 600 }}>Estimated Budget</span>
+                <select name="budget" defaultValue="" style={fieldStyle} required>
+                  <option value="" disabled>
+                    Select a budget range
+                  </option>
+                  <option value="Under $500">Under $500</option>
+                  <option value="$500 - $1,000">$500 - $1,000</option>
+                  <option value="$1,000 - $2,500">$1,000 - $2,500</option>
+                  <option value="$2,500 - $5,000">$2,500 - $5,000</option>
+                  <option value="$5,000+">$5,000+</option>
+                  <option value="Need guidance first">Need guidance first</option>
+                </select>
+              </label>
+
+              <label style={{ display: "grid", gap: "0.45rem" }}>
+                <span style={{ fontWeight: 600 }}>Project Details</span>
+                <textarea
+                  name="message"
+                  required
+                  placeholder="Tell us about your business, current website, goals, and what is not working well."
+                  rows={6}
+                  style={{ ...fieldStyle, resize: "vertical", minHeight: "160px" }}
+                />
+              </label>
+
+              <button
+                type="submit"
+                disabled={submitState === "loading"}
+                style={{
+                  display: "inline-flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "0.95rem 1.2rem",
+                  borderRadius: "var(--radius-lg)",
+                  background: "var(--color-accent)",
+                  color: "#09140f",
+                  fontWeight: 800,
+                  border: "none",
+                  cursor: submitState === "loading" ? "wait" : "pointer",
+                }}
+              >
+                {submitState === "loading" ? "Sending..." : "Send Free Consultation Request →"}
+              </button>
+
+              {message ? (
+                <div
+                  style={{
+                    borderRadius: "var(--radius-lg)",
+                    padding: "0.9rem 1rem",
+                    background:
+                      submitState === "success"
+                        ? "rgba(0,229,160,0.08)"
+                        : "rgba(255,100,100,0.08)",
+                    border:
+                      submitState === "success"
+                        ? "1px solid rgba(0,229,160,0.16)"
+                        : "1px solid rgba(255,100,100,0.18)",
+                    color: "var(--color-text)",
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {message}
+                </div>
+              ) : null}
+            </form>
           </div>
         </div>
       </section>
-    </div>
-  )
+    </main>
+  );
 }
+
+const fieldStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "0.9rem 1rem",
+  borderRadius: "var(--radius-lg)",
+  border: "1px solid var(--color-border)",
+  background: "var(--color-bg)",
+  color: "var(--color-text)",
+  outline: "none",
+};
