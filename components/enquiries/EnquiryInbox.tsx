@@ -1,9 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import LogoutButton from "@/components/enquiries/LogoutButton";
 import EnquiryFilters from "@/components/enquiries/EnquiryFilters";
 import EnquiryToolbar from "@/components/enquiries/EnquiryToolbar";
+import PaginationControls from "@/components/enquiries/PaginationControls";
+import TestDeliveryButton from "@/components/enquiries/TestDeliveryButton";
 
 type EnquiryItem = {
   file: string;
@@ -18,11 +21,22 @@ type EnquiryItem = {
   inboxStatus: string;
   receivedAt: string;
   note: string;
+  deliveryStatus: string;
+  deliveryUpdatedAt: string;
+  deliveryMessage: string;
 };
 
 const statusOptions = ["new", "contacted", "qualified", "closed"] as const;
 
-export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
+export default function EnquiryInbox({
+  items,
+  page,
+  totalPages,
+}: {
+  items: EnquiryItem[];
+  page: number;
+  totalPages: number;
+}) {
   const [rows, setRows] = useState(items);
   const [busy, setBusy] = useState<string>("");
 
@@ -94,20 +108,20 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
               marginBottom: "1rem",
             }}
           >
-            Reporting &
+            Detail, Pagination
             <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Delivery Activation.</span>
+            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>and Delivery Tests.</span>
           </h1>
 
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px", marginBottom: "1rem" }}>
-            Review reporting signals, export desk data, and verify whether live delivery wiring is ready.
+            Inspect individual leads, paginate the desk, trigger delivery tests, and review latest delivery state.
           </p>
 
           <EnquiryToolbar />
           <EnquiryFilters />
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "0.8rem", marginBottom: "1.2rem" }}>
-            <StatCard label="Total Records" value={String(stats.total)} />
+            <StatCard label="Visible Records" value={String(stats.total)} />
             <StatCard label="New Leads" value={String(stats.newItems)} />
             <StatCard label="Qualified" value={String(stats.qualified)} />
             <StatCard label="High Priority" value={String(stats.high)} />
@@ -143,19 +157,21 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem", marginBottom: "0.8rem" }}>
                   <span style={priorityTag(item.priority)}>{item.priority} priority</span>
                   <span style={statusTag(item.inboxStatus)}>{item.inboxStatus}</span>
+                  <span style={deliveryTag(item.deliveryStatus)}>{item.deliveryStatus}</span>
                   <span style={neutralTag}>{item.service}</span>
-                  <span style={neutralTag}>{item.packageDirection}</span>
                 </div>
 
                 <div style={{ fontFamily: "var(--font-display)", fontSize: "1.45rem", lineHeight: 1.1, marginBottom: "0.65rem" }}>
-                  {item.subject}
+                  <Link href={`/enquiries/${encodeURIComponent(item.file)}`} style={{ color: "inherit", textDecoration: "none" }}>
+                    {item.subject}
+                  </Link>
                 </div>
 
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.75rem", marginBottom: "0.9rem" }}>
                   <div style={metaCard}><strong>Business:</strong><br />{item.businessName}</div>
                   <div style={metaCard}><strong>Email:</strong><br />{item.email}</div>
                   <div style={metaCard}><strong>Budget:</strong><br />{item.budget}</div>
-                  <div style={metaCard}><strong>Timeline:</strong><br />{item.timeline}</div>
+                  <div style={metaCard}><strong>Last Delivery:</strong><br />{item.deliveryUpdatedAt || "—"}</div>
                 </div>
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "0.7rem", marginBottom: "0.85rem" }}>
@@ -198,12 +214,17 @@ export default function EnquiryInbox({ items }: { items: EnquiryItem[] }) {
                   />
                 </div>
 
-                <div style={{ color: "var(--color-text-muted)", fontSize: "0.95rem" }}>
-                  Received: {item.receivedAt}
+                <div style={{ display: "flex", justifyContent: "space-between", gap: "0.8rem", alignItems: "center", flexWrap: "wrap" }}>
+                  <div style={{ color: "var(--color-text-muted)", fontSize: "0.95rem" }}>
+                    {item.deliveryMessage || `Received: ${item.receivedAt}`}
+                  </div>
+                  <TestDeliveryButton file={item.file} compact />
                 </div>
               </article>
             ))
           )}
+
+          <PaginationControls page={page} totalPages={totalPages} />
         </div>
       </section>
     </main>
@@ -275,6 +296,29 @@ function statusTag(status: string): React.CSSProperties {
   };
 
   const style = map[status] || map.new;
+
+  return {
+    display: "inline-flex",
+    padding: "0.35rem 0.75rem",
+    borderRadius: "999px",
+    background: style.bg,
+    border: style.border,
+    color: style.color,
+    fontSize: "0.78rem",
+    fontWeight: 700,
+  };
+}
+
+function deliveryTag(status: string): React.CSSProperties {
+  const map: Record<string, { bg: string; border: string; color: string }> = {
+    "not-tested": { bg: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.10)", color: "#d4d4d4" },
+    "dry-run": { bg: "rgba(85,145,199,0.14)", border: "1px solid rgba(85,145,199,0.28)", color: "#8fb9df" },
+    "sent": { bg: "rgba(0,229,160,0.14)", border: "1px solid rgba(0,229,160,0.24)", color: "#7cf0c3" },
+    "failed": { bg: "rgba(255,107,107,0.14)", border: "1px solid rgba(255,107,107,0.28)", color: "#ff8d8d" },
+    "config-missing": { bg: "rgba(247,183,49,0.14)", border: "1px solid rgba(247,183,49,0.28)", color: "#f7c86b" },
+  };
+
+  const style = map[status] || map["not-tested"];
 
   return {
     display: "inline-flex",
