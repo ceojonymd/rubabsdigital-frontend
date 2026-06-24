@@ -52,7 +52,7 @@ const packages = [
 
 export default function PricingPage() {
   return (
-    <main style={{ paddingTop: "80px" }}>
+    <main style={{ paddingTop: "80px", paddingBottom: "110px" }}>
       <section style={{ padding: "6rem 1.5rem 2.5rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.7rem" }}>Pricing</div>
@@ -159,6 +159,76 @@ export default function PricingPage() {
               </Link>
             </div>
           ))}
+        </div>
+      </section>
+    
+      <section style={{ padding: "0 1.5rem 2rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div
+            style={{
+              background: "var(--color-surface)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "var(--radius-xl)",
+              padding: "1rem",
+            }}
+          >
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.55rem" }}>
+              Fast consultation path
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.8rem" }}>
+              <a href="/contact" style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "0.85rem 1.1rem",
+                borderRadius: "var(--radius-lg)",
+                background: "var(--color-accent)",
+                color: "#09140f",
+                fontWeight: 700,
+                textDecoration: "none"
+              }}>Start Consultation →</a>
+              <a href="/portfolio" style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "0.85rem 1.1rem",
+                borderRadius: "var(--radius-lg)",
+                border: "1px solid var(--color-border)",
+                color: "var(--color-text)",
+                fontWeight: 700,
+                textDecoration: "none",
+                background: "var(--color-surface)"
+              }}>See Proof First</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    
+      <section style={{ padding: "0 1.5rem 2rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div
+            style={{
+              background: "var(--color-surface)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "var(--radius-xl)",
+              padding: "1rem",
+            }}
+          >
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.55rem" }}>
+              Need help choosing?
+            </div>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginBottom: "0.85rem" }}>
+              If you are somewhere between package levels, a short consultation will help identify the most practical fit.
+            </p>
+            <a href="/contact" style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "0.85rem 1.1rem",
+              borderRadius: "var(--radius-lg)",
+              background: "var(--color-accent)",
+              color: "#09140f",
+              fontWeight: 700,
+              textDecoration: "none"
+            }}>Get Package Guidance →</a>
+          </div>
         </div>
       </section>
     </main>

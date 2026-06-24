@@ -2,100 +2,107 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer
-      style={{
-        borderTop: "1px solid var(--color-border)",
-        background: "var(--color-bg)",
-        padding: "2.5rem 1.5rem",
-      }}
-    >
-      <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+    <>
+      <div
+        style={{
+          position: "fixed",
+          left: "50%",
+          bottom: "18px",
+          transform: "translateX(-50%)",
+          width: "min(92%, 760px)",
+          zIndex: 50,
+          pointerEvents: "none",
+        }}
+      >
         <div
           style={{
-            background: "var(--color-surface)",
-            border: "1px solid var(--color-border)",
-            borderRadius: "var(--radius-xl)",
-            padding: "1.5rem",
-            marginBottom: "1.5rem",
+            pointerEvents: "auto",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "0.8rem",
+            padding: "0.85rem 1rem",
+            borderRadius: "999px",
+            border: "1px solid rgba(0,229,160,0.22)",
+            background: "rgba(10,15,13,0.86)",
+            backdropFilter: "blur(14px)",
+            boxShadow: "0 18px 40px rgba(0,0,0,0.18)",
           }}
         >
-          <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.55rem" }}>
-            Stronger handoff
+          <div style={{ color: "var(--color-text)", fontWeight: 700 }}>
+            Ready to turn traffic into better enquiries?
           </div>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.5rem, 1rem + 1.5vw, 2.4rem)",
-              lineHeight: 1.08,
-              marginBottom: "0.75rem",
-            }}
-          >
-            Need a more credible website and cleaner lead flow?
-          </h2>
-          <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, maxWidth: "760px", marginBottom: "1rem" }}>
-            We help service businesses improve presentation, trust, and digital next-step clarity with websites, automation, and practical growth support.
-          </p>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.85rem", marginBottom: "1rem" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.7rem" }}>
             <Link
               href="/contact"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                padding: "0.85rem 1.15rem",
-                borderRadius: "var(--radius-lg)",
+                padding: "0.8rem 1rem",
+                borderRadius: "999px",
                 background: "var(--color-accent)",
                 color: "#09140f",
                 fontWeight: 700,
                 textDecoration: "none",
               }}
             >
-              Start a Consultation →
+              Start Consultation →
             </Link>
             <Link
-              href="/portfolio#case-studies"
+              href="/pricing"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                padding: "0.85rem 1.15rem",
-                borderRadius: "var(--radius-lg)",
-                border: "1px solid var(--color-border)",
+                padding: "0.8rem 1rem",
+                borderRadius: "999px",
+                border: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(255,255,255,0.04)",
                 color: "var(--color-text)",
                 fontWeight: 700,
                 textDecoration: "none",
-                background: "var(--color-surface)",
               }}
             >
-              See Outcome Framing
+              View Packages
             </Link>
           </div>
         </div>
+      </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            gap: "1rem",
-            color: "var(--color-text-muted)",
-            lineHeight: 1.7,
-          }}
-        >
-          <div>
-            <div style={{ color: "var(--color-text)", fontWeight: 700, marginBottom: "0.35rem" }}>
-              Rubab&apos;s Digital
+      <footer
+        style={{
+          borderTop: "1px solid var(--color-border)",
+          background: "var(--color-bg)",
+          padding: "2.5rem 1.5rem 8rem",
+        }}
+      >
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              gap: "1rem",
+              color: "var(--color-text-muted)",
+              lineHeight: 1.7,
+            }}
+          >
+            <div>
+              <div style={{ color: "var(--color-text)", fontWeight: 700, marginBottom: "0.35rem" }}>
+                Rubab&apos;s Digital
+              </div>
+              <div>Premium websites, AI workflows, and practical automation systems.</div>
             </div>
-            <div>Premium websites, AI workflows, and practical automation systems.</div>
-          </div>
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-            <Link href="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
-            <Link href="/portfolio" style={{ color: "inherit", textDecoration: "none" }}>Portfolio</Link>
-            <Link href="/pricing" style={{ color: "inherit", textDecoration: "none" }}>Pricing</Link>
-            <Link href="/contact" style={{ color: "inherit", textDecoration: "none" }}>Contact</Link>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+              <Link href="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
+              <Link href="/portfolio" style={{ color: "inherit", textDecoration: "none" }}>Portfolio</Link>
+              <Link href="/pricing" style={{ color: "inherit", textDecoration: "none" }}>Pricing</Link>
+              <Link href="/contact" style={{ color: "inherit", textDecoration: "none" }}>Contact</Link>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }
