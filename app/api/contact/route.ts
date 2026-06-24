@@ -7,129 +7,167 @@ function escapeHtml(value: string) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(/'/g, "&#39;");
 }
 
-function asSender(email: string) {
-  return `Rubab's Digital <${email}>`;
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export async function POST(req: Request) {
+function isEmptySelect(value: string) {
+  const v = String(value || "").trim().toLowerCase();
+  return !v || v === "select a service" || v === "select a budget range";
+}
+
+export async function POST(request: Request) {
   try {
-    const { name, email, phone, service, message } = await req.json();
+    const body = await request.json();
 
-    if (!name || !email || !service || !message) {
+    const name = String(body?.name || "").trim();
+    const email = String(body?.email || "").trim();
+    const business = String(body?.business || "").trim();
+    const service = String(body?.service || "").trim();
+    const budget = String(body?.budget || "").trim();
+    const message = String(body?.message || "").trim();
+
+    if (!name || !email || !message) {
       return NextResponse.json(
-        { error: "Missing required fields." },
+        { error: "Name, email, and message are required." },
         { status: 400 }
       );
     }
 
-    const resendApiKey = process.env.RESEND_API_KEY;
-    const contactToEmail =
-      process.env.CONTACT_TO_EMAIL || "rdceojony@gmail.com";
-    const contactFromEmail =
-      process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
-    const contactAckFromEmail =
-      process.env.CONTACT_ACK_FROM_EMAIL || contactFromEmail;
-
-    if (!resendApiKey) {
-      console.error("RESEND_API_KEY is missing.");
+    if (!isValidEmail(email)) {
       return NextResponse.json(
-        { error: "RESEND_API_KEY is missing." },
+        { error: "Please enter a valid email address." },
+        { status: 400 }
+      );
+    }
+
+    if (isEmptySelect(service)) {
+      return NextResponse.json(
+        { error: "Please select the service you need." },
+        { status: 400 }
+      );
+    }
+
+    if (isEmptySelect(budget)) {
+      return NextResponse.json(
+        { error: "Please select your budget range." },
+        { status: 400 }
+      );
+    }
+
+    const apiKey = process.env.RESEND_API_KEY;
+    const contactToEmail = process.env.CONTACT_TO_EMAIL;
+    const contactFromEmail = process.env.CONTACT_FROM_EMAIL;
+    const contactAckFromEmail =
+      process.env.CONTACT_ACK_FROM_EMAIL || process.env.CONTACT_FROM_EMAIL;
+
+    if (!apiKey || !contactToEmail || !contactFromEmail || !contactAckFromEmail) {
+      return NextResponse.json(
+        { error: "Email service is not configured correctly." },
         { status: 500 }
       );
     }
 
-    const resend = new Resend(resendApiKey);
-    const submittedAt = new Date().toLocaleString("en-BD", {
-      timeZone: "Asia/Dhaka",
-      dateStyle: "medium",
-      timeStyle: "short",
-    });
+    const resend = new Resend(apiKey);
 
     const safeName = escapeHtml(name);
     const safeEmail = escapeHtml(email);
-    const safePhone = escapeHtml(phone || "Not provided");
+    const safeBusiness = escapeHtml(business || "Not provided");
     const safeService = escapeHtml(service);
+    const safeBudget = escapeHtml(budget);
     const safeMessage = escapeHtml(message).replace(/\n/g, "<br />");
-    const safeSubmittedAt = escapeHtml(submittedAt);
+    const submittedAt = new Date().toLocaleString("en-BD", {
+      dateStyle: "medium",
+      timeStyle: "short",
+      timeZone: "Asia/Dhaka",
+    });
 
-    const adminEmail = await resend.emails.send({
-      from: asSender(contactFromEmail),
+    const ownerEmail = await resend.emails.send({
+      from: `Rubab's Digital <${contactFromEmail}>`,
       to: [contactToEmail],
       reply_to: email,
-      subject: `Website Lead • ${service} • ${name}`,
+      subject: `New Consultation Request — ${service} — ${name}`,
       html: `
-        <div style="margin:0;padding:24px;background:#f6f7fb;font-family:Arial,sans-serif;color:#172033;">
-          <div style="max-width:680px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:20px;overflow:hidden;">
-            <div style="padding:24px 20px;background:linear-gradient(135deg,#0f766e,#0b3b66);color:#fff;">
-              <p style="margin:0 0 8px 0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;">Rubab's Digital</p>
-              <h1 style="margin:0;font-size:28px;line-height:1.2;">New Consultation Request</h1>
-            </div>
-            <div style="padding:24px 20px;">
-              <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Name:</strong> ${safeName}</p>
-              <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Email:</strong> ${safeEmail}</p>
-              <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Phone:</strong> ${safePhone}</p>
-              <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Service:</strong> ${safeService}</p>
-              <p style="margin:0 0 18px 0;font-size:15px;line-height:1.7;"><strong>Submitted:</strong> ${safeSubmittedAt}</p>
-              <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:16px;">
-                <p style="margin:0 0 10px 0;font-size:15px;line-height:1.7;"><strong>Message:</strong></p>
-                <p style="margin:0;font-size:15px;line-height:1.8;">${safeMessage}</p>
-              </div>
-            </div>
-          </div>
+        <div style="font-family:Arial,sans-serif;line-height:1.7;color:#111827">
+          <h2 style="margin:0 0 16px">New Consultation Request</h2>
+          <p style="margin:0 0 18px;color:#4b5563">
+            A new lead has been submitted through the Rubab's Digital contact form.
+          </p>
+
+          <table style="border-collapse:collapse;width:100%;max-width:720px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden">
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:700;width:180px">Name</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb">${safeName}</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:700">Email</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb">${safeEmail}</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:700">Business</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb">${safeBusiness}</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:700">Service</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb">${safeService}</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:700">Budget</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb">${safeBudget}</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:700">Submitted At</td>
+              <td style="padding:12px 14px;border-bottom:1px solid #e5e7eb">${escapeHtml(submittedAt)} (Bangladesh Time)</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px;font-weight:700;vertical-align:top">Project Details</td>
+              <td style="padding:12px 14px">${safeMessage}</td>
+            </tr>
+          </table>
+
+          <p style="margin:18px 0 0;color:#4b5563">
+            Reply directly to this email to continue the conversation with the lead.
+          </p>
         </div>
       `,
     });
 
-    if (adminEmail.error) {
-      console.error("RESEND_ADMIN_ERROR:", adminEmail.error);
+    if (ownerEmail.error) {
+      console.error("RESEND_ADMIN_ERROR:", ownerEmail.error);
       return NextResponse.json(
-        {
-          error: `Admin email failed: ${adminEmail.error.message || "Unknown Resend error"}`,
-          details: adminEmail.error,
-        },
+        { error: ownerEmail.error.message || "Failed to send admin notification." },
         { status: 500 }
       );
     }
 
     const ackEmail = await resend.emails.send({
-      from: asSender(contactAckFromEmail),
+      from: `Rubab's Digital <${contactAckFromEmail}>`,
       to: [email],
-      reply_to: contactToEmail,
-      subject: "We received your consultation request",
+      subject: `We received your consultation request for ${service}`,
       html: `
-        <div style="margin:0;padding:24px;background:#f6f7fb;font-family:Arial,sans-serif;color:#172033;">
-          <div style="max-width:680px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:20px;overflow:hidden;">
-            <div style="padding:28px 20px 14px 20px;background:linear-gradient(135deg,#0f766e,#0b3b66);color:#ffffff;">
-              <p style="margin:0 0 8px 0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.9;">Rubab's Digital</p>
-              <h1 style="margin:0;font-size:28px;line-height:1.2;">Message Received</h1>
-            </div>
-            <div style="padding:24px 20px;">
-              <p style="margin:0 0 14px 0;font-size:16px;line-height:1.7;">Hi ${safeName},</p>
-              <p style="margin:0 0 14px 0;font-size:16px;line-height:1.7;">
-                Thanks for reaching out to Rubab's Digital. We received your consultation request successfully.
-              </p>
-              <p style="margin:0 0 18px 0;font-size:16px;line-height:1.7;">
-                We’ll review your request and contact you within <strong>2–6 hours</strong> with a clear plan.
-              </p>
-              <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:16px;padding:16px;margin:0 0 18px 0;">
-                <p style="margin:0 0 8px 0;font-size:14px;color:#475467;"><strong>Your submission summary</strong></p>
-                <p style="margin:0 0 6px 0;font-size:14px;line-height:1.6;"><strong>Service:</strong> ${safeService}</p>
-                <p style="margin:0 0 6px 0;font-size:14px;line-height:1.6;"><strong>Email:</strong> ${safeEmail}</p>
-                <p style="margin:0 0 6px 0;font-size:14px;line-height:1.6;"><strong>Phone:</strong> ${safePhone}</p>
-                <p style="margin:0;font-size:14px;line-height:1.6;"><strong>Submitted:</strong> ${safeSubmittedAt}</p>
-              </div>
-              <p style="margin:0 0 14px 0;font-size:15px;line-height:1.7;color:#344054;">
-                If you want to add more details, just reply to this email.
-              </p>
-              <p style="margin:0;font-size:15px;line-height:1.7;">
-                Regards,<br />
-                Rubab's Digital
-              </p>
-            </div>
+        <div style="font-family:Arial,sans-serif;line-height:1.7;color:#111827">
+          <h2 style="margin:0 0 16px">Thank you, ${safeName}</h2>
+          <p style="margin:0 0 14px;color:#374151">
+            We received your consultation request and noted that you are interested in <strong>${safeService}</strong>.
+          </p>
+          <p style="margin:0 0 14px;color:#374151">
+            Your selected budget range was <strong>${safeBudget}</strong>${business ? `, and the business name submitted was <strong>${safeBusiness}</strong>` : ""}.
+          </p>
+          <p style="margin:0 0 14px;color:#374151">
+            Our team will review your message and respond with the clearest next step based on your needs.
+          </p>
+          <div style="margin:18px 0;padding:14px 16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px">
+            <div style="font-weight:700;margin-bottom:8px">Your message</div>
+            <div style="color:#4b5563">${safeMessage}</div>
           </div>
+          <p style="margin:0;color:#4b5563">
+            Rubab's Digital<br />
+            Jessore, Bangladesh<br />
+            mail@rubabsdigital.com
+          </p>
         </div>
       `,
     });
@@ -138,8 +176,8 @@ export async function POST(req: Request) {
       console.error("RESEND_ACK_ERROR:", ackEmail.error);
       return NextResponse.json(
         {
-          error: `Acknowledgment email failed: ${ackEmail.error.message || "Unknown Resend error"}`,
-          details: ackEmail.error,
+          error:
+            ackEmail.error.message || "Your request was saved, but the acknowledgment email failed.",
         },
         { status: 500 }
       );
@@ -148,12 +186,12 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       message:
-        "Message received. We'll review your request and contact you within 2–6 hours.",
-      adminEmailId: adminEmail.data?.id || null,
-      ackEmailId: ackEmail.data?.id || null,
+        "Message received. We’ll review your request and reply with the clearest next step.",
+      adminEmailId: ownerEmail.data?.id,
+      ackEmailId: ackEmail.data?.id,
     });
   } catch (error) {
-    console.error("CONTACT_ROUTE_FATAL_ERROR:", error);
+    console.error("CONTACT_ROUTE_ERROR:", error);
     return NextResponse.json(
       {
         error:
