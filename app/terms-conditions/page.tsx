@@ -73,6 +73,8 @@ export default function TermsConditionsPage() {
             <ul style={{ paddingLeft: "1.1rem", margin: 0 }}>
               <li style={li}>Projects may require an upfront deposit before work begins.</li>
               <li style={li}>Milestone payments, retainers, or full advance payments may apply depending on the engagement.</li>
+              <li style={li}>Payments are processed securely via <strong>Stripe</strong> (GBP and international cards) or <strong>Contra</strong> (USD contracts and freelance payments). We do not store your card details.</li>
+              <li style={li}>All prices are quoted exclusive of applicable taxes unless stated otherwise. Clients are responsible for any local taxes, import duties, or withholding requirements in their jurisdiction.</li>
               <li style={li}>Late payments may delay delivery, deployment, support, or revision cycles.</li>
               <li style={li}>Third-party costs such as hosting, domains, software licenses, paid tools, ad spend, APIs, or premium assets are normally billed separately unless explicitly included.</li>
             </ul>

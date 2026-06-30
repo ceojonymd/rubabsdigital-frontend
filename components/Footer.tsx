@@ -96,9 +96,16 @@ export default function Footer() {
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
               <Link href="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
+              <Link href="/blog" style={{ color: "inherit", textDecoration: "none" }}>Blog</Link>
               <Link href="/portfolio" style={{ color: "inherit", textDecoration: "none" }}>Portfolio</Link>
               <Link href="/pricing" style={{ color: "inherit", textDecoration: "none" }}>Pricing</Link>
               <Link href="/contact" style={{ color: "inherit", textDecoration: "none" }}>Contact</Link>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", marginTop: "0.5rem", fontSize: "0.85rem" }}>
+              <Link href="/privacy-policy" style={{ color: "inherit", textDecoration: "none" }}>Privacy</Link>
+              <Link href="/terms-conditions" style={{ color: "inherit", textDecoration: "none" }}>Terms</Link>
+              <Link href="/refund-policy" style={{ color: "inherit", textDecoration: "none" }}>Refund Policy</Link>
+              <Link href="/faq" style={{ color: "inherit", textDecoration: "none" }}>FAQ</Link>
             </div>
           </div>
         </div>

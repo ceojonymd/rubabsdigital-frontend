@@ -150,6 +150,19 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div style={cardStyle}>
+            <h2 style={h2Style}>Payment processing</h2>
+            <p style={pStyle}>
+              We use third-party payment processors to handle transactions securely. We do not store your credit card details, bank account numbers,
+              or other sensitive payment credentials on our servers.
+            </p>
+            <ul style={{ paddingLeft: "1.1rem", margin: 0 }}>
+              <li style={liStyle}><strong>Stripe</strong> — Processes payments in GBP and other currencies. Stripe handles card data under PCI DSS Level 1 certification. See <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-accent)" }}>Stripe&apos;s Privacy Policy</a>.</li>
+              <li style={liStyle}><strong>Contra</strong> — Facilitates service contracts and payments in USD. Contra manages payment security independently. See <a href="https://contra.com/privacy" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-accent)" }}>Contra&apos;s Privacy Policy</a>.</li>
+              <li style={liStyle}>We receive only transaction confirmations, amounts, and payer identifiers necessary for invoicing and service delivery.</li>
+            </ul>
+          </div>
+
+          <div style={cardStyle}>
             <h2 style={h2Style}>How we share information</h2>
             <p style={pStyle}>
               We do not sell your personal information. We may share limited data only when necessary to operate our business, deliver services, or comply

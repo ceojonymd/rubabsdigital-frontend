@@ -90,7 +90,11 @@ export default function RefundPolicyPage() {
           <div style={card}>
             <h2 style={h2}>How to request a refund</h2>
             <p style={p}>To request a refund, email <a href="mailto:mail@rubabsdigital.com" style={{ color: "var(--color-accent)" }}>mail@rubabsdigital.com</a> with your name, project details, payment date, payment proof, and the reason for the request.</p>
-            <p style={{ ...p, marginBottom: 0 }}>If a refund is approved, processing time may vary based on the payment method, payment processor, and banking timelines.</p>
+            <p style={p}>If a refund is approved, processing time may vary based on the payment method, payment processor, and banking timelines.</p>
+            <ul style={{ paddingLeft: "1.1rem", margin: 0 }}>
+              <li style={li}><strong>Stripe payments</strong> — Refunds are processed to the original card within 5-10 business days.</li>
+              <li style={li}><strong>Contra payments</strong> — Refund requests follow Contra&apos;s dispute and refund process. Please allow up to 14 business days.</li>
+            </ul>
           </div>
         </div>
       </section>

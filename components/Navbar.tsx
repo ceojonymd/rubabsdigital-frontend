@@ -9,7 +9,7 @@ const links = [
   { href: "/website-design", label: "Website Design" },
   { href: "/ai-automation", label: "AI Automation" },
   { href: "/custom-ai-agents", label: "AI Agents" },
-  { href: "/digital-marketing", label: "Marketing" },
+  { href: "/blog", label: "Blog" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/pricing", label: "Pricing" },
   { href: "/contact", label: "Contact" },
