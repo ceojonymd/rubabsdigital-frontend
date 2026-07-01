@@ -1,6 +1,15 @@
 export const metadata = {
   title: "Terms & Conditions",
-  description: "Read the terms governing the use of Rubab's Digital website, services, proposals, and project delivery.",
+  description: "Read the terms governing the use of Rubab's Digital website, services, proposals, and project delivery.",  alternates: {
+    canonical: "https://rubabsdigital.com/terms-conditions",
+  },
+  openGraph: {
+    title: "Terms & Conditions",
+    description: "Read the terms governing the use of Rubab's Digital website, services, proposals, and project delivery.",
+    url: "https://rubabsdigital.com/terms-conditions",
+    type: "website",
+  },
+
 };
 
 const section = { padding: "6rem 1.5rem" } as React.CSSProperties;

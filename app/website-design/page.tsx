@@ -1,8 +1,17 @@
 import ConsultancyButton from "@/components/ConsultancyButton"
 
 export const metadata = {
-  title: "Web & Automation Studio",
-  description: "Premium service-business websites for clinics, consultants, law firms, real estate agents, salons, and local brands built to earn trust and drive enquiries.",
+  title: "Website Design",
+  description: "Premium service-business websites for clinics, consultants, law firms, real estate agents, salons, and local brands built to earn trust and drive enquiries.",  alternates: {
+    canonical: "https://rubabsdigital.com/website-design",
+  },
+  openGraph: {
+    title: "Website Design Services",
+    description: "Premium website design for clinics, law firms, real estate, salons, and service businesses.",
+    url: "https://rubabsdigital.com/website-design",
+    type: "website",
+  },
+
 }
 
 export default function Page() {

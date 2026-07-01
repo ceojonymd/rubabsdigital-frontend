@@ -2,7 +2,16 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Pricing",
-  description: "Pricing packages for websites, automation, and growth support from Rubab's Digital.",
+  description: "Pricing packages for websites, automation, and growth support from Rubab's Digital.",  alternates: {
+    canonical: "https://rubabsdigital.com/pricing",
+  },
+  openGraph: {
+    title: "Pricing — Rubab's Digital",
+    description: "Pricing packages for websites, automation, and growth support from Rubab's Digital.",
+    url: "https://rubabsdigital.com/pricing",
+    type: "website",
+  },
+
 };
 
 const packages = [

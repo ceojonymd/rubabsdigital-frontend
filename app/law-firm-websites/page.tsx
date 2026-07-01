@@ -2,7 +2,16 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Law Firm Websites",
-  description: "Premium law firm websites built to create trust, clarity, and better enquiry flow.",
+  description: "Premium law firm websites built to create trust, clarity, and better enquiry flow.",  alternates: {
+    canonical: "https://rubabsdigital.com/law-firm-websites",
+  },
+  openGraph: {
+    title: "Law Firm Website Design",
+    description: "High-credibility website design for law firms focused on consultation enquiries.",
+    url: "https://rubabsdigital.com/law-firm-websites",
+    type: "website",
+  },
+
 };
 
 const trustPoints = [

@@ -2,7 +2,16 @@ import Link from "next/link";
 
 export const metadata = {
   title: "FAQ",
-  description: "Frequently asked questions about websites, automation, pricing, and project fit.",
+  description: "Frequently asked questions about websites, automation, pricing, and project fit.",  alternates: {
+    canonical: "https://rubabsdigital.com/faq",
+  },
+  openGraph: {
+    title: "Frequently Asked Questions",
+    description: "Answers to common questions about Rubab's Digital services, pricing, timelines, and delivery.",
+    url: "https://rubabsdigital.com/faq",
+    type: "website",
+  },
+
 };
 
 const faqs = [

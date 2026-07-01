@@ -1,6 +1,15 @@
 export const metadata = {
   title: "Refund Policy",
-  description: "Read the refund and payment policy for services provided by Rubab's Digital.",
+  description: "Read the refund and payment policy for services provided by Rubab's Digital.",  alternates: {
+    canonical: "https://rubabsdigital.com/refund-policy",
+  },
+  openGraph: {
+    title: "Refund Policy",
+    description: "Read the refund and payment policy for services provided by Rubab's Digital.",
+    url: "https://rubabsdigital.com/refund-policy",
+    type: "website",
+  },
+
 };
 
 const section = { padding: "6rem 1.5rem" } as React.CSSProperties;

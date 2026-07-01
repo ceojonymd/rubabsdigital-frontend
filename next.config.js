@@ -68,4 +68,27 @@ const nextConfig = {
   },
 };
 
+
+  // Handle dots in blog slugs (e.g. "make.com" in slug)
+  async rewrites() {
+    return [
+      {
+        source: "/blog/:slug*.html",
+        destination: "/blog/:slug*",
+      },
+      {
+        source: "/blog/:slug*.php",
+        destination: "/blog/:slug*",
+      },
+      {
+        source: "/blog/:slug*.asp",
+        destination: "/blog/:slug*",
+      },
+      {
+        source: "/blog/:slug*.aspx",
+        destination: "/blog/:slug*",
+      },
+    ];
+  },
+
 module.exports = nextConfig;

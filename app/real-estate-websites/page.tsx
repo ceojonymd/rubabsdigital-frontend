@@ -2,7 +2,16 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Real Estate Websites",
-  description: "Real estate websites built for stronger presentation, trust, and enquiry generation.",
+  description: "Real estate websites built for stronger presentation, trust, and enquiry generation.",  alternates: {
+    canonical: "https://rubabsdigital.com/real-estate-websites",
+  },
+  openGraph: {
+    title: "Real Estate Website Design",
+    description: "Property and lead-focused website layouts for real estate agents and agencies.",
+    url: "https://rubabsdigital.com/real-estate-websites",
+    type: "website",
+  },
+
 };
 
 const trustPoints = [

@@ -1,8 +1,17 @@
 import ConsultancyButton from "@/components/ConsultancyButton"
 
 export const metadata = {
-  title: "Web & Automation Studio",
-  description: "Digital marketing systems for clinics, consultants, law firms, real estate agents, and service businesses focused on leads, remarketing, reporting, and growth.",
+  title: "Digital Marketing",
+  description: "Digital marketing systems for clinics, consultants, law firms, real estate agents, and service businesses focused on leads, remarketing, reporting, and growth.",  alternates: {
+    canonical: "https://rubabsdigital.com/digital-marketing",
+  },
+  openGraph: {
+    title: "Digital Marketing Services",
+    description: "Lead generation, paid traffic, remarketing, and funnel systems for service businesses.",
+    url: "https://rubabsdigital.com/digital-marketing",
+    type: "website",
+  },
+
 }
 
 export default function Page() {

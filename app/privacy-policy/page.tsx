@@ -1,7 +1,16 @@
 export const metadata = {
   title: "Privacy Policy",
   description:
-    "Read how Rubab's Digital collects, uses, stores, and protects your information across our website, contact forms, and digital services.",
+    "Read how Rubab's Digital collects, uses, stores, and protects your information across our website, contact forms, and digital services.",  alternates: {
+    canonical: "https://rubabsdigital.com/privacy-policy",
+  },
+  openGraph: {
+    title: "Privacy Policy",
+    description: "Read how Rubab's Digital collects, uses, stores, and protects your information across our website, contact forms, and digital services.",
+    url: "https://rubabsdigital.com/privacy-policy",
+    type: "website",
+  },
+
 };
 
 const sectionStyle: React.CSSProperties = {

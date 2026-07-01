@@ -2,7 +2,16 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Salon Websites",
-  description: "Modern salon and beauty websites for better bookings, presentation, and client trust.",
+  description: "Modern salon and beauty websites for better bookings, presentation, and client trust.",  alternates: {
+    canonical: "https://rubabsdigital.com/salon-websites",
+  },
+  openGraph: {
+    title: "Salon Website Design",
+    description: "Beautiful website design for salons and beauty businesses with booking integration.",
+    url: "https://rubabsdigital.com/salon-websites",
+    type: "website",
+  },
+
 };
 
 const trustPoints = [

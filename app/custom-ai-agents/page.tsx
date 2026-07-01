@@ -3,8 +3,17 @@ import DemoSection from "@/components/DemoSection"
 import { CRMAutomationDemo, ReportBotDemo } from "@/components/demos/AIDemos"
 
 export const metadata = {
-  title: "Web & Automation Studio",
-  description: "Custom AI assistants for clinics, consultants, law firms, agencies, and service businesses that need better lead qualification, support, and follow-up.",
+  title: "Custom AI Agents",
+  description: "Custom AI assistants for clinics, consultants, law firms, agencies, and service businesses that need better lead qualification, support, and follow-up.",  alternates: {
+    canonical: "https://rubabsdigital.com/custom-ai-agents",
+  },
+  openGraph: {
+    title: "Custom AI Agent Development",
+    description: "Custom AI assistants for clinics, consultants, law firms, agencies, and service businesses.",
+    url: "https://rubabsdigital.com/custom-ai-agents",
+    type: "website",
+  },
+
 }
 
 export default function Page() {
@@ -69,6 +78,62 @@ That Actually Helps You Sell.</h1>
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
               <span style={{ color: "#00e5a0", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>24/7</span>
               lead capture and response coverage
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section style={{ padding: "0 1.5rem 4rem" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{
+            background: "var(--color-surface)",
+            border: "1px solid var(--color-border)",
+            borderRadius: "var(--radius-xl)",
+            padding: "2rem",
+            overflow: "hidden"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
+              <div>
+                <div style={{
+                  fontSize: "0.78rem",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "var(--color-text-muted)"
+                }}>
+                  Agent proof
+                </div>
+                <div style={{ fontSize: "1.15rem", fontWeight: 800, marginTop: "0.35rem" }}>
+                  AI Agent Pipeline
+                </div>
+              </div>
+              <div style={{
+                padding: "0.42rem 0.75rem",
+                borderRadius: "999px",
+                background: "rgba(0,229,160,0.12)",
+                border: "1px solid rgba(0,229,160,0.24)",
+                color: "#00e5a0",
+                fontSize: "0.82rem",
+                fontWeight: 700
+              }}>
+                Lead Qualification
+              </div>
+            </div>
+
+            <div style={{
+              borderRadius: "18px",
+              overflow: "hidden",
+              border: "1px solid rgba(255,255,255,0.07)",
+              background: "#101521"
+            }}>
+              <img
+                src="/proof/ai-agent-pipeline.svg"
+                alt="Custom AI agent pipeline showing chat, lead qualification, CRM integration, and performance metrics"
+                width="1200"
+                height="760"
+                loading="lazy"
+                style={{ width: "100%", display: "block" }}
+              />
             </div>
           </div>
         </div>

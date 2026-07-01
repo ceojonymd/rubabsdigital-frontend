@@ -1,6 +1,15 @@
 export const metadata = {
   title: "Dentist Websites",
-  description: "Premium dental clinic websites, booking flows, and automation-ready lead systems for modern practices.",
+  description: "Premium dental clinic websites, booking flows, and automation-ready lead systems for modern practices.",  alternates: {
+    canonical: "https://rubabsdigital.com/dentist-websites",
+  },
+  openGraph: {
+    title: "Dentist Website Design",
+    description: "Professional website design built for dental clinics with trust, booking, and conversion focus.",
+    url: "https://rubabsdigital.com/dentist-websites",
+    type: "website",
+  },
+
 };
 
 const section = { padding: "6rem 1.5rem" } as React.CSSProperties;

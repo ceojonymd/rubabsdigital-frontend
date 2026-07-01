@@ -2,7 +2,16 @@ import Link from "next/link";
 
 export const metadata = {
   title: "About",
-  description: "Learn more about the thinking behind Rubab's Digital.",
+  description: "Learn more about the thinking behind Rubab's Digital.",  alternates: {
+    canonical: "https://rubabsdigital.com/about",
+  },
+  openGraph: {
+    title: "About Rubab's Digital",
+    description: "Learn more about the thinking behind Rubab's Digital.",
+    url: "https://rubabsdigital.com/about",
+    type: "website",
+  },
+
 };
 
 export default function AboutPage() {

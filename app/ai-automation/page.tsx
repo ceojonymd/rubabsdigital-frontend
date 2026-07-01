@@ -2,6 +2,21 @@ import ConsultancyButton from "@/components/ConsultancyButton"
 import DemoSection from "@/components/DemoSection"
 import { AutomationWorkflowDemo, CRMAutomationDemo, ReportBotDemo } from "@/components/demos/AIDemos"
 
+
+export const metadata = {
+  title: "AI Automation",
+  description: "n8n workflow automation, CRM systems, and intelligent process automation for growing businesses.",
+  alternates: {
+    canonical: "https://rubabsdigital.com/ai-automation",
+  },
+  openGraph: {
+    title: "AI Workflow Automation Services",
+    description: "n8n workflow automation, CRM systems, and intelligent process automation for growing businesses.",
+    url: "https://rubabsdigital.com/ai-automation",
+    type: "website",
+  },
+};
+
 export default function Page() {
   const features = [
     { icon: "🔄", title: "n8n Workflow Automation", desc: "Custom multi-step workflows connecting your tools — CRM, email, Slack, databases — all automated." },
@@ -54,6 +69,62 @@ Your only job to Collect the Profit.</h1>
             <div style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
               <span style={{ color: "#7c6fff", fontWeight: 700, fontSize: "1.5rem", marginRight: "0.5rem" }}>300+</span>
               hours saved per client per month
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section style={{ padding: "0 1.5rem 4rem" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <div style={{
+            background: "var(--color-surface)",
+            border: "1px solid var(--color-border)",
+            borderRadius: "var(--radius-xl)",
+            padding: "2rem",
+            overflow: "hidden"
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
+              <div>
+                <div style={{
+                  fontSize: "0.78rem",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "var(--color-text-muted)"
+                }}>
+                  Workflow proof
+                </div>
+                <div style={{ fontSize: "1.15rem", fontWeight: 800, marginTop: "0.35rem" }}>
+                  n8n Automation Pipeline
+                </div>
+              </div>
+              <div style={{
+                padding: "0.42rem 0.75rem",
+                borderRadius: "999px",
+                background: "rgba(124,111,255,0.12)",
+                border: "1px solid rgba(124,111,255,0.24)",
+                color: "#7c6fff",
+                fontSize: "0.82rem",
+                fontWeight: 700
+              }}>
+                Automation Focused
+              </div>
+            </div>
+
+            <div style={{
+              borderRadius: "18px",
+              overflow: "hidden",
+              border: "1px solid rgba(255,255,255,0.07)",
+              background: "#101521"
+            }}>
+              <img
+                src="/proof/n8n-lead-flow.svg"
+                alt="n8n automation workflow showing lead capture, processing, and CRM integration"
+                width="1200"
+                height="760"
+                loading="lazy"
+                style={{ width: "100%", display: "block" }}
+              />
             </div>
           </div>
         </div>
