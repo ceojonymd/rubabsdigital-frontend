@@ -236,3 +236,26 @@ section:nth-of-type(even){
 
 
 /* hero-grid rules consolidated above */
+
+/* Affiliate link styling */
+.blog-content a.affiliate-link{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(147,51,234,0.1));
+  padding:3px 12px;
+  border-radius:6px;
+  font-weight:600;
+  text-decoration:none;
+  border:1px solid rgba(59,130,246,0.2);
+  transition:all 200ms ease;
+  white-space:nowrap;
+}
+.blog-content a.affiliate-link:hover{
+  background:linear-gradient(135deg,rgba(59,130,246,0.2),rgba(147,51,234,0.2));
+  border-color:rgba(59,130,246,0.4);
+  opacity:1;
+  transform:translateY(-1px);
+  box-shadow:0 2px 8px rgba(59,130,246,0.15);
+}
+
