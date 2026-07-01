@@ -72,7 +72,7 @@ export async function POST(req: Request) {
 
     // ── 1. Store in D1 via Worker API (non-blocking) ──
     let workerOk = false;
-    const workerPromise = fetch(\`\${WORKER_API}/api/contact\`, {
+    const workerPromise = fetch(`${WORKER_API}/api/contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -96,7 +96,7 @@ export async function POST(req: Request) {
         const emailRes = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
-            Authorization: \`Bearer \${resendKey}\`,
+            Authorization: `Bearer ${resendKey}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -109,7 +109,7 @@ export async function POST(req: Request) {
         emailSent = emailRes.ok;
         if (!emailRes.ok) {
           const errText = await emailRes.text();
-          console.error(\`[contact] Resend \${emailRes.status}: \${errText}\`);
+          console.error(`[contact] Resend ${emailRes.status}: ${errText}`);
         }
       } catch (err) {
         console.error("[contact] Resend failed:", err);
