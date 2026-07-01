@@ -46,7 +46,7 @@ export default function DentistWebsitesPage() {
       </section>
 
       <section style={{ padding: "1rem 1.5rem 6rem" }}>
-        <div style={{ ...container, display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: "1.25rem" }}>
+        <div className="two-col-grid" style={{ ...container, display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: "1.25rem" }}>
           <div style={card}>
             <h2 style={h2}>What this page is for</h2>
             <p style={{ ...p, marginBottom: "1rem" }}>

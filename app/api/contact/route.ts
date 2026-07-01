@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
 
+const WORKER_API = "https://rubabsdigital-api.rdceojony.workers.dev";
+
 type ContactPayload = {
   source?: string;
   page?: string;
@@ -20,15 +22,6 @@ function required(value?: string) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
 async function persistFallback(record: Record<string, unknown>) {
   const dir = path.join("/tmp", "rubabs-digital-enquiries");
   await fs.mkdir(dir, { recursive: true });
@@ -44,10 +37,7 @@ export async function POST(req: Request) {
 
     if (!required(body.email) || !required(body.businessName) || !required(body.details)) {
       return NextResponse.json(
-        {
-          ok: false,
-          error: "Please provide your business name, email, and project details.",
-        },
+        { ok: false, error: "Please provide your business name, email, and project details." },
         { status: 400 }
       );
     }
@@ -66,161 +56,62 @@ export async function POST(req: Request) {
       submittedAt: body.submittedAt || new Date().toISOString(),
     };
 
-    const structuredSubject = `[Rubab's Digital] ${clean.service} enquiry from ${clean.businessName}`;
+    // ── Primary: POST to Cloudflare Worker API ──
+    // Worker stores in D1 + sends email via Resend
+    let workerOk = false;
+    let workerResponse: unknown = null;
 
-    const structuredText = [
-      structuredSubject,
-      "",
-      `Source: ${clean.source}`,
-      `Page: ${clean.page}`,
-      `Business Name: ${clean.businessName}`,
-      `Email: ${clean.email}`,
-      `Service Needed: ${clean.service}`,
-      `Package Direction: ${clean.packageDirection}`,
-      `Budget Range: ${clean.budget}`,
-      `Timeline: ${clean.timeline}`,
-      `Project Type: ${clean.projectType}`,
-      `Submitted At: ${clean.submittedAt}`,
-      "",
-      "Project Details:",
-      clean.details,
-    ].join("\n");
+    try {
+      const res = await fetch(`${WORKER_API}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          service: clean.service,
+          package_direction: clean.packageDirection,
+          budget: clean.budget,
+          timeline: clean.timeline,
+          project_type: clean.projectType,
+          business_name: clean.businessName,
+          email: clean.email,
+          details: [
+            `Source: ${clean.source}`,
+            `Page: ${clean.page}`,
+            `Submitted: ${clean.submittedAt}`,
+            "",
+            clean.details,
+          ].join("\n"),
+        }),
+      });
 
-    const telegramText = [
-      "📩 Rubab's Digital Enquiry",
-      `Business: ${clean.businessName}`,
-      `Email: ${clean.email}`,
-      `Service: ${clean.service}`,
-      `Package: ${clean.packageDirection}`,
-      `Budget: ${clean.budget}`,
-      `Timeline: ${clean.timeline}`,
-      `Project: ${clean.projectType}`,
-      `Page: ${clean.page}`,
-    ].join("\n");
+      const data = await res.json();
+      workerOk = res.ok && data?.success;
+      workerResponse = data;
+    } catch (err) {
+      console.error("[contact] Worker API failed:", err);
+      workerResponse = err instanceof Error ? err.message : "Worker unreachable";
+    }
 
-    const htmlMessage = `
-      <h2>${escapeHtml(structuredSubject)}</h2>
-      <p><strong>Source:</strong> ${escapeHtml(clean.source)}</p>
-      <p><strong>Page:</strong> ${escapeHtml(clean.page)}</p>
-      <p><strong>Business Name:</strong> ${escapeHtml(clean.businessName)}</p>
-      <p><strong>Email:</strong> ${escapeHtml(clean.email)}</p>
-      <p><strong>Service Needed:</strong> ${escapeHtml(clean.service)}</p>
-      <p><strong>Package Direction:</strong> ${escapeHtml(clean.packageDirection)}</p>
-      <p><strong>Budget Range:</strong> ${escapeHtml(clean.budget)}</p>
-      <p><strong>Timeline:</strong> ${escapeHtml(clean.timeline)}</p>
-      <p><strong>Project Type:</strong> ${escapeHtml(clean.projectType)}</p>
-      <p><strong>Submitted At:</strong> ${escapeHtml(clean.submittedAt)}</p>
-      <hr />
-      <p><strong>Project Details:</strong></p>
-      <p>${escapeHtml(clean.details).replaceAll("\n", "<br />")}</p>
-    `.trim();
-
-    const opsRecord = {
-      ok: true,
-      type: "rubabs_digital_contact_enquiry",
-      subject: structuredSubject,
-      text: structuredText,
-      html: htmlMessage,
-      telegramText,
-      contact: clean,
-      ops: {
-        inboxStatus: "new",
-        priority:
-          clean.packageDirection === "Enterprise Direction" || clean.budget === "$7,000+"
-            ? "high"
-            : clean.budget === "$3,000–$7,000"
-            ? "medium"
-            : "normal",
-        channelTargets: ["n8n", "email", "telegram", "local_inbox"],
-      },
-      meta: {
-        receivedAt: new Date().toISOString(),
-        site: "Rubab's Digital",
-      },
-    };
-
-    const webhookUrl = process.env.N8N_CONTACT_WEBHOOK_URL;
-    const webhookToken = process.env.N8N_CONTACT_WEBHOOK_TOKEN;
-
-    let handoff = {
-      attempted: false,
-      delivered: false,
-      target: webhookUrl ? "n8n_webhook" : "tmp_fallback",
-      status: 0,
-      response: null as unknown,
-      fallbackFile: "",
-      fallbackError: "",
-    };
-
-    if (webhookUrl) {
-      handoff.attempted = true;
-
+    // ── Fallback: save to /tmp if Worker failed ──
+    let fallbackFile = "";
+    if (!workerOk) {
       try {
-        const res = await fetch(webhookUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(webhookToken ? { Authorization: `Bearer ${webhookToken}` } : {}),
-          },
-          body: JSON.stringify(opsRecord),
-          cache: "no-store",
-        });
-
-        const raw = await res.text();
-        let parsed: unknown = raw;
-
-        try {
-          parsed = JSON.parse(raw);
-        } catch {}
-
-        handoff.status = res.status;
-        handoff.response = parsed;
-
-        if (!res.ok) {
-          throw new Error(`n8n webhook returned ${res.status}`);
-        }
-
-        handoff.delivered = true;
-      } catch (err) {
-        console.error("[contact] webhook handoff failed", err);
-        handoff.delivered = false;
-        handoff.status = handoff.status || 502;
-        handoff.response = err instanceof Error ? err.message : "Webhook handoff failed";
-
-        try {
-          handoff.fallbackFile = await persistFallback(opsRecord);
-        } catch (fallbackErr) {
-          console.error("[contact] tmp fallback failed", fallbackErr);
-          handoff.fallbackError =
-            fallbackErr instanceof Error ? fallbackErr.message : "Fallback persistence failed";
-        }
-      }
-    } else {
-      try {
-        handoff.fallbackFile = await persistFallback(opsRecord);
-      } catch (fallbackErr) {
-        console.error("[contact] tmp fallback failed", fallbackErr);
-        handoff.fallbackError =
-          fallbackErr instanceof Error ? fallbackErr.message : "Fallback persistence failed";
+        fallbackFile = await persistFallback({ ...clean, workerResponse });
+      } catch (e) {
+        console.error("[contact] fallback failed:", e);
       }
     }
 
     return NextResponse.json({
       ok: true,
-      message: handoff.delivered
+      message: workerOk
         ? "Your enquiry has been received. We will review it and get back to you shortly."
-        : "Your enquiry has been received and queued for follow-up.",
-      subject: structuredSubject,
-      handoff,
-      ops: opsRecord.ops,
+        : "Your enquiry has been queued for follow-up. We will contact you soon.",
+      delivered: workerOk,
     });
   } catch (error) {
-    console.error("[contact] unexpected route error", error);
+    console.error("[contact] unexpected error:", error);
     return NextResponse.json(
-      {
-        ok: false,
-        error: "Unable to process your enquiry right now. Please try again shortly.",
-      },
+      { ok: false, error: "Unable to process your enquiry right now. Please try again shortly." },
       { status: 500 }
     );
   }

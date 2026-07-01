@@ -28,6 +28,7 @@ export default function AboutPage() {
           </p>
 
           <div
+            className="two-col-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1.05fr 0.95fr",

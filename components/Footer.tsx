@@ -15,6 +15,7 @@ export default function Footer() {
         }}
       >
         <div
+          className="footer-cta-bar"
           style={{
             pointerEvents: "auto",
             display: "flex",

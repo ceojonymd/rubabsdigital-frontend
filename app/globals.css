@@ -118,61 +118,78 @@ section:nth-of-type(even){
 }
 
 
-/* === Rubabs mobile proof + navbar patch === */
-@media (max-width: 1024px) {
-  section[style*="gridTemplateColumns: \"1.15fr 0.85fr\""] > div,
-  section[style*="gridTemplateColumns: \"1.15fr 0.85fr\""] {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (max-width: 900px) {
-  section[style*="gridTemplateColumns: \"1.05fr 0.95fr\""] > div,
-  section[style*="gridTemplateColumns: \"1.05fr 0.95fr\""] {
-    grid-template-columns: 1fr !important;
-  }
-
-  section[style*="gridTemplateColumns: \"repeat(3, 1fr)\""] > div,
-  section[style*="gridTemplateColumns: \"repeat(3, 1fr)\""] {
-    grid-template-columns: 1fr !important;
-  }
-
-  section[style*="gridTemplateColumns: \"repeat(4, 1fr)\""] > div,
-  section[style*="gridTemplateColumns: \"repeat(4, 1fr)\""] {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
-
-@media (max-width: 640px) {
+/* === Comprehensive Mobile Responsive === */
+@media (max-width: 768px) {
   html, body {
     overflow-x: hidden;
   }
-
+  
+  /* Two-column grids → single column on mobile */
+  .two-col-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Hero grid stacks on mobile */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .hero-grid > div:last-child {
+    display: none;
+  }
+  
+  /* Sections: reduce padding on mobile */
   section {
+    padding: 48px 0 !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
-
-  img[alt*="workflow"],
-  img[alt*="demo screens"] {
-    border-radius: 14px !important;
+  
+  .container {
+    width: calc(100% - 24px);
   }
-
-  section[style*="gridTemplateColumns: \"repeat(4, 1fr)\""] > div,
-  section[style*="gridTemplateColumns: \"repeat(4, 1fr)\""] {
+  
+  /* Footer CTA bar responsive */
+  .footer-cta-bar {
+    flex-direction: column !important;
+    text-align: center;
+    border-radius: 18px !important;
+    padding: 1rem !important;
+  }
+  .footer-cta-bar > div:last-child {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Blog grid: narrower minimum on mobile */
+  .blog-grid {
     grid-template-columns: 1fr !important;
   }
+  
+  /* Category filter horizontal scroll */
+  .category-filter {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .category-filter::-webkit-scrollbar { display: none; }
+}
 
-  a[style*="padding: 0.9rem 2rem"] {
+@media (max-width: 480px) {
+  /* Extra small screens */
+  h1 {
+    font-size: clamp(1.8rem, 1rem + 3vw, 3rem) !important;
+    word-break: break-word;
+  }
+  
+  /* Full-width buttons on very small screens */
+  .two-col-grid a,
+  section a[style*="inline-flex"] {
     width: 100% !important;
     justify-content: center !important;
-  }
-
-  div[style*="display: flex"][style*="justifyContent: center"][style*="flexWrap: wrap"] {
-    gap: 0.75rem !important;
+    text-align: center;
   }
 }
-/* === end patch === */
+/* === end comprehensive mobile === */
 
 /* === Blog content styles === */
 .blog-content h1{font-size:1.8rem;margin:2rem 0 0.75rem;font-family:'Instrument Serif',serif}
@@ -218,18 +235,4 @@ section:nth-of-type(even){
 /* === end blog styles === */
 
 
-/* Mobile responsive overrides */
-@media (max-width: 768px) {
-  .hero-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .hero-grid > div:last-child {
-    display: none;
-  }
-  section {
-    padding: 48px 0 !important;
-  }
-  .container {
-    width: calc(100% - 24px);
-  }
-}
+/* hero-grid rules consolidated above */

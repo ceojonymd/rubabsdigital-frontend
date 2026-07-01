@@ -101,7 +101,7 @@ Built to Earn Trust and Bring Enquiries.</h1>
       </section>
 
       <section style={{ padding: "1rem 1.5rem 4rem" }}>
-        <div style={{
+        <div className="two-col-grid" style={{
           maxWidth: "1160px",
           margin: "0 auto",
           display: "grid",
