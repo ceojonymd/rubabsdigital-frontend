@@ -2,11 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Article, getCategoryInfo, formatDate } from "@/lib/blog-api";
 
-const R2_BASE = "https://pub-a73474e6018740cd9199660e9e4abb0e.r2.dev";
-
 export function ArticleCard({ article }: { article: Article }) {
   const cat = getCategoryInfo(article.category);
-  const ogImage = article.featured_image || `${R2_BASE}/rd-articles/og/${article.slug}.png`;
+  const ogImage = article.featured_image || `/api/og/${article.slug}`;
 
   return (
     <Link
@@ -42,6 +40,7 @@ export function ArticleCard({ article }: { article: Article }) {
             fill
             sizes="(max-width: 768px) 100vw, 400px"
             style={{ objectFit: "cover" }}
+            unoptimized={!article.featured_image}
           />
           {/* Category badge overlay */}
           <span
