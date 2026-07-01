@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 
 const WORKER_API = "https://rubabsdigital-api.rdceojony.workers.dev";
 
@@ -22,13 +20,13 @@ function required(value?: string) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-async function persistFallback(record: Record<string, unknown>) {
-  const dir = path.join("/tmp", "rubabs-digital-enquiries");
-  await fs.mkdir(dir, { recursive: true });
-  const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-  const file = path.join(dir, `enquiry-${stamp}.json`);
-  await fs.writeFile(file, JSON.stringify(record, null, 2), "utf8");
-  return file;
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 export async function POST(req: Request) {
@@ -56,57 +54,82 @@ export async function POST(req: Request) {
       submittedAt: body.submittedAt || new Date().toISOString(),
     };
 
-    // ── Primary: POST to Cloudflare Worker API ──
-    // Worker stores in D1 + sends email via Resend
+    const subject = `New Enquiry: ${clean.businessName} — ${clean.service}`;
+    const htmlBody = `
+      <h2>${escapeHtml(subject)}</h2>
+      <table style="border-collapse:collapse;width:100%">
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Business</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.businessName)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.email)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Service</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.service)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Package</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.packageDirection)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Budget</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.budget)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Timeline</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.timeline)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Project Type</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.projectType)}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Details</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.details)}</td></tr>
+      </table>
+      <p style="margin-top:16px;color:#666">Source: ${escapeHtml(clean.source)} | Page: ${escapeHtml(clean.page)} | ${escapeHtml(clean.submittedAt)}</p>
+    `.trim();
+
+    // ── 1. Store in D1 via Worker API (non-blocking) ──
     let workerOk = false;
-    let workerResponse: unknown = null;
+    const workerPromise = fetch(\`\${WORKER_API}/api/contact\`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        service: clean.service,
+        package_direction: clean.packageDirection,
+        budget: clean.budget,
+        timeline: clean.timeline,
+        project_type: clean.projectType,
+        business_name: clean.businessName,
+        email: clean.email,
+        details: clean.details,
+      }),
+    }).then(r => { workerOk = r.ok; return r.json(); }).catch(() => null);
 
-    try {
-      const res = await fetch(`${WORKER_API}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          service: clean.service,
-          package_direction: clean.packageDirection,
-          budget: clean.budget,
-          timeline: clean.timeline,
-          project_type: clean.projectType,
-          business_name: clean.businessName,
-          email: clean.email,
-          details: [
-            `Source: ${clean.source}`,
-            `Page: ${clean.page}`,
-            `Submitted: ${clean.submittedAt}`,
-            "",
-            clean.details,
-          ].join("\n"),
-        }),
-      });
-
-      const data = await res.json();
-      workerOk = res.ok && data?.success;
-      workerResponse = data;
-    } catch (err) {
-      console.error("[contact] Worker API failed:", err);
-      workerResponse = err instanceof Error ? err.message : "Worker unreachable";
-    }
-
-    // ── Fallback: save to /tmp if Worker failed ──
-    let fallbackFile = "";
-    if (!workerOk) {
+    // ── 2. Send email via Resend (from Vercel env) ──
+    let emailSent = false;
+    const resendKey = process.env.RESEND_API_KEY;
+    
+    if (resendKey) {
       try {
-        fallbackFile = await persistFallback({ ...clean, workerResponse });
-      } catch (e) {
-        console.error("[contact] fallback failed:", e);
+        const emailRes = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: \`Bearer \${resendKey}\`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: "Rubab\'s Digital <onboarding@resend.dev>",
+            to: ["ceojonym@gmail.com"],
+            subject,
+            html: htmlBody,
+          }),
+        });
+        emailSent = emailRes.ok;
+        if (!emailRes.ok) {
+          const errText = await emailRes.text();
+          console.error(\`[contact] Resend \${emailRes.status}: \${errText}\`);
+        }
+      } catch (err) {
+        console.error("[contact] Resend failed:", err);
       }
+    } else {
+      console.warn("[contact] RESEND_API_KEY not set");
     }
+
+    // Wait for Worker storage
+    await workerPromise;
 
     return NextResponse.json({
       ok: true,
-      message: workerOk
+      message: emailSent
         ? "Your enquiry has been received. We will review it and get back to you shortly."
-        : "Your enquiry has been queued for follow-up. We will contact you soon.",
+        : workerOk
+        ? "Your enquiry has been received and queued for follow-up."
+        : "Your enquiry has been noted. We will contact you soon.",
       delivered: workerOk,
+      email_sent: emailSent,
     });
   } catch (error) {
     console.error("[contact] unexpected error:", error);
