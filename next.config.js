@@ -1,3 +1,4 @@
+// Build trigger: 2026-07-01T11:31:37.372964
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: false,
