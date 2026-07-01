@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const revalidate = 3600;
 
-const R2_BASE = "https://pub-a73474e6018740cd9199660e9e4abb0e.r2.dev";
+const WORKER_BASE = "https://rubabsdigital-api.rdceojony.workers.dev";
 const SITE = "https://rubabsdigital.com";
 
 type Props = { params: { slug: string } };
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const article = await fetchArticle(slug);
     const hasContent = !!(article.content && article.content.trim().length > 50);
-    const ogImage = article.featured_image || `${R2_BASE}/rd-articles/og/${slug}.png`;
+    const ogImage = article.featured_image || `${WORKER_BASE}/og/${slug}.jpg`;
     return {
       title: article.meta_title || article.title,
       description: article.meta_description || `Expert guide on ${article.title}. Read more at Rubab's Digital.`,
@@ -60,7 +60,7 @@ export default async function ArticlePage({ params }: Props) {
   }
 
   const cat = getCategoryInfo(article.category);
-  const ogImage = article.featured_image || `${R2_BASE}/rd-articles/og/${slug}.png`;
+  const ogImage = article.featured_image || `${WORKER_BASE}/og/${slug}.jpg`;
 
   let content = article.content || "";
   if (content.startsWith("---")) {

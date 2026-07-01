@@ -1,4 +1,4 @@
-// Build trigger: 2026-07-01T11:31:37.372964
+// Build trigger: 2026-07-01T13:30:00
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: false,
@@ -15,7 +15,22 @@ const nextConfig = {
         hostname: "rubabsdigital-api.rdceojony.workers.dev",
         pathname: "/images/**",
       },
+      {
+        protocol: "https",
+        hostname: "rubabsdigital-api.rdceojony.workers.dev",
+        pathname: "/og/**",
+      },
     ],
+  },
+
+  // Handle dots in blog slugs (e.g. "make.com" in slug)
+  async rewrites() {
+    return [
+      { source: "/blog/:slug*.html", destination: "/blog/:slug*" },
+      { source: "/blog/:slug*.php", destination: "/blog/:slug*" },
+      { source: "/blog/:slug*.asp", destination: "/blog/:slug*" },
+      { source: "/blog/:slug*.aspx", destination: "/blog/:slug*" },
+    ];
   },
 
   // Comprehensive security headers
@@ -24,30 +39,12 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: [
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
-          {
-            key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin",
-          },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(), payment=()",
-          },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=63072000; includeSubDomains; preload",
-          },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-XSS-Protection", value: "1; mode=block" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
           {
             key: "Content-Security-Policy",
             value: [
@@ -67,28 +64,5 @@ const nextConfig = {
     ];
   },
 };
-
-
-  // Handle dots in blog slugs (e.g. "make.com" in slug)
-  async rewrites() {
-    return [
-      {
-        source: "/blog/:slug*.html",
-        destination: "/blog/:slug*",
-      },
-      {
-        source: "/blog/:slug*.php",
-        destination: "/blog/:slug*",
-      },
-      {
-        source: "/blog/:slug*.asp",
-        destination: "/blog/:slug*",
-      },
-      {
-        source: "/blog/:slug*.aspx",
-        destination: "/blog/:slug*",
-      },
-    ];
-  },
 
 module.exports = nextConfig;
