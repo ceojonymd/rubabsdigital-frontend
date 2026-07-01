@@ -48,16 +48,24 @@ export const metadata: Metadata = {
       "Premium websites, AI workflows, and automation for modern service businesses.",
   },
   robots: { index: true, follow: true },
-  verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "google-site-verification-placeholder",
-    // Bing verification via meta tag — set NEXT_PUBLIC_BING_SITE_VERIFICATION env var
-    // or verify via BingSiteAuth.xml in /public or DNS TXT record
-    other: {
-      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
-        ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
-        : {}),
-    },
-  },
+  // Only include verification if real values are set (not placeholders)
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION &&
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION !== "replace-me" &&
+  !process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION.includes("placeholder")
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+          ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+            ? {
+                other: {
+                  "msvalidate.01":
+                    process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
+                },
+              }
+            : {}),
+        },
+      }
+    : {}),
 };
 
 const organizationJsonLd = {
@@ -100,7 +108,10 @@ const organizationJsonLd = {
     itemListElement: [
       {
         "@type": "Offer",
-        itemOffered: { "@type": "Service", name: "Website Design & Development" },
+        itemOffered: {
+          "@type": "Service",
+          name: "Website Design & Development",
+        },
       },
       {
         "@type": "Offer",
@@ -112,7 +123,10 @@ const organizationJsonLd = {
       },
       {
         "@type": "Offer",
-        itemOffered: { "@type": "Service", name: "Digital Marketing & SEO" },
+        itemOffered: {
+          "@type": "Service",
+          name: "Digital Marketing & SEO",
+        },
       },
     ],
   },
@@ -123,7 +137,8 @@ const websiteJsonLd = {
   "@type": "WebSite",
   name: "Rubab's Digital",
   url: "https://rubabsdigital.com",
-  description: "Premium websites, AI workflows, and automation for modern service businesses.",
+  description:
+    "Premium websites, AI workflows, and automation for modern service businesses.",
   publisher: {
     "@type": "Organization",
     name: "Rubab's Digital",
@@ -138,7 +153,11 @@ const websiteJsonLd = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
@@ -154,7 +173,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
         />
         <script
           type="application/ld+json"
@@ -169,5 +190,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
-

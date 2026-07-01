@@ -5,11 +5,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
+        allow: ["/", "/blog", "/blog/categories", "/blog/category/"],
         disallow: ["/api/", "/enquiries", "/preferences/"],
       },
     ],
     sitemap: "https://rubabsdigital.com/sitemap.xml",
   };
 }
-

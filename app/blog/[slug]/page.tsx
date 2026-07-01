@@ -16,16 +16,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = params;
   try {
     const article = await fetchArticle(slug);
+    const hasContent = !!(article.content && article.content.trim().length > 50);
     const ogImage = article.featured_image || `${R2_BASE}/rd-articles/og/${slug}.png`;
     return {
       title: `${article.meta_title || article.title} | Rubab's Digital`,
-      description: article.meta_description,
+      description: article.meta_description || `Expert guide on ${article.title}. Read more at Rubab's Digital.`,
       alternates: {
         canonical: `${SITE}/blog/${slug}`,
       },
+      // CRITICAL: noindex pages with no content to prevent Google deceptive pages flag
+      robots: hasContent
+        ? { index: true, follow: true }
+        : { index: false, follow: false },
       openGraph: {
         title: article.meta_title || article.title,
-        description: article.meta_description,
+        description: article.meta_description || `Expert guide on ${article.title}.`,
         type: "article",
         url: `${SITE}/blog/${slug}`,
         publishedTime: article.created_at,
@@ -36,12 +41,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       twitter: {
         card: "summary_large_image",
         title: article.meta_title || article.title,
-        description: article.meta_description,
+        description: article.meta_description || `Expert guide on ${article.title}.`,
         images: [ogImage],
       },
     };
   } catch {
-    return { title: "Article Not Found" };
+    return { title: "Article Not Found", robots: { index: false, follow: false } };
   }
 }
 
@@ -63,38 +68,43 @@ export default async function ArticlePage({ params }: Props) {
     if (end !== -1) content = content.slice(end + 3).trim();
   }
 
-  // Article structured data (JSON-LD)
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.title,
-    description: article.meta_description,
-    image: ogImage,
-    datePublished: article.created_at,
-    dateModified: article.updated_at || article.created_at,
-    author: {
-      "@type": "Organization",
-      name: "Rubab's Digital",
-      url: SITE,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Rubab's Digital",
-      logo: {
-        "@type": "ImageObject",
-        url: `${SITE}/logo.png`,
-      },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${SITE}/blog/${slug}`,
-    },
-    wordCount: article.word_count,
-    articleSection: cat.label,
-    keywords: typeof article.keywords === "string"
-      ? JSON.parse(article.keywords).join(", ")
-      : (article.keywords || []).join(", "),
-  };
+  const hasContent = content.trim().length > 50;
+
+  // Article structured data (JSON-LD) - only include if content exists
+  const articleJsonLd = hasContent
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: article.title,
+        description: article.meta_description,
+        image: ogImage,
+        datePublished: article.created_at,
+        dateModified: article.updated_at || article.created_at,
+        author: {
+          "@type": "Organization",
+          name: "Rubab's Digital",
+          url: SITE,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Rubab's Digital",
+          logo: {
+            "@type": "ImageObject",
+            url: `${SITE}/logo.png`,
+          },
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `${SITE}/blog/${slug}`,
+        },
+        wordCount: article.word_count,
+        articleSection: cat.label,
+        keywords:
+          typeof article.keywords === "string"
+            ? JSON.parse(article.keywords).join(", ")
+            : (article.keywords || []).join(", "),
+      }
+    : null;
 
   // BreadcrumbList structured data
   const breadcrumbJsonLd = {
@@ -103,37 +113,83 @@ export default async function ArticlePage({ params }: Props) {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE },
       { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/blog` },
-      { "@type": "ListItem", position: 3, name: cat.label, item: `${SITE}/blog/category/${article.category}` },
-      { "@type": "ListItem", position: 4, name: article.title, item: `${SITE}/blog/${slug}` },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: cat.label,
+        item: `${SITE}/blog/category/${article.category}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        name: article.title,
+        item: `${SITE}/blog/${slug}`,
+      },
     ],
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
-      />
+      {articleJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+        />
+      )}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className="container" style={{ maxWidth: "780px", paddingTop: "2rem", paddingBottom: "4rem" }}>
+      <div
+        className="container"
+        style={{
+          maxWidth: "780px",
+          paddingTop: "2rem",
+          paddingBottom: "4rem",
+        }}
+      >
         {/* Breadcrumb */}
-        <nav style={{ display: "flex", gap: "0.5rem", fontSize: "0.85rem", color: "var(--color-muted)", marginBottom: "1.5rem" }}>
-          <Link href="/" style={{ color: "var(--color-accent)", textDecoration: "none" }}>Home</Link>
+        <nav
+          style={{
+            display: "flex",
+            gap: "0.5rem",
+            fontSize: "0.85rem",
+            color: "var(--color-muted)",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <Link
+            href="/"
+            style={{ color: "var(--color-accent)", textDecoration: "none" }}
+          >
+            Home
+          </Link>
           <span>&rsaquo;</span>
-          <Link href="/blog" style={{ color: "var(--color-accent)", textDecoration: "none" }}>Blog</Link>
+          <Link
+            href="/blog"
+            style={{ color: "var(--color-accent)", textDecoration: "none" }}
+          >
+            Blog
+          </Link>
           <span>&rsaquo;</span>
-          <Link href={`/blog/category/${article.category}`} style={{ color: "var(--color-accent)", textDecoration: "none" }}>{cat.label}</Link>
+          <Link
+            href={`/blog/category/${article.category}`}
+            style={{ color: "var(--color-accent)", textDecoration: "none" }}
+          >
+            {cat.label}
+          </Link>
         </nav>
 
         {/* Category badge */}
         <span
           style={{
-            display: "inline-block", fontSize: "0.8rem", fontWeight: 600,
-            padding: "5px 14px", borderRadius: "999px",
-            background: `${cat.color}22`, color: cat.color,
+            display: "inline-block",
+            fontSize: "0.8rem",
+            fontWeight: 600,
+            padding: "5px 14px",
+            borderRadius: "999px",
+            background: `${cat.color}22`,
+            color: cat.color,
             marginBottom: "1rem",
           }}
         >
@@ -141,19 +197,44 @@ export default async function ArticlePage({ params }: Props) {
         </span>
 
         {/* Title */}
-        <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", lineHeight: 1.15, marginBottom: "1rem", fontFamily: "'Instrument Serif', serif" }}>
+        <h1
+          style={{
+            fontSize: "clamp(1.8rem, 4vw, 2.6rem)",
+            lineHeight: 1.15,
+            marginBottom: "1rem",
+            fontFamily: "'Instrument Serif', serif",
+          }}
+        >
           {article.title}
         </h1>
 
         {/* Meta */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", fontSize: "0.85rem", color: "var(--color-muted)", marginBottom: "1.5rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "1rem",
+            fontSize: "0.85rem",
+            color: "var(--color-muted)",
+            marginBottom: "1.5rem",
+          }}
+        >
           <span>{formatDate(article.created_at)}</span>
           <span>&middot;</span>
           <span>{article.reading_time} min read</span>
           <span>&middot;</span>
           <span>{article.word_count} words</span>
           <span>&middot;</span>
-          <span style={{ textTransform: "capitalize", padding: "2px 8px", background: "var(--color-surface-2)", borderRadius: "6px" }}>{article.difficulty}</span>
+          <span
+            style={{
+              textTransform: "capitalize",
+              padding: "2px 8px",
+              background: "var(--color-surface-2)",
+              borderRadius: "6px",
+            }}
+          >
+            {article.difficulty}
+          </span>
         </div>
 
         {/* Hero Image */}
@@ -180,13 +261,44 @@ export default async function ArticlePage({ params }: Props) {
         </div>
 
         {/* Content */}
-        <div className="blog-content">
-          <MarkdownRenderer content={content} />
-        </div>
+        {hasContent ? (
+          <div className="blog-content">
+            <MarkdownRenderer content={content} />
+          </div>
+        ) : (
+          <div
+            style={{
+              padding: "2rem",
+              background: "var(--color-surface-2)",
+              borderRadius: "var(--radius-md)",
+              border: "1px solid var(--color-border)",
+              textAlign: "center",
+              color: "var(--color-muted)",
+            }}
+          >
+            <p style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>
+              This article is being updated.
+            </p>
+            <p>Please check back soon for the full content.</p>
+          </div>
+        )}
 
         {/* Bottom nav */}
-        <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid var(--color-border)" }}>
-          <Link href={`/blog/category/${article.category}`} style={{ color: "var(--color-accent)", textDecoration: "none", fontWeight: 600 }}>
+        <div
+          style={{
+            marginTop: "3rem",
+            paddingTop: "2rem",
+            borderTop: "1px solid var(--color-border)",
+          }}
+        >
+          <Link
+            href={`/blog/category/${article.category}`}
+            style={{
+              color: "var(--color-accent)",
+              textDecoration: "none",
+              fontWeight: 600,
+            }}
+          >
             &larr; More in {cat.label}
           </Link>
         </div>

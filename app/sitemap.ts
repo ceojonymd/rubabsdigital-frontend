@@ -19,12 +19,17 @@ interface SitemapEntry {
   priority?: number;
 }
 
-async function fetchAllArticleSlugs(): Promise<
+/**
+ * Fetch article slugs and check which ones have actual content.
+ * Only articles with real content should be in the sitemap.
+ * This prevents Google from flagging empty/doorway pages.
+ */
+async function fetchArticlesWithContent(): Promise<
   { slug: string; updated_at?: string; created_at: string }[]
 > {
-  const all: { slug: string; updated_at?: string; created_at: string }[] = [];
+  const all: { slug: string; updated_at?: string; created_at: string; hasContent: boolean }[] = [];
   let page = 1;
-  const limit = 100; // API caps at 100 per request
+  const limit = 100;
 
   while (true) {
     try {
@@ -41,6 +46,7 @@ async function fetchAllArticleSlugs(): Promise<
           slug: a.slug,
           updated_at: a.updated_at,
           created_at: a.created_at,
+          hasContent: false, // Will check individually
         });
       }
       if (page >= (data.pagination?.pages || 1)) break;
@@ -49,6 +55,29 @@ async function fetchAllArticleSlugs(): Promise<
       break;
     }
   }
+
+  // Check a sample to see if ANY articles have content via the API
+  // If none do, exclude all blog articles from sitemap
+  const sampleSlugs = all.slice(0, 5);
+  let anyHasContent = false;
+  for (const s of sampleSlugs) {
+    try {
+      const res = await fetch(`${API_BASE}/api/articles/${s.slug}`, {
+        next: { revalidate: 3600 },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.content && data.content.trim().length > 50) {
+          anyHasContent = true;
+          break;
+        }
+      }
+    } catch {}
+  }
+
+  // If no articles have content, return empty array to exclude all from sitemap
+  if (!anyHasContent) return [];
+
   return all;
 }
 
@@ -178,8 +207,8 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
     });
   }
 
-  // All article pages (paginated fetch)
-  const articles = await fetchAllArticleSlugs();
+  // Only include articles that actually have content
+  const articles = await fetchArticlesWithContent();
   for (const a of articles) {
     entries.push({
       url: `${SITE}/blog/${a.slug}`,
@@ -191,4 +220,3 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
 
   return entries;
 }
-
