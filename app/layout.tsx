@@ -165,6 +165,21 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
+          href="https://rubabsdigital-api.rdceojony.workers.dev"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="dns-prefetch"
+          href="https://rubabsdigital-api.rdceojony.workers.dev"
+        />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Rubab's Digital Blog"
+          href="https://rubabsdigital.com/feed.xml"
+        />
+        <link
+          rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
