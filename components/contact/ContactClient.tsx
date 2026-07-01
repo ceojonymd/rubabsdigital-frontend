@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { trackEvent } from "@/lib/analytics";
 
@@ -15,7 +15,7 @@ type SubmitState = "idle" | "loading" | "success" | "error";
 export default function ContactClient() {
   const [service, setService] = useState("Website Redesign");
   const [pkg, setPkg] = useState("Growth System");
-  const [budget, setBudget] = useState("$1,000–$3,000");
+  const [budget, setBudget] = useState("$1,000\u20133,000");
   const [timeline, setTimeline] = useState("Within 30 days");
   const [projectType, setProjectType] = useState("");
   const [businessName, setBusinessName] = useState("");
@@ -23,6 +23,14 @@ export default function ContactClient() {
   const [details, setDetails] = useState("");
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [message, setMessage] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const qualificationPreview = useMemo(
     () => [
@@ -121,13 +129,13 @@ export default function ContactClient() {
 
   return (
     <main style={{ paddingTop: "80px", paddingBottom: "110px" }}>
-      <section style={{ padding: "6rem 1.5rem 2rem" }}>
+      <section style={{ padding: isMobile ? "3rem 1rem 1.5rem" : "6rem 1.5rem 2rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.7rem" }}>Contact</div>
           <h1
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "clamp(2.5rem, 1rem + 4vw, 4.8rem)",
+              fontSize: isMobile ? "clamp(2rem, 8vw, 2.8rem)" : "clamp(2.5rem, 1rem + 4vw, 4.8rem)",
               lineHeight: 1.05,
               marginBottom: "1rem",
             }}
@@ -142,7 +150,7 @@ export default function ContactClient() {
         </div>
       </section>
 
-      <section style={{ padding: "0 1.5rem 1.25rem" }}>
+      <section style={{ padding: isMobile ? "0 1rem 1rem" : "0 1.5rem 1.25rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div
             style={{
@@ -179,12 +187,12 @@ export default function ContactClient() {
         </div>
       </section>
 
-      <section style={{ padding: "0 1.5rem 2rem" }}>
+      <section style={{ padding: isMobile ? "0 1rem 2rem" : "0 1.5rem 2rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1.05fr 0.95fr",
+              gridTemplateColumns: isMobile ? "1fr" : "1.05fr 0.95fr",
               gap: "1rem",
             }}
           >
@@ -230,9 +238,9 @@ export default function ContactClient() {
                 <div style={{ display: "grid", gap: "0.45rem" }}>
                   <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Estimated budget</label>
                   <select value={budget} onChange={(e) => { setBudget(e.target.value); onStart(); }} style={fieldStyle}>
-                    <option>$500–$1,000</option>
-                    <option>$1,000–$3,000</option>
-                    <option>$3,000–$7,000</option>
+                    <option>$500\u2013$1,000</option>
+                    <option>$1,000\u2013$3,000</option>
+                    <option>$3,000\u2013$7,000</option>
                     <option>$7,000+</option>
                     <option>Need guidance first</option>
                   </select>
@@ -297,14 +305,15 @@ export default function ContactClient() {
                     fontWeight: 700,
                     border: "none",
                     opacity: submitState === "loading" ? 0.9 : 1,
+                    width: "100%",
                   }}
                 >
-                  {submitState === "loading" ? "Sending..." : "Send Project Enquiry →"}
+                  {submitState === "loading" ? "Sending..." : "Send Project Enquiry \u2192"}
                 </button>
               </form>
             </div>
 
-            <div style={{ display: "grid", gap: "1rem" }}>
+            <div style={{ display: "grid", gap: "1rem", alignContent: "start" }}>
               <div
                 style={{
                   background: "var(--color-surface)",
@@ -374,6 +383,7 @@ const fieldStyle: React.CSSProperties = {
   background: "rgba(255,255,255,0.03)",
   color: "var(--color-text)",
   outline: "none",
+  fontSize: "1rem",
 };
 
 const secondaryBtn: React.CSSProperties = {

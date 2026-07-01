@@ -216,3 +216,20 @@ section:nth-of-type(even){
 
 .card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.15)}
 /* === end blog styles === */
+
+
+/* Mobile responsive overrides */
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .hero-grid > div:last-child {
+    display: none;
+  }
+  section {
+    padding: 48px 0 !important;
+  }
+  .container {
+    width: calc(100% - 24px);
+  }
+}

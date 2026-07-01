@@ -55,6 +55,7 @@ export default function HomePage() {
           </div>
 
           <div
+            className="hero-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "1.15fr 0.85fr",
