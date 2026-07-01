@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { fetchArticle, getCategoryInfo, formatDate } from "@/lib/blog-api";
 import { MarkdownRenderer } from "@/components/blog/MarkdownRenderer";
 import type { Metadata } from "next";
@@ -145,7 +146,7 @@ export default async function ArticlePage({ params }: Props) {
         </h1>
 
         {/* Meta */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", fontSize: "0.85rem", color: "var(--color-muted)", marginBottom: "2rem", paddingBottom: "1.5rem", borderBottom: "1px solid var(--color-border)" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", fontSize: "0.85rem", color: "var(--color-muted)", marginBottom: "1.5rem" }}>
           <span>{formatDate(article.created_at)}</span>
           <span>&middot;</span>
           <span>{article.reading_time} min read</span>
@@ -153,6 +154,29 @@ export default async function ArticlePage({ params }: Props) {
           <span>{article.word_count} words</span>
           <span>&middot;</span>
           <span style={{ textTransform: "capitalize", padding: "2px 8px", background: "var(--color-surface-2)", borderRadius: "6px" }}>{article.difficulty}</span>
+        </div>
+
+        {/* Hero Image */}
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "1200 / 630",
+            borderRadius: "var(--radius-md)",
+            overflow: "hidden",
+            marginBottom: "2rem",
+            background: "var(--color-surface-2)",
+            border: "1px solid var(--color-border)",
+          }}
+        >
+          <Image
+            src={ogImage}
+            alt={article.title}
+            fill
+            sizes="(max-width: 780px) 100vw, 780px"
+            style={{ objectFit: "cover" }}
+            priority
+          />
         </div>
 
         {/* Content */}
@@ -170,4 +194,3 @@ export default async function ArticlePage({ params }: Props) {
     </>
   );
 }
-
