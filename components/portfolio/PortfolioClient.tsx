@@ -22,7 +22,7 @@ const items: PortfolioItem[] = [
     type: "Web Design",
     niche: "Service Business",
     text: "Premium website direction for businesses that need stronger first impressions, clearer positioning, and better enquiry flow.",
-    image: "/api/portfolio/1",
+    image: "/portfolio/1.png",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const items: PortfolioItem[] = [
     type: "Automation",
     niche: "Service Business",
     text: "A contact and qualification flow shaped to make incoming leads easier to review, route, and act on.",
-    image: "/api/portfolio/2",
+    image: "/portfolio/2.png",
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const items: PortfolioItem[] = [
     type: "AI Systems",
     niche: "Service Business",
     text: "AI-assisted visitor direction designed to support service discovery, trust-building, and clearer next steps.",
-    image: "/api/portfolio/3",
+    image: "/portfolio/3.png",
   },
   {
     id: 4,
@@ -46,7 +46,7 @@ const items: PortfolioItem[] = [
     type: "Landing Pages",
     niche: "Service Business",
     text: "Landing page structure focused on message clarity, CTA rhythm, and stronger buyer confidence.",
-    image: "/api/portfolio/4",
+    image: "/portfolio/4.png",
   },
   // FIFA World Cup Design Collection
   {
@@ -57,7 +57,7 @@ const items: PortfolioItem[] = [
     text: "Creative football design concept for the FIFA World Cup series.",
     link: "https://ranch-drums-37308651.figma.site/",
     figma: "https://www.figma.com/community/file/1648673011851580004",
-    image: "/api/portfolio/5",
+    image: "/portfolio/5.png",
   },
   {
     id: 6,
@@ -66,7 +66,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "World Cup themed visual design and layout concept.",
     link: "https://bony-khaki-28980549.figma.site/",
-    image: "/api/portfolio/6",
+    image: "/portfolio/6.png",
   },
   {
     id: 7,
@@ -75,7 +75,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Football-inspired creative direction and visual storytelling.",
     link: "https://khaki-spray-17520158.figma.site/",
-    image: "/api/portfolio/7",
+    image: "/portfolio/7.png",
   },
   {
     id: 8,
@@ -84,7 +84,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Dynamic sports design concept with World Cup aesthetics.",
     link: "https://trill-name-39631032.figma.site/",
-    image: "/api/portfolio/8",
+    image: "/portfolio/8.png",
   },
   {
     id: 9,
@@ -93,7 +93,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Bold football visual identity and tournament branding concept.",
     link: "https://cover-stamp-99875270.figma.site/",
-    image: "/api/portfolio/9",
+    image: "/portfolio/9.png",
   },
   {
     id: 10,
@@ -102,7 +102,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Stadium-inspired design language for FIFA World Cup.",
     link: "https://shell-drawer-98082737.figma.site/",
-    image: "/api/portfolio/10",
+    image: "/portfolio/10.png",
   },
   {
     id: 11,
@@ -111,7 +111,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Energetic football design with modern visual elements.",
     link: "https://money-pacing-83147189.figma.site/",
-    image: "/api/portfolio/11",
+    image: "/portfolio/11.png",
   },
   {
     id: 12,
@@ -120,7 +120,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "World Cup creative concept with team-inspired color systems.",
     link: "https://prior-tutor-97577445.figma.site/",
-    image: "/api/portfolio/12",
+    image: "/portfolio/12.png",
   },
   {
     id: 13,
@@ -129,7 +129,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Football celebration design with dynamic composition.",
     link: "https://sun-tusk-12908953.figma.site/",
-    image: "/api/portfolio/13",
+    image: "/portfolio/13.png",
   },
   {
     id: 14,
@@ -138,7 +138,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Tournament-themed design with crowd energy aesthetic.",
     link: "https://malt-shadow-95809262.figma.site/",
-    image: "/api/portfolio/14",
+    image: "/portfolio/14.png",
   },
   {
     id: 15,
@@ -147,7 +147,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Goal-celebration inspired visual design concept.",
     link: "https://half-gentle-74967322.figma.site/",
-    image: "/api/portfolio/15",
+    image: "/portfolio/15.png",
   },
   {
     id: 16,
@@ -156,7 +156,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "FIFA-themed creative direction with pitch-level perspective.",
     link: "https://epic-zippy-28751361.figma.site/",
-    image: "/api/portfolio/16",
+    image: "/portfolio/16.png",
   },
   {
     id: 17,
@@ -165,7 +165,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "World Cup heritage design with modern typography.",
     link: "https://mood-hall-91339399.figma.site/",
-    image: "/api/portfolio/17",
+    image: "/portfolio/17.png",
   },
   {
     id: 18,
@@ -174,7 +174,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Football culture visual identity and poster design.",
     link: "https://deep-pep-99990106.figma.site/",
-    image: "/api/portfolio/18",
+    image: "/portfolio/18.png",
   },
   {
     id: 19,
@@ -183,7 +183,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Tournament bracket-inspired creative layout.",
     link: "https://effect-film-51249470.figma.site/",
-    image: "/api/portfolio/19",
+    image: "/portfolio/19.png",
   },
   {
     id: 20,
@@ -192,7 +192,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "National team colors palette design exploration.",
     link: "https://stable-reply-58119542.figma.site/",
-    image: "/api/portfolio/20",
+    image: "/portfolio/20.png",
   },
   {
     id: 21,
@@ -201,7 +201,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Football fan experience design concept.",
     link: "https://crowd-self-73447767.figma.site/",
-    image: "/api/portfolio/21",
+    image: "/portfolio/21.png",
   },
   {
     id: 22,
@@ -210,7 +210,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "World Cup trophy-inspired visual composition.",
     link: "https://opt-mount-52177957.figma.site/",
-    image: "/api/portfolio/22",
+    image: "/portfolio/22.png",
   },
   {
     id: 23,
@@ -219,7 +219,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Match-day atmosphere captured in design.",
     link: "https://dog-blast-71214759.figma.site/",
-    image: "/api/portfolio/23",
+    image: "/portfolio/23.png",
   },
   {
     id: 24,
@@ -228,7 +228,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Football movement and velocity design study.",
     link: "https://ethics-tidy-84167911.figma.site/",
-    image: "/api/portfolio/24",
+    image: "/portfolio/24.png",
   },
   {
     id: 25,
@@ -237,7 +237,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Stadium architecture-inspired layout concept.",
     link: "https://cause-five-61027758.figma.site/",
-    image: "/api/portfolio/25",
+    image: "/portfolio/25.png",
   },
   {
     id: 26,
@@ -246,7 +246,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "World Cup countdown visual design system.",
     link: "https://dew-cane-49830228.figma.site/",
-    image: "/api/portfolio/26",
+    image: "/portfolio/26.png",
   },
   {
     id: 27,
@@ -255,7 +255,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Football pitch geometry and pattern exploration.",
     link: "https://queue-nix-72603901.figma.site/",
-    image: "/api/portfolio/27",
+    image: "/portfolio/27.png",
   },
   {
     id: 28,
@@ -264,7 +264,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "FIFA heritage and legacy visual storytelling.",
     link: "https://relax-genre-23000737.figma.site/",
-    image: "/api/portfolio/28",
+    image: "/portfolio/28.png",
   },
   {
     id: 29,
@@ -273,7 +273,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Championship moment freeze-frame design concept.",
     link: "https://bronze-pitch-64416473.figma.site/",
-    image: "/api/portfolio/29",
+    image: "/portfolio/29.png",
   },
   {
     id: 30,
@@ -282,7 +282,7 @@ const items: PortfolioItem[] = [
     niche: "Football / FIFA",
     text: "Final whistle — culminating World Cup design series.",
     link: "https://method-grab-21943836.figma.site/",
-    image: "/api/portfolio/30",
+    image: "/portfolio/30.png",
   },
 ];
 
