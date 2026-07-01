@@ -8,6 +8,15 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Blog — Expert Tech Guides & Reviews | Rubab's Digital",
   description: "Expert articles on web hosting, AI tools, cloud, development, cybersecurity, SEO, and more. Written by industry professionals.",
+  alternates: {
+    canonical: "https://rubabsdigital.com/blog",
+  },
+  openGraph: {
+    title: "Tech Blog | Rubab's Digital",
+    description: "846+ expert articles on hosting, AI, dev, security, and more.",
+    type: "website",
+    url: "https://rubabsdigital.com/blog",
+  },
 };
 
 export default async function BlogPage() {
@@ -86,3 +95,4 @@ export default async function BlogPage() {
     </div>
   );
 }
+
