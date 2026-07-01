@@ -49,7 +49,14 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   verification: {
-    google: "google-site-verification-placeholder",
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "google-site-verification-placeholder",
+    // Bing verification via meta tag — set NEXT_PUBLIC_BING_SITE_VERIFICATION env var
+    // or verify via BingSiteAuth.xml in /public or DNS TXT record
+    other: {
+      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+        ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+        : {}),
+    },
   },
 };
 
@@ -162,4 +169,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
 
