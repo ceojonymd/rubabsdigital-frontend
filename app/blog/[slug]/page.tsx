@@ -6,12 +6,15 @@ import type { Metadata } from "next";
 
 export const revalidate = 3600;
 
+const R2_BASE = "https://pub-a73474e6018740cd9199660e9e4abb0e.r2.dev";
+
 type Props = { params: { slug: string } };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = params;
   try {
     const article = await fetchArticle(slug);
+    const ogImage = article.featured_image || `${R2_BASE}/rd-articles/og/${slug}.png`;
     return {
       title: `${article.meta_title || article.title} | Rubab's Digital`,
       description: article.meta_description,
@@ -21,6 +24,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         type: "article",
         publishedTime: article.created_at,
         authors: ["Rubab's Digital"],
+        images: [{ url: ogImage, width: 1200, height: 630, alt: article.title }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: article.meta_title || article.title,
+        description: article.meta_description,
+        images: [ogImage],
       },
     };
   } catch {
