@@ -24,15 +24,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Rubab's Digital" }],
   metadataBase: new URL("https://rubabsdigital.com"),
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://rubabsdigital.com",
     siteName: "Rubab's Digital",
-    title: "Rubab's Digital — Premium Websites, AI & Automation Studio",
-    description:
-      "Premium websites, AI workflows, and automation for modern service businesses. Plus expert tech reviews and guides.",
     images: [
       {
         url: "https://rubabsdigital.com/logo.png",
@@ -50,23 +45,24 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   // Only include verification if real values are set (not placeholders)
-  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION &&
-  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION !== "replace-me" &&
-  !process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION.includes("placeholder")
-    ? {
-        verification: {
-          google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
-          ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
-            ? {
-                other: {
-                  "msvalidate.01":
-                    process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
-                },
-              }
-            : {}),
-        },
-      }
-    : {}),
+  ...(() => {
+    const gv = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "";
+    const isReal = gv.length > 10 && !gv.includes("placeholder") && !gv.includes("replace") && !gv.includes("google-site-verification") && !gv.startsWith("your");
+    if (!isReal) return {};
+    return {
+      verification: {
+        google: gv,
+        ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION &&
+        !process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION.includes("placeholder")
+          ? {
+              other: {
+                "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
+              },
+            }
+          : {}),
+      },
+    };
+  })(),
 };
 
 const organizationJsonLd = {
