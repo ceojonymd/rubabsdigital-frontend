@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Refund Policy | Rubab's Digital",
+  title: "Refund Policy",
   description: "Read the refund and payment policy for services provided by Rubab's Digital.",
 };
 

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Real Estate Websites | Rubab's Digital",
+  title: "Real Estate Websites",
   description: "Real estate websites built for stronger presentation, trust, and enquiry generation.",
 };
 

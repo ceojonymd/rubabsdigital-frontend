@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const hasContent = !!(article.content && article.content.trim().length > 50);
     const ogImage = article.featured_image || `${R2_BASE}/rd-articles/og/${slug}.png`;
     return {
-      title: `${article.meta_title || article.title} | Rubab's Digital`,
+      title: article.meta_title || article.title,
       description: article.meta_description || `Expert guide on ${article.title}. Read more at Rubab's Digital.`,
       alternates: {
         canonical: `${SITE}/blog/${slug}`,

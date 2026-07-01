@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -186,6 +187,15 @@ export default function RootLayout({
         <Navbar />
         <main style={{ paddingTop: "80px" }}>{children}</main>
         <Footer />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-YSTS0XHB16" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-YSTS0XHB16');
+          `}
+        </Script>
       </body>
     </html>
   );

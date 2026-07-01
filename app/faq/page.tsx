@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "FAQ | Rubab's Digital",
+  title: "FAQ",
   description: "Frequently asked questions about websites, automation, pricing, and project fit.",
 };
 

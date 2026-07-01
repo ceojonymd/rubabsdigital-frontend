@@ -1,7 +1,7 @@
 import ConsultancyButton from "@/components/ConsultancyButton"
 
 export const metadata = {
-  title: "Rubab's Digital — Web & Automation Studio",
+  title: "Web & Automation Studio",
   description: "Premium service-business websites for clinics, consultants, law firms, real estate agents, salons, and local brands built to earn trust and drive enquiries.",
 }
 

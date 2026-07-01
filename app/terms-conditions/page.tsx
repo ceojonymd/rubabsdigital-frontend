@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Terms & Conditions | Rubab's Digital",
+  title: "Terms & Conditions",
   description: "Read the terms governing the use of Rubab's Digital website, services, proposals, and project delivery.",
 };
 

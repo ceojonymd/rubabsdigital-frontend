@@ -1,7 +1,7 @@
 import ContactClient from "@/components/contact/ContactClient";
 
 export const metadata = {
-  title: "Contact | Rubab's Digital",
+  title: "Contact",
   description: "Get in touch with Rubab's Digital for websites, automation, AI workflows, and growth support.",
 };
 

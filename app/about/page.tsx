@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "About | Rubab's Digital",
+  title: "About",
   description: "Learn more about the thinking behind Rubab's Digital.",
 };
 

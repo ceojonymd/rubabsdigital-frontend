@@ -3,7 +3,7 @@ import DemoSection from "@/components/DemoSection"
 import { CRMAutomationDemo, ReportBotDemo } from "@/components/demos/AIDemos"
 
 export const metadata = {
-  title: "Rubab's Digital — Web & Automation Studio",
+  title: "Web & Automation Studio",
   description: "Custom AI assistants for clinics, consultants, law firms, agencies, and service businesses that need better lead qualification, support, and follow-up.",
 }
 

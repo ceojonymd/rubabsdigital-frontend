@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Privacy Policy | Rubab's Digital",
+  title: "Privacy Policy",
   description:
     "Read how Rubab's Digital collects, uses, stores, and protects your information across our website, contact forms, and digital services.",
 };

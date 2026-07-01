@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Law Firm Websites | Rubab's Digital",
+  title: "Law Firm Websites",
   description: "Premium law firm websites built to create trust, clarity, and better enquiry flow.",
 };
 

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Dentist Websites | Rubab's Digital",
+  title: "Dentist Websites",
   description: "Premium dental clinic websites, booking flows, and automation-ready lead systems for modern practices.",
 };
 

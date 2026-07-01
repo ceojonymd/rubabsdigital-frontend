@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "All Categories — Rubab's Digital Blog",
+  title: "All Blog Categories",
   description: "Browse all blog categories including web hosting, AI tools, cloud, development, cybersecurity, and more.",
 };
 

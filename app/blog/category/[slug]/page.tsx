@@ -18,13 +18,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = params;
   const cat = getCategoryInfo(slug);
   return {
-    title: `${cat.label} — Expert Guides & Reviews | Rubab's Digital`,
+    title: `${cat.label} — Expert Guides & Reviews`,
     description: `Browse expert ${cat.label.toLowerCase()} articles, reviews, and tutorials at Rubab's Digital.`,
     alternates: {
       canonical: `${SITE}/blog/category/${slug}`,
     },
     openGraph: {
-      title: `${cat.label} Articles | Rubab's Digital`,
+      title: `${cat.label} Articles`,
       description: `Expert ${cat.label.toLowerCase()} articles, reviews, and tutorials.`,
       type: "website",
       url: `${SITE}/blog/category/${slug}`,

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Salon Websites | Rubab's Digital",
+  title: "Salon Websites",
   description: "Modern salon and beauty websites for better bookings, presentation, and client trust.",
 };
 
