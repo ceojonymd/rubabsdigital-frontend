@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 export const revalidate = 3600;
 
 const WORKER_BASE = "https://rubabsdigital-api.rdceojony.workers.dev";
+const OG_FALLBACK = "/api/og";
 const SITE = "https://rubabsdigital.com";
 
 type Props = { params: { slug: string } };
@@ -61,6 +62,7 @@ export default async function ArticlePage({ params }: Props) {
 
   const cat = getCategoryInfo(article.category);
   const ogImage = article.featured_image || `${WORKER_BASE}/og/${slug}.jpg`;
+  const displayImage = article.featured_image || `/api/og/${slug}`;
 
   let content = article.content || "";
   if (content.startsWith("---")) {
@@ -251,12 +253,13 @@ export default async function ArticlePage({ params }: Props) {
           }}
         >
           <Image
-            src={ogImage}
+            src={displayImage}
             alt={article.title}
             fill
             sizes="(max-width: 780px) 100vw, 780px"
             style={{ objectFit: "cover" }}
             priority
+            unoptimized={!article.featured_image}
           />
         </div>
 

@@ -4,12 +4,27 @@ const nextConfig = {
   trailingSlash: false,
 
   images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: "https",
         hostname: "pub-a73474e6018740cd9199660e9e4abb0e.r2.dev",
         pathname: "/rd-articles/**",
       },
+      {
+        protocol: "https",
+        hostname: "rubabsdigital-api.rdceojony.workers.dev",
+        pathname: "/images/**",
+      },
+      {
+        protocol: "https",
+        hostname: "rubabsdigital-api.rdceojony.workers.dev",
+        pathname: "/og/**",
+      },
+    ],
+  },
       {
         protocol: "https",
         hostname: "rubabsdigital-api.rdceojony.workers.dev",
