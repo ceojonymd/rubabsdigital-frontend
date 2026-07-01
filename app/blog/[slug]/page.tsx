@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { fetchArticle, getCategoryInfo, formatDate } from "@/lib/blog-api";
+import { fetchArticle, fetchArticles, getCategoryInfo, formatDate, CATEGORIES } from "@/lib/blog-api";
 import { MarkdownRenderer } from "@/components/blog/MarkdownRenderer";
+import { RelatedArticles } from "@/components/blog/RelatedArticles";
+import { ArticleNavigation } from "@/components/blog/ArticleNavigation";
 import type { Metadata } from "next";
 
 export const revalidate = 3600;
@@ -25,7 +27,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical: `${SITE}/blog/${slug}`,
       },
-      // CRITICAL: noindex pages with no content to prevent Google deceptive pages flag
       robots: hasContent
         ? { index: true, follow: true }
         : { index: false, follow: false },
@@ -71,6 +72,34 @@ export default async function ArticlePage({ params }: Props) {
   }
 
   const hasContent = content.trim().length > 50;
+
+  // Fetch related articles from same category for internal linking
+  let relatedArticles: any[] = [];
+  let prevArticle: { slug: string; title: string } | null = null;
+  let nextArticle: { slug: string; title: string } | null = null;
+
+  try {
+    const { articles: categoryArticles } = await fetchArticles(1, 50, article.category);
+    // Related articles: exclude current, take first 4
+    relatedArticles = categoryArticles.filter((a: any) => a.slug !== slug);
+
+    // Find prev/next in the category list
+    const currentIndex = categoryArticles.findIndex((a: any) => a.slug === slug);
+    if (currentIndex > 0) {
+      prevArticle = {
+        slug: categoryArticles[currentIndex - 1].slug,
+        title: categoryArticles[currentIndex - 1].title,
+      };
+    }
+    if (currentIndex !== -1 && currentIndex < categoryArticles.length - 1) {
+      nextArticle = {
+        slug: categoryArticles[currentIndex + 1].slug,
+        title: categoryArticles[currentIndex + 1].title,
+      };
+    }
+  } catch {
+    // Silently fail — related articles are optional
+  }
 
   // Article structured data (JSON-LD) - only include if content exists
   const articleJsonLd = hasContent
@@ -130,6 +159,11 @@ export default async function ArticlePage({ params }: Props) {
     ],
   };
 
+  // Get other categories for cross-linking
+  const otherCategories = Object.entries(CATEGORIES)
+    .filter(([key]) => key !== article.category)
+    .slice(0, 6);
+
   return (
     <>
       {articleJsonLd && (
@@ -158,6 +192,7 @@ export default async function ArticlePage({ params }: Props) {
             fontSize: "0.85rem",
             color: "var(--color-muted)",
             marginBottom: "1.5rem",
+            flexWrap: "wrap",
           }}
         >
           <Link
@@ -180,23 +215,35 @@ export default async function ArticlePage({ params }: Props) {
           >
             {cat.label}
           </Link>
+          <span>&rsaquo;</span>
+          <span style={{ color: "var(--color-muted)" }}>
+            {article.title.length > 50
+              ? article.title.substring(0, 50) + "..."
+              : article.title}
+          </span>
         </nav>
 
         {/* Category badge */}
-        <span
-          style={{
-            display: "inline-block",
-            fontSize: "0.8rem",
-            fontWeight: 600,
-            padding: "5px 14px",
-            borderRadius: "999px",
-            background: `${cat.color}22`,
-            color: cat.color,
-            marginBottom: "1rem",
-          }}
+        <Link
+          href={`/blog/category/${article.category}`}
+          style={{ textDecoration: "none" }}
         >
-          {cat.icon} {cat.label}
-        </span>
+          <span
+            style={{
+              display: "inline-block",
+              fontSize: "0.8rem",
+              fontWeight: 600,
+              padding: "5px 14px",
+              borderRadius: "999px",
+              background: `${cat.color}22`,
+              color: cat.color,
+              marginBottom: "1rem",
+              transition: "background 200ms",
+            }}
+          >
+            {cat.icon} {cat.label}
+          </span>
+        </Link>
 
         {/* Title */}
         <h1
@@ -286,7 +333,7 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         )}
 
-        {/* Bottom nav */}
+        {/* Previous / Next Article Navigation */}
         <div
           style={{
             marginTop: "3rem",
@@ -294,18 +341,80 @@ export default async function ArticlePage({ params }: Props) {
             borderTop: "1px solid var(--color-border)",
           }}
         >
+          <ArticleNavigation prev={prevArticle} next={nextArticle} />
+        </div>
+
+        {/* More in Category link */}
+        <div
+          style={{
+            marginTop: "2rem",
+            textAlign: "center",
+          }}
+        >
           <Link
             href={`/blog/category/${article.category}`}
+            className="btn btn-secondary"
             style={{
-              color: "var(--color-accent)",
               textDecoration: "none",
-              fontWeight: 600,
+              fontSize: "0.9rem",
             }}
           >
-            &larr; More in {cat.label}
+            {cat.icon} Browse All {cat.label} Articles →
           </Link>
         </div>
+
+        {/* Related Articles */}
+        <RelatedArticles articles={relatedArticles} currentSlug={slug} />
+
+        {/* Browse Other Categories */}
+        <section
+          style={{
+            marginTop: "3rem",
+            paddingTop: "2rem",
+            borderTop: "1px solid var(--color-border)",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "1.3rem",
+              fontFamily: "'Instrument Serif', serif",
+              marginBottom: "1rem",
+              color: "var(--color-text)",
+            }}
+          >
+            Explore Other Topics
+          </h2>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.5rem",
+            }}
+          >
+            {otherCategories.map(([key, c]) => (
+              <Link
+                key={key}
+                href={`/blog/category/${key}`}
+                style={{
+                  padding: "0.5rem 1rem",
+                  borderRadius: "999px",
+                  background: "var(--color-surface-2)",
+                  border: "1px solid var(--color-border)",
+                  color: c.color,
+                  fontSize: "0.82rem",
+                  fontWeight: 500,
+                  textDecoration: "none",
+                  transition: "border-color 200ms, background 200ms",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {c.icon} {c.label}
+              </Link>
+            ))}
+          </div>
+        </section>
       </div>
     </>
   );
 }
+
