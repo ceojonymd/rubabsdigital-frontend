@@ -3,12 +3,13 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
-const links = [
+const links: { href: string; label: string; external?: boolean }[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/website-design", label: "Website Design" },
   { href: "/ai-automation", label: "AI Automation" },
   { href: "/custom-ai-agents", label: "AI Agents" },
+  { href: "https://rubab-api-hub.rdceojony.workers.dev", label: "API", external: true },
   { href: "/blog", label: "Blog" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/pricing", label: "Pricing" },
@@ -99,6 +100,8 @@ export default function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
+                target={l.external ? "_blank" : undefined}
+                rel={l.external ? "noopener noreferrer" : undefined}
                 style={{
                   fontSize: "0.9rem",
                   fontWeight: 500,
@@ -186,6 +189,8 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setMobileOpen(false)}
+              target={l.external ? "_blank" : undefined}
+              rel={l.external ? "noopener noreferrer" : undefined}
               style={{
                 padding: "0.9rem 0",
                 fontSize: "0.95rem",
