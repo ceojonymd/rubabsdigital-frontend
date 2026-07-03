@@ -192,12 +192,18 @@ section:nth-of-type(even){
 /* === end comprehensive mobile === */
 
 /* === Blog content styles === */
+.blog-content{
+  overflow-wrap:break-word;
+  word-break:break-word;
+  hyphens:auto;
+  max-width:100%;
+}
 .blog-content h1{font-size:1.8rem;margin:2rem 0 0.75rem;font-family:'Instrument Serif',serif}
 .blog-content h2{font-size:1.5rem;margin:1.75rem 0 0.75rem;font-family:'Instrument Serif',serif}
 .blog-content h3{font-size:1.25rem;margin:1.5rem 0 0.5rem;font-family:'Instrument Serif',serif}
 .blog-content h4{font-size:1.1rem;margin:1.25rem 0 0.5rem}
 .blog-content p{line-height:1.85;margin-bottom:1rem;color:var(--color-text-soft)}
-.blog-content a{color:var(--color-accent);text-decoration:underline;text-underline-offset:3px}
+.blog-content a{color:var(--color-accent);text-decoration:underline;text-underline-offset:3px;word-break:break-all}
 .blog-content a:hover{opacity:0.8}
 .blog-content ul,.blog-content ol{margin:0.75rem 0 1rem 1.5rem;color:var(--color-text-soft)}
 .blog-content li{margin-bottom:0.35rem;line-height:1.7}
@@ -226,10 +232,30 @@ section:nth-of-type(even){
   border-radius:4px;
   font-size:0.88em;
   color:var(--color-accent);
+  word-break:break-all;
 }
-.blog-content pre code{background:transparent;padding:0;color:var(--color-text-soft)}
+.blog-content pre code{background:transparent;padding:0;color:var(--color-text-soft);word-break:normal}
 .blog-content hr{border:none;border-top:1px solid var(--color-border);margin:2rem 0}
 .blog-content strong{color:var(--color-text);font-weight:600}
+.blog-content img{max-width:100%;height:auto;border-radius:var(--radius-sm);margin:1rem 0}
+.blog-content table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem;overflow-x:auto;display:block}
+.blog-content th,.blog-content td{padding:0.6rem 0.8rem;border:1px solid var(--color-border);text-align:left}
+.blog-content th{background:var(--color-surface-2);font-weight:600;color:var(--color-text)}
+.blog-content td{color:var(--color-text-soft)}
+/* YouTube / iframe responsive container */
+.blog-content .video-embed{position:relative;width:100%;padding-bottom:56.25%;margin:1.5rem 0;border-radius:var(--radius-md);overflow:hidden;background:var(--color-bg-2)}
+.blog-content .video-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+/* Related guides section from WP enrichment */
+.blog-content .related-guides{
+  margin:2rem 0;
+  padding:1.25rem;
+  background:var(--color-surface-2);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md);
+}
+.blog-content .related-guides h3{margin-top:0;font-size:1.1rem}
+.blog-content .related-guides ul{margin-left:1rem}
+.blog-content .related-guides a{word-break:normal}
 
 .card:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.15)}
 /* === end blog styles === */
