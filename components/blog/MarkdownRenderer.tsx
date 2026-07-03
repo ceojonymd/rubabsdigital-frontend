@@ -1,6 +1,8 @@
 "use client";
 
-// Affiliate link mapping — add your tracking URLs here
+import { useMemo } from "react";
+
+// ── Affiliate link mapping ──────────────────────────────────────────
 const AFFILIATE_LINKS: Record<string, { url: string; label: string }> = {
   // Hosting
   'hostinger': { url: 'https://www.hostg.xyz/aff_c?offer_id=6&aff_id=148098', label: 'Hostinger' },
@@ -55,75 +57,216 @@ function resolveAffiliateLink(name: string): { url: string; label: string } | nu
   return AFFILIATE_LINKS[key] || null;
 }
 
-export function MarkdownRenderer({ content }: { content: string }) {
-  // Detect if content is HTML (from WordPress) vs Markdown
-  const isHtml = /<[a-z][\s\S]*>/i.test(content) && (
-    content.includes('<p>') || content.includes('<div>') ||
-    content.includes('<h2>') || content.includes('<h3>') ||
-    content.includes('<iframe') || content.includes('<figure')
-  );
+// ── YouTube Video ID Validator ──────────────────────────────────────
+const YOUTUBE_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 
-  if (isHtml) {
-    // WordPress HTML content — sanitize and render directly
-    const sanitized = sanitizeWpHtml(content);
-    return <div className="blog-content" dangerouslySetInnerHTML={{ __html: sanitized }} />;
-  }
-
-  // Markdown content — process affiliates, then convert to HTML
-  const processed = processAffiliateTagsInMarkdown(content);
-  const html = markdownToHtml(processed);
-  return <div className="blog-content" dangerouslySetInnerHTML={{ __html: html }} />;
+function isValidYouTubeId(id: string): boolean {
+  return YOUTUBE_ID_RE.test(id);
 }
 
+// ── YouTubeEmbed Component (Correction 3: whitelist, not raw iframe) ─
+function YouTubeEmbed({ videoId }: { videoId: string }) {
+  if (!isValidYouTubeId(videoId)) return null;
+  return (
+    <div className="video-embed">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+        loading="lazy"
+        allowFullScreen
+        title={`YouTube video ${videoId}`}
+        sandbox="allow-scripts allow-same-origin allow-presentation"
+      />
+    </div>
+  );
+}
+
+// ── HTML Sanitizer (Correction 3: whitelist-only, no raw passthrough) ─
+const SAFE_TAGS = new Set([
+  'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'del', 'ins',
+  'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'ul', 'ol', 'li', 'dl', 'dt', 'dd',
+  'a', 'img',
+  'blockquote', 'pre', 'code',
+  'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td', 'caption',
+  'figure', 'figcaption',
+  'hr', 'sup', 'sub', 'mark', 'small', 'span', 'div',
+]);
+
+const SAFE_ATTRS: Record<string, Set<string>> = {
+  'a': new Set(['href', 'title', 'target', 'rel', 'class']),
+  'img': new Set(['src', 'alt', 'title', 'loading', 'width', 'height', 'class']),
+  'td': new Set(['colspan', 'rowspan', 'class']),
+  'th': new Set(['colspan', 'rowspan', 'class', 'scope']),
+  'div': new Set(['class']),
+  'span': new Set(['class']),
+  'p': new Set(['class']),
+  'figure': new Set(['class']),
+  'blockquote': new Set(['class', 'cite']),
+  'ol': new Set(['start', 'type']),
+  'code': new Set(['class']),
+  'pre': new Set(['class']),
+};
+
 /**
- * Sanitize WordPress HTML content — wrap iframes in responsive containers,
- * convert YouTube links to embeds, fix internal links
+ * Sanitize HTML: strip unsafe tags, validate attributes,
+ * extract YouTube iframes into safe components.
+ * Returns an array of React elements (text + YouTubeEmbed components).
  */
-function sanitizeWpHtml(html: string): string {
-  let out = html;
+function sanitizeAndRender(html: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let remaining = html;
+  let keyCounter = 0;
 
-  // Wrap standalone YouTube iframes in responsive container
-  out = out.replace(
-    /<iframe([^>]*src=["'][^"']*(?:youtube\.com|youtu\.be)[^"']*["'][^>]*)><\/iframe>/gi,
-    '<div class="video-embed"><iframe$1 loading="lazy" allowfullscreen></iframe></div>'
+  // Extract YouTube iframes and replace with markers
+  const youtubeMarker = '___YT_EMBED_';
+  const youtubeIds: string[] = [];
+
+  // Match YouTube iframes (standard and nocookie)
+  remaining = remaining.replace(
+    /<iframe[^>]*src=["'](?:https?:)?\/\/(?:www\.)?(?:youtube\.com|youtube-nocookie\.com)\/embed\/([A-Za-z0-9_-]{11})[^"']*["'][^>]*>(?:<\/iframe>)?/gi,
+    (_, videoId) => {
+      if (isValidYouTubeId(videoId)) {
+        const idx = youtubeIds.length;
+        youtubeIds.push(videoId);
+        return `<div class="yt-placeholder" data-idx="${idx}"></div>`;
+      }
+      return ''; // Strip invalid iframe
+    }
   );
 
-  // Convert raw YouTube URLs to embedded players
-  out = out.replace(
-    /(?:<p>)?\s*(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)(?:[^\s<]*)?\s*(?:<\/p>)?/gi,
-    '<div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/$1" loading="lazy" allowfullscreen title="Video"></iframe></div>'
+  // Also catch raw YouTube URLs on their own line
+  remaining = remaining.replace(
+    /(?:<p>)?\s*(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})(?:[^\s<]*)?\s*(?:<\/p>)?/gi,
+    (_, videoId) => {
+      if (isValidYouTubeId(videoId)) {
+        const idx = youtubeIds.length;
+        youtubeIds.push(videoId);
+        return `<div class="yt-placeholder" data-idx="${idx}"></div>`;
+      }
+      return '';
+    }
   );
 
-  // Make internal links relative (rubabsdigital.com → /blog/...)
-  out = out.replace(
-    /href=["']https?:\/\/(?:www\.)?rubabsdigital\.com\/blog\/([^"']+)["']/gi,
-    'href="/blog/$1"'
-  );
+  // Strip ALL remaining iframes (non-YouTube)
+  remaining = remaining.replace(/<iframe[^>]*>(?:<\/iframe>)?/gi, '');
 
-  // Open external links in new tab
-  out = out.replace(
-    /<a\s+href=["'](https?:\/\/(?!(?:www\.)?rubabsdigital\.com)[^"']+)["']/gi,
-    '<a href="$1" target="_blank" rel="noopener noreferrer nofollow"'
-  );
+  // Strip script, style, object, embed tags
+  remaining = remaining.replace(/<\/?(?:script|style|object|embed|form|input|textarea|button|select|option)[^>]*>/gi, '');
 
-  // Process affiliate tags in HTML content
-  out = out.replace(/\[AFFILIATE:\s*([^\]]+)\]/gi, (match, name) => {
+  // Strip on* event handlers from any remaining tags
+  remaining = remaining.replace(/\s+on\w+\s*=\s*["'][^"']*["']/gi, '');
+  remaining = remaining.replace(/\s+on\w+\s*=\s*\S+/gi, '');
+
+  // Strip javascript: and data: URLs
+  remaining = remaining.replace(/href\s*=\s*["'](?:javascript|data):[^"']*["']/gi, 'href="#"');
+  remaining = remaining.replace(/src\s*=\s*["'](?:javascript|data):[^"']*["']/gi, 'src=""');
+
+  // Sanitize attributes on remaining tags
+  remaining = remaining.replace(/<(\w+)([^>]*)>/g, (match, tag, attrs) => {
+    const tagLower = tag.toLowerCase();
+    if (!SAFE_TAGS.has(tagLower)) {
+      // Strip unsafe tags but keep content
+      return '';
+    }
+    const allowedAttrs = SAFE_ATTRS[tagLower];
+    if (!allowedAttrs || !attrs.trim()) {
+      return `<${tagLower}>`;
+    }
+    // Parse and filter attributes
+    const safeAttrs: string[] = [];
+    const attrRegex = /(\w+)\s*=\s*(?:"([^"]*)"|'([^']*)'|(\S+))/g;
+    let attrMatch;
+    while ((attrMatch = attrRegex.exec(attrs)) !== null) {
+      const attrName = attrMatch[1].toLowerCase();
+      const attrVal = attrMatch[2] ?? attrMatch[3] ?? attrMatch[4] ?? '';
+      if (allowedAttrs.has(attrName)) {
+        safeAttrs.push(`${attrName}="${escapeAttr(attrVal)}"`);
+      }
+    }
+    return `<${tagLower}${safeAttrs.length ? ' ' + safeAttrs.join(' ') : ''}>`;
+  });
+
+  // Close stripped unsafe tags
+  remaining = remaining.replace(/<\/(\w+)>/g, (match, tag) => {
+    return SAFE_TAGS.has(tag.toLowerCase()) ? `</${tag.toLowerCase()}>` : '';
+  });
+
+  // Process affiliate tags
+  remaining = remaining.replace(/\[AFFILIATE:\s*([^\]]+)\]/gi, (_, name) => {
     const affiliate = resolveAffiliateLink(name);
     if (affiliate) {
       return `<a href="${affiliate.url}" target="_blank" rel="noopener noreferrer nofollow" class="affiliate-link">${affiliate.label} →</a>`;
     }
-    return `<strong>${name.trim()}</strong>`;
+    return `<strong>${escapeHtml(name.trim())}</strong>`;
   });
 
-  return out;
+  // Fix internal links (rubabsdigital.com → relative)
+  remaining = remaining.replace(
+    /href="https?:\/\/(?:www\.)?rubabsdigital\.com\/blog\/([^"]+)"/gi,
+    'href="/blog/$1"'
+  );
+
+  // Open external links in new tab
+  remaining = remaining.replace(
+    /<a\s+href="(https?:\/\/(?!(?:www\.)?rubabsdigital\.com)[^"]+)"/gi,
+    '<a href="$1" target="_blank" rel="noopener noreferrer nofollow"'
+  );
+
+  // Remove empty paragraphs
+  remaining = remaining.replace(/<p>\s*<\/p>/g, '');
+
+  // Now split by YouTube placeholders and build React nodes
+  const parts = remaining.split(/<div class="yt-placeholder" data-idx="(\d+)"><\/div>/);
+
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      // HTML content part
+      const htmlPart = parts[i].trim();
+      if (htmlPart) {
+        nodes.push(
+          <div key={`html-${keyCounter++}`} dangerouslySetInnerHTML={{ __html: htmlPart }} />
+        );
+      }
+    } else {
+      // YouTube embed placeholder
+      const idx = parseInt(parts[i], 10);
+      if (idx < youtubeIds.length) {
+        nodes.push(<YouTubeEmbed key={`yt-${keyCounter++}`} videoId={youtubeIds[idx]} />);
+      }
+    }
+  }
+
+  return nodes;
 }
 
-/**
- * Convert [AFFILIATE: Name] or [AFFILIATE:NAME] tags to proper markdown links
- * before the markdown-to-html conversion
- */
+// ── Main Component ─────────────────────────────────────────────────
+export function MarkdownRenderer({ content }: { content: string }) {
+  const rendered = useMemo(() => {
+    // Detect if content is HTML (from WordPress) vs Markdown
+    const isHtml = /<[a-z][\s\S]*>/i.test(content) && (
+      content.includes('<p>') || content.includes('<div>') ||
+      content.includes('<h2>') || content.includes('<h3>') ||
+      content.includes('<iframe') || content.includes('<figure')
+    );
+
+    if (isHtml) {
+      // WordPress HTML — sanitize with whitelist, extract YouTube embeds
+      return sanitizeAndRender(content);
+    }
+
+    // Markdown content — process affiliates, convert to HTML, then sanitize
+    const processed = processAffiliateTagsInMarkdown(content);
+    const html = markdownToHtml(processed);
+    return sanitizeAndRender(html);
+  }, [content]);
+
+  return <div className="blog-content">{rendered}</div>;
+}
+
+// ── Markdown Processing ────────────────────────────────────────────
+
 function processAffiliateTagsInMarkdown(md: string): string {
-  return md.replace(/\[AFFILIATE:\s*([^\]]+)\]/gi, (match, name) => {
+  return md.replace(/\[AFFILIATE:\s*([^\]]+)\]/gi, (_, name) => {
     const affiliate = resolveAffiliateLink(name);
     if (affiliate) {
       return `[${affiliate.label} →](${affiliate.url})`;
@@ -135,9 +278,9 @@ function processAffiliateTagsInMarkdown(md: string): string {
 function markdownToHtml(md: string): string {
   let html = md;
 
-  // Convert raw YouTube URLs to embedded players (before other processing)
+  // Convert raw YouTube URLs to embed placeholders
   html = html.replace(
-    /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)(?:[^\s]*)?\s*$/gm,
+    /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})(?:[^\s]*)?\s*$/gm,
     '<div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/$1" loading="lazy" allowfullscreen title="Video"></iframe></div>'
   );
 
@@ -145,13 +288,13 @@ function markdownToHtml(md: string): string {
   html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
     `<pre><code class="language-${lang}">${escapeHtml(code.trim())}</code></pre>`);
   // Inline code
-  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  html = html.replace(/`([^`]+)`/g, (_, code) => `<code>${escapeHtml(code)}</code>`);
 
-  // Images (before links to avoid conflict)
+  // Images
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,
-    '<img src="$2" alt="$1" loading="lazy" />');
+    (_, alt, src) => `<img src="${escapeAttr(src)}" alt="${escapeAttr(alt)}" loading="lazy" />`);
 
-  // Tables (simple markdown tables)
+  // Tables
   html = html.replace(/(?:^|\n)((?:\|[^\n]+\|\n)+)/g, (_, tableBlock) => {
     const rows = tableBlock.trim().split('\n').filter((r: string) => r.trim());
     if (rows.length < 2) return tableBlock;
@@ -159,16 +302,14 @@ function markdownToHtml(md: string): string {
     const parseRow = (row: string) =>
       row.split('|').filter((c: string) => c.trim()).map((c: string) => c.trim());
 
-    // Check if second row is separator (---|---|---)
     const isSeparator = (row: string) => /^\|?[\s-:|]+\|?$/.test(row);
 
     let tableHtml = '<table>';
     let startData = 0;
 
     if (rows.length >= 2 && isSeparator(rows[1])) {
-      // Has header
       const headers = parseRow(rows[0]);
-      tableHtml += '<thead><tr>' + headers.map((h: string) => `<th>${h}</th>`).join('') + '</tr></thead>';
+      tableHtml += '<thead><tr>' + headers.map((h: string) => `<th>${escapeHtml(h)}</th>`).join('') + '</tr></thead>';
       startData = 2;
     }
 
@@ -176,13 +317,13 @@ function markdownToHtml(md: string): string {
     for (let i = startData; i < rows.length; i++) {
       if (isSeparator(rows[i])) continue;
       const cells = parseRow(rows[i]);
-      tableHtml += '<tr>' + cells.map((c: string) => `<td>${c}</td>`).join('') + '</tr>';
+      tableHtml += '<tr>' + cells.map((c: string) => `<td>${escapeHtml(c)}</td>`).join('') + '</tr>';
     }
     tableHtml += '</tbody></table>';
     return '\n' + tableHtml + '\n';
   });
 
-  // Headers (h6 → h1 order matters)
+  // Headers
   html = html.replace(/^######\s+(.+)$/gm, '<h6>$1</h6>');
   html = html.replace(/^#####\s+(.+)$/gm, '<h5>$1</h5>');
   html = html.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
@@ -191,35 +332,36 @@ function markdownToHtml(md: string): string {
   html = html.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
   // Bold italic
   html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
-  // Bold
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  // Italic
   html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  // Links (add affiliate styling for affiliate links)
+  // Links
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
     const isAffiliate = text.endsWith(' →') || url.includes('aff') || url.includes('ref=') || url.includes('via=') || url.includes('partner') || url.includes('track');
     const cls = isAffiliate ? ' class="affiliate-link"' : '';
-    // Internal links stay in same tab
     const isInternal = url.startsWith('/') || url.includes('rubabsdigital.com');
     const target = isInternal ? '' : ' target="_blank" rel="noopener noreferrer nofollow"';
-    return `<a href="${url}"${target}${cls}>${text}</a>`;
+    return `<a href="${escapeAttr(url)}"${target}${cls}>${escapeHtml(text)}</a>`;
   });
   // Blockquote
   html = html.replace(/^>\s+(.+)$/gm, '<blockquote>$1</blockquote>');
-  // Unordered list items
+  // Unordered list
   html = html.replace(/^[-*]\s+(.+)$/gm, '<li>$1</li>');
   html = html.replace(/(<li>.*<\/li>\n?)+/g, (match) => `<ul>${match}</ul>`);
-  // Ordered list items
+  // Ordered list
   html = html.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
   // HR
   html = html.replace(/^---$/gm, '<hr />');
-  // Paragraphs (lines not already wrapped in block elements)
-  html = html.replace(/^(?!<[hupblodit]|<li|<hr|<pre|<code|<img|<table|<thead|<tbody|<tr|<th|<td)(.+)$/gm, '<p>$1</p>');
-  // Remove empty paragraphs
+  // Paragraphs
+  html = html.replace(/^(?!<[hupblodit]|<li|<hr|<pre|<code|<img|<table|<thead|<tbody|<tr|<th|<td|<div)(.+)$/gm, '<p>$1</p>');
   html = html.replace(/<p>\s*<\/p>/g, '');
+
   return html;
 }
 
 function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function escapeAttr(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
