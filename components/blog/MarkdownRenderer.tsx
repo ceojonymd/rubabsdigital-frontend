@@ -277,6 +277,13 @@ function processAffiliateTagsInMarkdown(md: string): string {
 
 function markdownToHtml(md: string): string {
   let html = md;
+  // [BUG-1 FIX] Strip WordPress <p>/<br> wrappers so markdown regex parsing works
+  // WordPress wraps raw markdown in <p> tags without parsing — this undoes that
+  html = html.replace(/<p>/gi, '');
+  html = html.replace(/<\/p>/gi, '
+');
+  html = html.replace(/<br\s*\/?>/gi, '
+');
 
   // Convert raw YouTube URLs to embed placeholders
   html = html.replace(
