@@ -1,7 +1,24 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const APEX_HOST = "rubabsdigital.com";
+const WWW_HOST = "www.rubabsdigital.com";
+
+function redirectWwwToApex(request: NextRequest) {
+  const host = (request.headers.get("host") || "").split(":")[0].toLowerCase();
+  if (host !== WWW_HOST) return null;
+
+  const url = request.nextUrl.clone();
+  url.protocol = "https:";
+  url.hostname = APEX_HOST;
+  url.port = "";
+  return NextResponse.redirect(url, 301);
+}
+
 export function middleware(request: NextRequest) {
+  const hostRedirect = redirectWwwToApex(request);
+  if (hostRedirect) return hostRedirect;
+
   const { pathname } = request.nextUrl;
 
   // Handle blog slugs containing dots (e.g. "no-code-automation-with-make.com-for-small-business")
@@ -20,5 +37,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/blog/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|xml)$).*)",
+  ],
 };

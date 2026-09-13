@@ -97,6 +97,7 @@ export default function Footer() {
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
               <Link href="/" style={{ color: "inherit", textDecoration: "none" }}>Home</Link>
+              <Link href="/services" style={{ color: "inherit", textDecoration: "none" }}>Services</Link>
               <Link href="/blog" style={{ color: "inherit", textDecoration: "none" }}>Blog</Link>
               <Link href="/portfolio" style={{ color: "inherit", textDecoration: "none" }}>Portfolio</Link>
               <Link href="/pricing" style={{ color: "inherit", textDecoration: "none" }}>Pricing</Link>

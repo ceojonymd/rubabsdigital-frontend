@@ -18,6 +18,7 @@ export default function ContactClient() {
   const [budget, setBudget] = useState("$1,000\u20133,000");
   const [timeline, setTimeline] = useState("Within 30 days");
   const [projectType, setProjectType] = useState("");
+  const [name, setName] = useState("");
   const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
   const [details, setDetails] = useState("");
@@ -63,6 +64,7 @@ export default function ContactClient() {
       budget,
       timeline,
       projectType,
+      name,
       businessName,
       email,
       details,
@@ -108,6 +110,7 @@ export default function ContactClient() {
       });
 
       setProjectType("");
+      setName("");
       setBusinessName("");
       setEmail("");
       setDetails("");
@@ -140,12 +143,11 @@ export default function ContactClient() {
               marginBottom: "1rem",
             }}
           >
-            Let&apos;s Talk About the
-            <br />
-            <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>Right Next Step.</span>
+            Contact Rubab&apos;s Digital
           </h1>
           <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, maxWidth: "760px" }}>
-            Share your business, service needs, and budget direction so we can recommend a practical path forward.
+            Send a short enquiry with your name, email, and what you need. Share service and budget
+            direction if you have it so we can recommend a practical next step.
           </p>
         </div>
       </section>
@@ -213,8 +215,28 @@ export default function ContactClient() {
 
               <form style={{ display: "grid", gap: "0.9rem" }} onSubmit={handleSubmit}>
                 <div style={{ display: "grid", gap: "0.45rem" }}>
-                  <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Service needed</label>
-                  <select value={service} onChange={(e) => { setService(e.target.value); onStart(); }} style={fieldStyle}>
+                  <label htmlFor="enquiry-name" style={{ fontWeight: 700, color: "var(--color-text)" }}>Name</label>
+                  <input id="enquiry-name" name="name" value={name} onChange={(e) => { setName(e.target.value); onStart(); }} placeholder="Your name" required autoComplete="name" style={fieldStyle} />
+                </div>
+
+                <div style={{ display: "grid", gap: "0.45rem" }}>
+                  <label htmlFor="enquiry-email" style={{ fontWeight: 700, color: "var(--color-text)" }}>Email</label>
+                  <input id="enquiry-email" name="email" value={email} onChange={(e) => { setEmail(e.target.value); onStart(); }} type="email" placeholder="name@business.com" required autoComplete="email" style={fieldStyle} />
+                </div>
+
+                <div style={{ display: "grid", gap: "0.45rem" }}>
+                  <label htmlFor="enquiry-message" style={{ fontWeight: 700, color: "var(--color-text)" }}>Message</label>
+                  <textarea id="enquiry-message" name="message" value={details} onChange={(e) => { setDetails(e.target.value); onStart(); }} rows={5} required placeholder="Share what is not working now, what you want improved, and what kind of result you are hoping for." style={{ ...fieldStyle, resize: "vertical" }} />
+                </div>
+
+                <div style={{ display: "grid", gap: "0.45rem" }}>
+                  <label htmlFor="enquiry-business" style={{ fontWeight: 700, color: "var(--color-text)" }}>Business name</label>
+                  <input id="enquiry-business" value={businessName} onChange={(e) => { setBusinessName(e.target.value); onStart(); }} placeholder="Your business or brand name" style={fieldStyle} />
+                </div>
+
+                <div style={{ display: "grid", gap: "0.45rem" }}>
+                  <label htmlFor="enquiry-service" style={{ fontWeight: 700, color: "var(--color-text)" }}>Service needed</label>
+                  <select id="enquiry-service" value={service} onChange={(e) => { setService(e.target.value); onStart(); }} style={fieldStyle}>
                     <option>Website Redesign</option>
                     <option>Landing Page CRO</option>
                     <option>AI Chatbot</option>
@@ -226,8 +248,8 @@ export default function ContactClient() {
                 </div>
 
                 <div style={{ display: "grid", gap: "0.45rem" }}>
-                  <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Package direction</label>
-                  <select value={pkg} onChange={(e) => { setPkg(e.target.value); onStart(); }} style={fieldStyle}>
+                  <label htmlFor="enquiry-package" style={{ fontWeight: 700, color: "var(--color-text)" }}>Package direction</label>
+                  <select id="enquiry-package" value={pkg} onChange={(e) => { setPkg(e.target.value); onStart(); }} style={fieldStyle}>
                     <option>Starter Presence</option>
                     <option>Growth System</option>
                     <option>Enterprise Direction</option>
@@ -236,8 +258,8 @@ export default function ContactClient() {
                 </div>
 
                 <div style={{ display: "grid", gap: "0.45rem" }}>
-                  <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Estimated budget</label>
-                  <select value={budget} onChange={(e) => { setBudget(e.target.value); onStart(); }} style={fieldStyle}>
+                  <label htmlFor="enquiry-budget" style={{ fontWeight: 700, color: "var(--color-text)" }}>Estimated budget</label>
+                  <select id="enquiry-budget" value={budget} onChange={(e) => { setBudget(e.target.value); onStart(); }} style={fieldStyle}>
                     <option>$500\u2013$1,000</option>
                     <option>$1,000\u2013$3,000</option>
                     <option>$3,000\u2013$7,000</option>
@@ -247,8 +269,8 @@ export default function ContactClient() {
                 </div>
 
                 <div style={{ display: "grid", gap: "0.45rem" }}>
-                  <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Timeline</label>
-                  <select value={timeline} onChange={(e) => { setTimeline(e.target.value); onStart(); }} style={fieldStyle}>
+                  <label htmlFor="enquiry-timeline" style={{ fontWeight: 700, color: "var(--color-text)" }}>Timeline</label>
+                  <select id="enquiry-timeline" value={timeline} onChange={(e) => { setTimeline(e.target.value); onStart(); }} style={fieldStyle}>
                     <option>ASAP</option>
                     <option>Within 30 days</option>
                     <option>Within 60 days</option>
@@ -257,23 +279,8 @@ export default function ContactClient() {
                 </div>
 
                 <div style={{ display: "grid", gap: "0.45rem" }}>
-                  <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Project type</label>
-                  <input value={projectType} onChange={(e) => { setProjectType(e.target.value); onStart(); }} placeholder="Example: law firm website refresh, local lead funnel, AI chatbot" style={fieldStyle} />
-                </div>
-
-                <div style={{ display: "grid", gap: "0.45rem" }}>
-                  <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Business name</label>
-                  <input value={businessName} onChange={(e) => { setBusinessName(e.target.value); onStart(); }} placeholder="Your business or brand name" style={fieldStyle} />
-                </div>
-
-                <div style={{ display: "grid", gap: "0.45rem" }}>
-                  <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Email</label>
-                  <input value={email} onChange={(e) => { setEmail(e.target.value); onStart(); }} type="email" placeholder="name@business.com" style={fieldStyle} />
-                </div>
-
-                <div style={{ display: "grid", gap: "0.45rem" }}>
-                  <label style={{ fontWeight: 700, color: "var(--color-text)" }}>Project details</label>
-                  <textarea value={details} onChange={(e) => { setDetails(e.target.value); onStart(); }} rows={5} placeholder="Share what is not working now, what you want improved, and what kind of result you are hoping for." style={{ ...fieldStyle, resize: "vertical" }} />
+                  <label htmlFor="enquiry-project-type" style={{ fontWeight: 700, color: "var(--color-text)" }}>Project type</label>
+                  <input id="enquiry-project-type" value={projectType} onChange={(e) => { setProjectType(e.target.value); onStart(); }} placeholder="Example: law firm website refresh, local lead funnel, AI chatbot" style={fieldStyle} />
                 </div>
 
                 {submitState !== "idle" && (
