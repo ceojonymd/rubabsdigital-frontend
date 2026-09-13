@@ -16,7 +16,14 @@
   --radius-sm:12px;
   --radius-md:18px;
   --radius-lg:28px;
+  --radius-xl:32px;
   --container:1200px;
+  --color-text-muted:var(--color-text-soft);
+  --color-surface-offset:var(--color-surface-2);
+  --color-accent-dim:rgba(141,211,255,.14);
+  --font-display:'Instrument Serif',serif;
+  --font-body:'Inter',sans-serif;
+  --shadow-md:0 12px 28px rgba(0,0,0,.2);
 }
 
 *{box-sizing:border-box}

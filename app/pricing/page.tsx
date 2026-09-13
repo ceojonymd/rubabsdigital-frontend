@@ -178,6 +178,39 @@ export default function PricingPage() {
               background: "var(--color-surface)",
               border: "1px solid var(--color-border)",
               borderRadius: "var(--radius-xl)",
+              padding: "1.15rem",
+              marginBottom: "1rem",
+            }}
+          >
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.45rem" }}>
+              Daily Presence — social media
+            </div>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginBottom: "0.85rem" }}>
+              For realtors, e-commerce sellers, salons, and other busy businesses that make money but do not have time to post.
+              Starter starts from $29/month · 4 posts + 4 stories every day · 3-day free trial · you approve before we publish.
+              Typical USA retainers often run $500–$2,000+/mo. No guaranteed followers, leads, or sales.
+            </p>
+            <Link
+              href="/social-media"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                padding: "0.85rem 1.1rem",
+                borderRadius: "var(--radius-lg)",
+                background: "var(--color-accent)",
+                color: "#09140f",
+                fontWeight: 700,
+                textDecoration: "none",
+              }}
+            >
+              Start the 3-day free trial →
+            </Link>
+          </div>
+          <div
+            style={{
+              background: "var(--color-surface)",
+              border: "1px solid var(--color-border)",
+              borderRadius: "var(--radius-xl)",
               padding: "1rem",
             }}
           >

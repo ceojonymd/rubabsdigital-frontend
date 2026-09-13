@@ -16,6 +16,10 @@ export const metadata = {
 
 const faqs = [
   {
+    q: "What is Daily Presence?",
+    a: "Daily Presence is Rubab's Digital social-media service for businesses that make money but do not have time to post — especially realtors, e-commerce sellers, salons, and other busy local businesses. Starter starts from $29/month for 4 posts + 4 stories every day. There is a 3-day free trial. You approve every post before it publishes. We do not promise followers, leads, sales, or viral growth.",
+  },
+  {
     q: "Will a redesign only improve appearance, or can it improve lead quality too?",
     a: "A strong redesign should do more than improve aesthetics. It should make the offer clearer, strengthen trust, reduce friction, and guide better-fit visitors toward a more confident enquiry.",
   },

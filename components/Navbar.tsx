@@ -7,6 +7,7 @@ const links: { href: string; label: string; external?: boolean }[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/website-design", label: "Website Design" },
+  { href: "/social-media", label: "Social" },
   { href: "/ai-automation", label: "AI Automation" },
   { href: "/custom-ai-agents", label: "AI Agents" },
   { href: "https://rubab-api-hub.rdceojony.workers.dev", label: "API", external: true },
@@ -66,12 +67,16 @@ export default function Navbar() {
           <img
             src="/logo.png"
             alt="Rubab's Digital logo"
+            width={40}
+            height={40}
             style={{
-              width: "36px",
-              height: "36px",
+              width: "40px",
+              height: "40px",
               objectFit: "contain",
               borderRadius: "8px",
               flexShrink: 0,
+              background: "#fff",
+              padding: "3px",
             }}
           />
           <span
@@ -96,7 +101,13 @@ export default function Navbar() {
               justifyContent: "center",
             }}
           >
-            {links.map((l) => (
+            {links.map((l) => {
+              const active =
+                !l.external &&
+                (l.href === "/"
+                  ? pathname === "/"
+                  : pathname === l.href || pathname.startsWith(`${l.href}/`));
+              return (
               <Link
                 key={l.href}
                 href={l.href}
@@ -106,9 +117,9 @@ export default function Navbar() {
                   fontSize: "0.9rem",
                   fontWeight: 500,
                   whiteSpace: "nowrap",
-                  color: pathname === l.href ? "var(--color-text)" : "var(--color-text-muted)",
+                  color: active ? "var(--color-text)" : "var(--color-text-muted)",
                   borderBottom:
-                    pathname === l.href
+                    active
                       ? "1px solid var(--color-primary)"
                       : "1px solid transparent",
                   paddingBottom: "2px",
@@ -118,7 +129,8 @@ export default function Navbar() {
               >
                 {l.label}
               </Link>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -195,7 +207,10 @@ export default function Navbar() {
                 padding: "0.9rem 0",
                 fontSize: "0.95rem",
                 fontWeight: 500,
-                color: pathname === l.href ? "var(--color-text)" : "var(--color-text-muted)",
+                color:
+                  !l.external && (pathname === l.href || (l.href !== "/" && pathname.startsWith(`${l.href}/`)))
+                    ? "var(--color-text)"
+                    : "var(--color-text-muted)",
                 borderBottom: "1px solid var(--color-divider)",
                 textDecoration: "none",
               }}

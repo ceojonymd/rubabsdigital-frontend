@@ -125,6 +125,13 @@ const organizationJsonLd = {
           name: "Digital Marketing & SEO",
         },
       },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Daily Presence Social Media Management",
+        },
+      },
     ],
   },
 };
