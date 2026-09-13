@@ -280,10 +280,8 @@ function markdownToHtml(md: string): string {
   // [BUG-1 FIX] Strip WordPress <p>/<br> wrappers so markdown regex parsing works
   // WordPress wraps raw markdown in <p> tags without parsing — this undoes that
   html = html.replace(/<p>/gi, '');
-  html = html.replace(/<\/p>/gi, '
-');
-  html = html.replace(/<br\s*\/?>/gi, '
-');
+  html = html.replace(/<\/p>/gi, '\n');
+  html = html.replace(/<br\s*\/?>/gi, '\n');
 
   // Convert raw YouTube URLs to embed placeholders
   html = html.replace(
