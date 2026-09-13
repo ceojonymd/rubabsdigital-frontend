@@ -3,6 +3,9 @@ import TrialRequestForm from "@/components/social/TrialRequestForm";
 import {
   COMPETITOR_RANGE,
   CONTACT_EMAIL,
+  CORE_PROMISE,
+  HARD_FILTER_YES,
+  HERO_LINE,
   HOW_IT_WORKS,
   NICHES,
   OFFER_INCLUDES,
@@ -59,7 +62,7 @@ export default function DailyPresencePage({ niche }: Props) {
   const trialHref = whatsappTrialHref({ niche: niche?.short.toLowerCase() });
 
   return (
-    <div data-offer-lock={OFFER_LOCK} data-offer="daily-presence-29-4x4-3day">
+    <div data-offer-lock={OFFER_LOCK} data-offer="daily-presence-29-4x4-3day" data-icp="cash-rich-time-poor-page-group">
       <section style={{ padding: "4.5rem 1.5rem 2rem" }}>
         <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
           <div
@@ -89,7 +92,7 @@ export default function DailyPresencePage({ niche }: Props) {
                 {niche?.eyebrow || "Rubab's Digital · Daily Presence"}
               </div>
               <div style={{ color: "var(--color-text-muted)", fontSize: "0.85rem" }}>
-                Social media for businesses that make money but do not have time
+                Facebook & Instagram page and group — for owners with money, not time
               </div>
             </div>
           </div>
@@ -105,10 +108,10 @@ export default function DailyPresencePage({ niche }: Props) {
           >
             {isHub ? (
               <>
-                You have the business.
+                You make money.
                 <br />
                 <span style={{ color: "var(--color-accent)", fontStyle: "italic" }}>
-                  We handle the page.
+                  We handle the page & group.
                 </span>
               </>
             ) : (
@@ -131,9 +134,11 @@ export default function DailyPresencePage({ niche }: Props) {
               marginBottom: "1.1rem",
             }}
           >
-            {isHub
-              ? "Primary customers: realtors selling land and homes, e-commerce sellers, salons, and other busy local businesses. You make money. You do not have time to create and post. Daily Presence does."
-              : niche.intro}
+            {isHub ? CORE_PROMISE : (
+              <>
+                {niche.intro} {CORE_PROMISE}
+              </>
+            )}
           </p>
 
           <div
@@ -177,6 +182,29 @@ export default function DailyPresencePage({ niche }: Props) {
         </div>
       </section>
 
+      <section style={{ padding: "0 1.5rem 2rem" }}>
+        <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+          <div
+            style={{
+              ...card,
+              background: "linear-gradient(180deg, rgba(0,229,160,0.10), rgba(0,229,160,0.03))",
+              border: "1px solid rgba(0,229,160,0.18)",
+            }}
+          >
+            <div style={{ color: "var(--color-accent)", fontWeight: 700, marginBottom: "0.4rem" }}>
+              Hard filter — yes
+            </div>
+            <p style={{ color: "var(--color-text)", fontWeight: 700, lineHeight: 1.7, margin: "0 0 0.55rem" }}>
+              {HARD_FILTER_YES}
+            </p>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, margin: 0 }}>
+              {CORE_PROMISE} This is page and group management — not a pile of leftover posts.
+              If you have time to run Facebook and Instagram yourself, this is not for you.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {isHub ? (
         <section style={{ padding: "0 1.5rem 2.5rem" }}>
           <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
@@ -187,10 +215,10 @@ export default function DailyPresencePage({ niche }: Props) {
                 marginBottom: "0.7rem",
               }}
             >
-              Built for people who already make money
+              Cash-rich. Time-poor. Page and group go quiet.
             </h2>
             <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", lineHeight: 1.8, marginBottom: "1.2rem" }}>
-              Quiet pages lose deals and bookings. Daily Presence is for businesses that need the page and the groups alive — and cannot run social themselves.
+              {HERO_LINE} Quiet pages and groups lose deals and bookings. We run Facebook and Instagram so you can stay in the business.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
               {NICHES.slice(0, 3).map((item) => (
@@ -232,7 +260,7 @@ export default function DailyPresencePage({ niche }: Props) {
             </div>
             <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginBottom: "1rem" }}>
               {OFFER_PRICE_LINE}. Typical USA social-media retainers often run {COMPETITOR_RANGE}.
-              This is the ignore-proof starter: daily volume, approval-first, no fake growth promises.
+              This is the ignore-proof starter: page + group management, daily volume, approval-first, no fake growth promises.
             </p>
             <div style={{ display: "grid", gap: "0.55rem" }}>
               {OFFER_INCLUDES.map((item) => (
@@ -316,7 +344,7 @@ export default function DailyPresencePage({ niche }: Props) {
             Niches we already write for
           </h2>
           <p style={{ color: "var(--color-text-muted)", maxWidth: "720px", lineHeight: 1.75, marginBottom: "1rem" }}>
-            Realtors and e-commerce first. Salons and other busy local businesses next. If you make money and cannot post, this is the page.
+            Realtors (land and homes), e-commerce, and salons first. Other busy owners next. If you have money but no time for the page and the group, this is the offer.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
             {NICHES.map((item) => (

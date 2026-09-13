@@ -186,7 +186,8 @@ export default function PricingPage() {
               Daily Presence — social media
             </div>
             <p style={{ color: "var(--color-text-muted)", lineHeight: 1.75, marginBottom: "0.85rem" }}>
-              For realtors, e-commerce sellers, salons, and other busy businesses that make money but do not have time to post.
+              If you have money but no time to handle your Facebook/Instagram page and group — we do it for you.
+              For cash-rich, time-poor owners: realtors (land and homes), e-commerce, salons, busy owners.
               Starter starts from $29/month · 4 posts + 4 stories every day · 3-day free trial · you approve before we publish.
               Typical USA retainers often run $500–$2,000+/mo. No guaranteed followers, leads, or sales.
             </p>

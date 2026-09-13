@@ -6,6 +6,11 @@ export const OFFER_TIER = "Starter";
 export const OFFER_VOLUME = "4 posts + 4 stories every day";
 export const OFFER_TRIAL = "3-day free trial";
 export const COMPETITOR_RANGE = "$500–$2,000+/mo";
+export const HERO_LINE = "You make money. We handle the page & group.";
+export const CORE_PROMISE =
+  "If you have money but no time to handle your Facebook/Instagram page and group — we do it for you.";
+export const HARD_FILTER_YES =
+  "Cash-rich and time-poor: realtors selling land and homes, e-commerce sellers, salons, and other busy owners.";
 export const WHATSAPP_E164 = "8801707070835";
 export const WHATSAPP_DISPLAY = "+880 1707-070835";
 export const WHATSAPP_HREF = "https://wa.me/8801707070835";
@@ -45,12 +50,12 @@ export const NICHES: DailyPresenceNiche[] = [
     label: "Realtors",
     short: "Realtor",
     eyebrow: "Social Media · Realtors",
-    title: "You have the listings.",
-    titleAccent: "We keep the page alive.",
+    title: "You close deals.",
+    titleAccent: "We handle the page & group.",
     intro:
-      "Realtors selling land and homes are cash-rich and time-poor. Daily Presence keeps your page visible between showings — you approve, we draft and post.",
+      "Realtors selling land and homes are cash-rich and time-poor. Daily Presence runs your Facebook and Instagram page and group between showings — you approve, we handle it.",
     fear:
-      "A quiet realtor page looks inactive. Buyers and landowners move on to the agent who still shows up.",
+      "A quiet realtor page or group looks inactive. Buyers and landowners move on to the agent who still shows up.",
     examples: [
       "Listing spotlight from a real property you send us",
       "Neighborhood or land FAQ in plain language",
@@ -61,19 +66,19 @@ export const NICHES: DailyPresenceNiche[] = [
       "We will not invent sold counts, office rankings, or guaranteed closings. You approve every post before it publishes.",
     metaTitle: "Realtor Social Media — Daily Presence",
     metaDescription:
-      "Daily Presence for realtors: 4 posts + 4 stories every day, from $29/month, with a 3-day free trial. You approve before we publish. No guaranteed sales.",
+      "If you have money but no time for the Facebook/Instagram page and group — we do it. Daily Presence for realtors: 4 posts + 4 stories every day, from $29/month, 3-day free trial. Approval-first. No guaranteed sales.",
   },
   {
     slug: "ecommerce",
     label: "E-commerce",
     short: "E-commerce",
     eyebrow: "Social Media · E-commerce",
-    title: "Your store can sell.",
-    titleAccent: "The feed should not go quiet.",
+    title: "You make the sales.",
+    titleAccent: "We handle the page & group.",
     intro:
-      "E-commerce sellers make money from products, not from sitting in Canva. Daily Presence keeps the shop visible while you pack, restock, and run ads.",
+      "E-commerce sellers are cash-rich and time-poor. Daily Presence runs the Facebook and Instagram page and group while you pack, restock, and sell.",
     fear:
-      "A silent shop page looks closed. Buyers bounce to the store that still posts.",
+      "A silent shop page or group looks closed. Buyers bounce to the store that still shows up.",
     examples: [
       "Product spotlight from your real catalog",
       "How it is made, packed, or used (real photos only)",
@@ -84,19 +89,19 @@ export const NICHES: DailyPresenceNiche[] = [
       "We will not invent stock levels, review scores, or sales figures. You approve every post before it publishes.",
     metaTitle: "E-commerce Social Media — Daily Presence",
     metaDescription:
-      "Daily Presence for e-commerce sellers: 4 posts + 4 stories every day, from $29/month, with a 3-day free trial. Approval-first. No fake reviews or sales claims.",
+      "If you have money but no time for the Facebook/Instagram page and group — we do it. Daily Presence for e-commerce: 4 posts + 4 stories every day, from $29/month, 3-day free trial. Approval-first.",
   },
   {
     slug: "salons",
     label: "Salons",
     short: "Salon",
     eyebrow: "Social Media · Salon",
-    title: "Your salon shouldn't look",
-    titleAccent: "closed online.",
+    title: "You run the chairs.",
+    titleAccent: "We handle the page & group.",
     intro:
-      "Busy chairs, empty grids. Daily Presence keeps the salon looking open while you cut, color, and book — you approve before anything goes live.",
+      "Salon owners are cash-rich and time-poor. Daily Presence runs the Facebook and Instagram page and group while you cut, color, and book — you approve before anything goes live.",
     fear:
-      "Empty grids between busy weeks make new clients assume you are fully booked — or gone.",
+      "An empty page or group between busy weeks makes new clients assume you are fully booked — or gone.",
     examples: [
       "Service spotlight: color, bridal, men's cut (real work)",
       "Aftercare tips from your actual process",
@@ -107,7 +112,7 @@ export const NICHES: DailyPresenceNiche[] = [
       "“I don't have time.” You approve. We draft, schedule, and publish. No fabricated client results.",
     metaTitle: "Salon Social Media — Daily Presence",
     metaDescription:
-      "Daily Presence for salons: 4 posts + 4 stories every day, from $29/month, with a 3-day free trial. You approve before we publish. No fake bookings.",
+      "If you have money but no time for the Facebook/Instagram page and group — we do it. Daily Presence for salons: 4 posts + 4 stories every day, from $29/month, 3-day free trial. Approval-first.",
   },
   {
     slug: "clinics",
@@ -117,8 +122,8 @@ export const NICHES: DailyPresenceNiche[] = [
     title: "Patients check your page",
     titleAccent: "before they book.",
     intro:
-      "Clinics that make money still lose trust when the page goes silent. Daily Presence keeps a calm, accurate presence without living in Instagram.",
-    fear: "Silence looks like neglect — even when the practice is excellent.",
+      "Clinic owners who make money still lose trust when the page and group go silent. Daily Presence runs Facebook and Instagram so you can stay with patients.",
+    fear: "A silent page or group looks like neglect — even when the practice is excellent.",
     examples: [
       "Service explanations in plain language",
       "FAQ patients already ask",
@@ -139,8 +144,8 @@ export const NICHES: DailyPresenceNiche[] = [
     title: "Look open online —",
     titleAccent: "not abandoned.",
     intro:
-      "People pick the place that looks alive. Daily Presence keeps a food-forward rhythm while you run the floor.",
-    fear: "A quiet restaurant page reads as closed, inconsistent, or not worth the trip.",
+      "Busy owners pick service over social. Daily Presence runs the Facebook and Instagram page and group so the restaurant still looks open.",
+    fear: "A quiet restaurant page or group reads as closed, inconsistent, or not worth the trip.",
     examples: [
       "Dish spotlight from today's real menu",
       "Behind the kitchen (real photos only)",
@@ -161,8 +166,8 @@ export const NICHES: DailyPresenceNiche[] = [
     title: "Products deserve a",
     titleAccent: "daily spotlight.",
     intro:
-      "Local shops that sell well still lose walk-ins when the page looks abandoned. Daily Presence keeps the shelf visible.",
-    fear: "Random dumps do not build trust. A quiet page looks like a closed shutter.",
+      "Shop owners who sell well still lose walk-ins when the page and group look abandoned. Daily Presence runs both.",
+    fear: "Random dumps do not build trust. A quiet page or group looks like a closed shutter.",
     examples: [
       "Product feature from real stock",
       "How it is made or sourced (if true)",
@@ -183,8 +188,8 @@ export const NICHES: DailyPresenceNiche[] = [
     title: "People buy energy.",
     titleAccent: "Quiet pages kill momentum.",
     intro:
-      "Gyms and studios stay busy on the floor and go quiet online. Daily Presence keeps training tips and real gym life on the page.",
-    fear: "A silent gym page feels empty — even when classes are full.",
+      "Gym owners stay busy on the floor and go quiet online. Daily Presence runs the Facebook and Instagram page and group.",
+    fear: "A silent gym page or group feels empty — even when classes are full.",
     examples: [
       "Workout tip from your real programming",
       "Member moment (only with permission)",
@@ -221,11 +226,12 @@ export function whatsappTrialHref(opts?: {
 }
 
 export const OFFER_INCLUDES = [
+  "Facebook & Instagram page management",
+  "Group management — posting and presence, not just the feed",
   "4 branded posts every day",
   "4 stories every day",
   "Captions + hashtags",
   "Simple content calendar",
-  "Brand-tailored creative",
   "You approve before anything publishes",
   "Monthly activity summary — no vanity guarantees",
 ];
@@ -233,7 +239,7 @@ export const OFFER_INCLUDES = [
 export const HOW_IT_WORKS = [
   {
     title: "Start the 3-day free trial",
-    desc: "Message us on WhatsApp. We learn the business, the pages, and what you are willing to show.",
+    desc: "Message us on WhatsApp. We learn the business, the Facebook/Instagram page, and the group you need handled.",
   },
   {
     title: "We draft. You approve.",
@@ -245,6 +251,6 @@ export const HOW_IT_WORKS = [
   },
   {
     title: "You run the business",
-    desc: "We handle the page. You handle listings, clients, orders, and the floor.",
+    desc: "We handle the page and the group. You handle listings, clients, orders, and the floor.",
   },
 ];
