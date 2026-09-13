@@ -65,18 +65,17 @@ export default function Navbar() {
           }}
         >
           <img
-            src="/logo.png"
+            src="/assets/rd-logo.png"
             alt="Rubab's Digital logo"
-            width={40}
-            height={40}
+            width={72}
+            height={46}
             style={{
-              width: "40px",
-              height: "40px",
+              width: "72px",
+              height: "46px",
               objectFit: "contain",
-              borderRadius: "8px",
               flexShrink: 0,
               background: "#fff",
-              padding: "3px",
+              borderRadius: "6px",
             }}
           />
           <span

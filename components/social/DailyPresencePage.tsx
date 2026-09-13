@@ -74,17 +74,17 @@ export default function DailyPresencePage({ niche }: Props) {
             }}
           >
             <img
-              src="/logo.png"
+              src="/assets/rd-logo.png"
               alt="Rubab's Digital logo"
-              width={44}
-              height={44}
+              width={72}
+              height={46}
               style={{
-                width: "44px",
-                height: "44px",
+                width: "72px",
+                height: "46px",
                 objectFit: "contain",
-                borderRadius: "10px",
+                borderRadius: "6px",
                 background: "#fff",
-                padding: "4px",
+                flexShrink: 0,
               }}
             />
             <div>

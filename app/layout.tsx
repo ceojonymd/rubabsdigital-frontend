@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: "Rubab's Digital",
     images: [
       {
-        url: "https://rubabsdigital.com/logo.png",
+        url: "https://rubabsdigital.com/assets/rd-logo.png",
         width: 512,
         height: 512,
         alt: "Rubab's Digital",
@@ -70,8 +70,8 @@ const organizationJsonLd = {
   "@type": "ProfessionalService",
   name: "Rubab's Digital",
   url: "https://rubabsdigital.com",
-  logo: "https://rubabsdigital.com/logo.png",
-  image: "https://rubabsdigital.com/logo.png",
+  logo: "https://rubabsdigital.com/assets/rd-logo.png",
+  image: "https://rubabsdigital.com/assets/rd-logo.png",
   description:
     "Premium websites, AI workflows, and practical automation systems for growing businesses.",
   telephone: "+880-1707-070835",
