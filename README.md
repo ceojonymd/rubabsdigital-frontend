@@ -8,6 +8,8 @@ A full Next.js 14 website for Rubab's Digital AI agency.
 - `/custom-ai-agents` — Custom AI Agents service
 - `/website-design` — Website Design service
 - `/digital-marketing` — Digital Marketing service
+- `/social-media` — Daily Presence (from $29/mo, 4 posts + 4 stories/day, 3-day trial)
+- `/social-media/realtors`, `/ecommerce`, `/salons`, `/clinics`, `/restaurants`, `/shops`, `/gyms`
 - `/about` — About Us
 - `/contact` — Contact (form → Email + Google Sheets)
 
@@ -39,11 +41,10 @@ Fill in:
 npm run dev
 ```
 
-### 5. Deploy to Vercel
-```bash
-npx vercel
-# Add all env variables in Vercel dashboard
-```
+### 5. Deploy
+This repo has **no GitHub Actions deploy** and **no wrangler/Pages config**. `git push` does not publish rubabsdigital.com.
+
+Live today is a Next.js app on **Cloudflare** (not Git-connected Vercel — see project memory G2). After merge, someone still has to deploy the known commit to the production host (Cloudflare Pages / Workers for Next, or a reconnected Vercel project) and smoke `/social-media` for the string `daily-presence-29-4x4-3day`.
 
 ## Tech Stack
 - Next.js 14 App Router

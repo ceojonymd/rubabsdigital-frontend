@@ -16,6 +16,10 @@ export const metadata = {
 
 const faqs = [
   {
+    q: "What is Daily Presence?",
+    a: "Daily Presence is for cash-rich, time-poor owners who cannot run their Facebook and Instagram page and group — especially realtors selling land and homes, e-commerce sellers, salons, and other busy owners. If you have money but no time, we do it for you. Starter starts from $29/month for 4 posts + 4 stories every day, plus page and group management. There is a 3-day free trial. You approve before anything publishes. We do not promise followers, leads, sales, or viral growth.",
+  },
+  {
     q: "Will a redesign only improve appearance, or can it improve lead quality too?",
     a: "A strong redesign should do more than improve aesthetics. It should make the offer clearer, strengthen trust, reduce friction, and guide better-fit visitors toward a more confident enquiry.",
   },

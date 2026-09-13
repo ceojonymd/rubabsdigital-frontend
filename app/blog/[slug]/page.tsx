@@ -121,7 +121,7 @@ export default async function ArticlePage({ params }: Props) {
           name: "Rubab's Digital",
           logo: {
             "@type": "ImageObject",
-            url: `${SITE}/logo.png`,
+            url: `${SITE}/assets/rd-logo.png`,
           },
         },
         mainEntityOfPage: {
