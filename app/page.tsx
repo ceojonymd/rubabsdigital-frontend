@@ -1,4 +1,21 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Rubab's Digital — Premium Websites, AI & Automation Studio",
+  description:
+    "Premium websites, AI workflows, and practical automation for clinics, consultants, law firms, and local service businesses.",
+  alternates: {
+    canonical: "https://rubabsdigital.com",
+  },
+  openGraph: {
+    title: "Rubab's Digital — Premium Websites, AI & Automation Studio",
+    description:
+      "Premium websites, AI workflows, and practical automation for clinics, consultants, law firms, and local service businesses.",
+    url: "https://rubabsdigital.com",
+    type: "website",
+  },
+};
 
 const trustStrip = [
   "Consultative website direction",

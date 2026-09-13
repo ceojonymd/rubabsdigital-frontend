@@ -10,6 +10,7 @@ type ContactPayload = {
   budget?: string;
   timeline?: string;
   projectType?: string;
+  name?: string;
   businessName?: string;
   email?: string;
   details?: string;
@@ -33,9 +34,9 @@ export async function POST(req: Request) {
   try {
     const body = (await req.json()) as ContactPayload;
 
-    if (!required(body.email) || !required(body.businessName) || !required(body.details)) {
+    if (!required(body.email) || !required(body.details) || !(required(body.name) || required(body.businessName))) {
       return NextResponse.json(
-        { ok: false, error: "Please provide your business name, email, and project details." },
+        { ok: false, error: "Please provide your name, email, and message." },
         { status: 400 }
       );
     }
@@ -48,16 +49,19 @@ export async function POST(req: Request) {
       budget: body.budget || "Not specified",
       timeline: body.timeline || "Not specified",
       projectType: body.projectType || "Not specified",
+      name: body.name?.trim() || "",
       businessName: body.businessName?.trim() || "",
       email: body.email?.trim() || "",
       details: body.details?.trim() || "",
       submittedAt: body.submittedAt || new Date().toISOString(),
     };
 
-    const subject = `New Enquiry: ${clean.businessName} — ${clean.service}`;
+    const subjectName = clean.businessName || clean.name || "Website enquiry";
+    const subject = `New Enquiry: ${subjectName} — ${clean.service}`;
     const htmlBody = `
       <h2>${escapeHtml(subject)}</h2>
       <table style="border-collapse:collapse;width:100%">
+        <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Name</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.name)}</td></tr>
         <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Business</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.businessName)}</td></tr>
         <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.email)}</td></tr>
         <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Service</td><td style="padding:8px;border:1px solid #ddd">${escapeHtml(clean.service)}</td></tr>
@@ -81,6 +85,7 @@ export async function POST(req: Request) {
         budget: clean.budget,
         timeline: clean.timeline,
         project_type: clean.projectType,
+        name: clean.name,
         business_name: clean.businessName,
         email: clean.email,
         details: clean.details,

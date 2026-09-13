@@ -83,6 +83,7 @@ export default async function sitemap({
     const entries: SitemapEntry[] = [
       { url: SITE, lastModified: now, changeFrequency: "daily", priority: 1.0 },
       { url: `${SITE}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+      { url: `${SITE}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
       { url: `${SITE}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
       { url: `${SITE}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
       { url: `${SITE}/portfolio`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },

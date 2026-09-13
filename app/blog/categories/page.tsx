@@ -7,6 +7,9 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "All Blog Categories",
   description: "Browse all blog categories including web hosting, AI tools, cloud, development, cybersecurity, and more.",
+  alternates: {
+    canonical: "https://rubabsdigital.com/blog/categories",
+  },
 };
 
 export default async function CategoriesPage() {

@@ -10,7 +10,12 @@ export const metadata: Metadata = {
     template: "%s | Rubab's Digital",
   },
   description:
-    "Premium websites, AI workflows, and practical automation systems for clinics, consultants, law firms, real estate agents, and local service businesses. Expert tech reviews, tutorials & guides.",
+    "Premium websites, AI workflows, and practical automation for clinics, consultants, law firms, and local service businesses.",
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png" }],
+    shortcut: "/favicon.png",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   keywords: [
     "web design agency",
     "AI automation",
@@ -168,6 +173,8 @@ export default function RootLayout({
           rel="dns-prefetch"
           href="https://rubabsdigital-api.rdceojony.workers.dev"
         />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <link
           rel="alternate"
           type="application/rss+xml"

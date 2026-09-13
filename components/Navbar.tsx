@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 const links: { href: string; label: string; external?: boolean }[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
   { href: "/website-design", label: "Website Design" },
   { href: "/ai-automation", label: "AI Automation" },
   { href: "/custom-ai-agents", label: "AI Agents" },

@@ -26,6 +26,24 @@ const nextConfig = {
     ],
   },
 
+  // Canonical host: www → apex (permanent). Apex https://rubabsdigital.com is the live host.
+  async redirects() {
+    return [
+      {
+        source: "/",
+        has: [{ type: "host", value: "www.rubabsdigital.com" }],
+        destination: "https://rubabsdigital.com/",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.rubabsdigital.com" }],
+        destination: "https://rubabsdigital.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
+
   // Handle dots in blog slugs (e.g. "make.com" in slug)
   async rewrites() {
     return [
